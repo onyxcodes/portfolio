@@ -10,6 +10,7 @@ import MainMenu from '../../components/MainMenu';
 import { UIState, route } from '../../features/ui';
 import { StoreState } from '../../store';
 import logger from '../../utils/logger';
+import Loader from '../../components/commons/Loader';
 
 const App = () => {
 	const location = useLocation();
@@ -33,7 +34,7 @@ const App = () => {
 	}, [path]);
     return(
         <>
-        {/* Add loading screen */}
+        <Loader show/>
         <MainMenu /> 
         <Routes>
             <Route path="/" element={<>Home</>} />

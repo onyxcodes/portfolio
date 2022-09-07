@@ -1,0 +1,18 @@
+@use '../../../styles/vars.scss';
+
+.loader {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loader-default {
+        height: 30px;
+        width: 300px;
+        background-color: vars.$primary-color;
+        color: white;
+        line-height: 30px;
+        padding-left: 5px;
+    }
+}
