@@ -105,7 +105,7 @@ const MainMenu = () => {
     const renderMenu = ( menu: Menu ) => menu.links.map((link, index) => {
         const renderSubLinks = ( menuLinks: MenuLink[] ) => menuLinks.map((sublink, subindex) => {
             return (
-                <li>
+                <li key={subindex}>
                     <StatefulLink to={sublink.url}>
                         <span>
                             {sublink.title}
@@ -117,7 +117,7 @@ const MainMenu = () => {
         const renderChildLinks = ( menuLinks: MenuLink[] ) => menuLinks.map((childlink, childindex) => {
             {/* Checks if there are more sublinks */ }
             if (childlink.links && childlink.links.length) {
-                return (<li>
+                return (<li key={childindex}>
                     <MenuItem link={link} childlink={childlink} />
                     <div className="panel-body">
                         <div className="panel-header">
@@ -128,7 +128,7 @@ const MainMenu = () => {
                         </ul>
                     </div> </li>)
             } else {
-                return (<li>
+                return (<li key={childindex}>
                     <StatefulLink to={childlink.url}>
                         <span>
                                 {childlink.title}
@@ -140,7 +140,7 @@ const MainMenu = () => {
         
         if (link.links && link.links.length) {
             return (
-                <li className="panel">
+                <li className="panel" key={index}>
                     <MenuItem link={link} />
                     <div className="panel-body">
                         <div className="panel-header">
@@ -154,7 +154,7 @@ const MainMenu = () => {
             )
         } else {
             return (
-                <li>
+                <li key={index}>
                     <StatefulLink to={link.url}>
                         <span className='menuItem'>{link.title}</span>
                     </StatefulLink>
