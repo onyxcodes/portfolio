@@ -1,0 +1,92 @@
+///
+/// Viewport sized typography with minimum and maximum values
+///
+/// @author Eduardo Boucas (@eduardoboucas)
+///
+/// @param {Number}   $responsive  - Viewport-based size
+/// @param {Number}   $min         - Minimum font size (px)
+/// @param {Number}   $max         - Maximum font size (px)
+///                                  (optional)
+/// @param {Number}   $fallback    - Fallback for viewport-
+///                                  based units (optional)
+///
+/// @example scss - 5vw font size (with 50px fallback), 
+///                 minumum of 35px and maximum of 150px
+///  @include responsive-font(5vw, 35px, 150px, 50px);
+///
+
+@use './vars.scss';
+
+@mixin responsive-font($responsive, $min, $max: false, $fallback: false) {
+  $responsive-unitless: calc($responsive / ($responsive - $responsive + 1vmin));
+  $dimension: if(unit($responsive) == 'vh', 'height', 'width');
+  $min-breakpoint: calc($min / $responsive-unitless) * 100;
+  
+  @media (max-#{$dimension}: #{$min-breakpoint}) {
+    font-size: $min;
+  }
+  
+  @if $max {
+    $max-breakpoint: calc($max / $responsive-unitless) * 100;
+    
+    @media (min-#{$dimension}: #{$max-breakpoint}) {
+      font-size: $max;
+    }
+  }
+  
+  @if $fallback {
+    font-size: $fallback;
+  }
+  
+  font-size: $responsive;
+}
+body {
+  font-family: vars.$font-body !important;
+  font-weight: vars.$font-body-weight;
+  font-style: vars.$font-body-style;
+  @include responsive-font(2.3vmin, .8rem);
+}
+
+/**
+ * @font-face definitions should be in /assets/fonts.css.liquid
+ * and linked in <head> of theme.liquid
+ */
+ h1, h2, h3, h4, h5, h6 {
+  margin: 1.5vmin 0 1.5vmin 0;
+}
+h1, h2, h3,
+.h1, .h2, .h3 {
+  font-family: vars.$font-heading !important;
+}
+
+h4, h5,
+.h4, .h5 {
+  font-family: vars.$font-alt-heading !important;
+  letter-spacing: .1rem;
+}
+
+.t1 ,h1, .h1 {
+  @include responsive-font(5vmin, 20px, 50px);
+}
+.t2 ,h2, .h2 {
+  @include responsive-font(4vmin, 20px, 2.6rem);
+}
+.t3 ,h3, .h3 {
+  @include responsive-font(3vmin, 20px, 30px);
+}
+.t4 ,h4, .h4 {
+  @include responsive-font(2.5vmin, 18px);
+}
+.t5 ,h5, .h5 {
+  @include responsive-font(2.3vmin, 16px);
+}
+.t6 ,h6, .h6 {
+  @include responsive-font(2vmin, 14px);
+  font-family: vars.$font-body;
+}
+a {
+  color: vars.$primary-color;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
+}
