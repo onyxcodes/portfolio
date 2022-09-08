@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './index.scss';
 import StatefulLink from '../commons/StatefulLink';
+import Icon from '../commons/Icon';
+import Button from '../commons/Button';
 
 type MenuLink = {
     title: string;
@@ -17,15 +19,14 @@ interface MenuItemProps {
     childlink?: MenuLink;
     isHeading?: boolean;
 }
-const MenuItem = ( props: MenuItemProps) => {
+const MenuItem = ( props: MenuItemProps ) => {
     const { 
         link,
         childlink, 
         isHeading = false,
     } = props;
     let itemId: string,
-        itemName: string,
-        labelClass: string = isHeading ? 'menuItemHeading' : 'menuItem';
+        itemName: string;
 
     if (!childlink) {
             itemId = `panel-${link.slug}`;
@@ -42,74 +43,40 @@ const MenuItem = ( props: MenuItemProps) => {
     }
     return(
         <>
-            <input type="radio" id={itemId} name={itemName} hidden />
-            <label htmlFor={itemId} className={labelClass}>
-                {childlink?.title || link.title}
+            <input className='menuItemValue' type="radio" id={itemId} name={itemName} hidden />
+            <label htmlFor={itemId}>
+                <Button 
+                    iconName={ isHeading ? 'angle-down' : undefined }
+                    type={ isHeading ? 'text' : undefined }
+                >
+                    {childlink?.title || link.title}
+                </Button>
             </label>
             { isHeading && <StatefulLink to={childlink?.url || link.url}>
-                <span>⇢</span>
+                <Button iconName='angle-double-right' shape='circle'/>
             </StatefulLink>}
         </>
     )
 }
 
-const MainMenu = () => {
-    const [ menuVisible, showMenu ] = useState(false);
-    const fakeMenu: Menu = {
-        links: [
-            {
-                title: 'My link',
-                slug: 'my-link',
-                url: '#',
-                links: []
-            },
-            {
-                title: 'My nested link',
-                slug: 'my-nested-link',
-                url: '#',
-                links: [
-                    {
-                        title: 'Nice link',
-                        slug: 'nice-link',
-                        url: '#',
-                    },
-                    {
-                        title: 'Another nice link',
-                        slug: 'another-nice-link',
-                        url: '#',
-                    }
-                ]
-            },
-            {
-                title: 'My deep nested link',
-                slug: 'my-deep-nested-linl',
-                url: '#',
-                links: [
-                    {
-                        title: 'Tricky link',
-                        slug: 'my-tricky-link',
-                        url: '#',
-                        links: [
-                            {
-                                title: 'Surprise',
-                                slug: 'surprise',
-                                url: '#',
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+interface SidebarProps {
+    menu?: Menu;
+    title: string;
+    logo?: string;
+}
+const useSidebar = ( props: SidebarProps ) => {
+    const { menu, title, logo } = props;
+    const [ visible, show ] = useState(false);
+    const [ delayedVisiblity, setDelayedVisiblity ] = useState(visible);
 
     const renderMenu = ( menu: Menu ) => menu.links.map((link, index) => {
         const renderSubLinks = ( menuLinks: MenuLink[] ) => menuLinks.map((sublink, subindex) => {
             return (
-                <li key={subindex}>
+                <li className='menu-item-container' key={subindex}>
                     <StatefulLink to={sublink.url}>
-                        <span>
+                        <Button>
                             {sublink.title}
-                        </span>
+                        </Button>
                     </StatefulLink>
                 </li>
             )
@@ -117,7 +84,7 @@ const MainMenu = () => {
         const renderChildLinks = ( menuLinks: MenuLink[] ) => menuLinks.map((childlink, childindex) => {
             {/* Checks if there are more sublinks */ }
             if (childlink.links && childlink.links.length) {
-                return (<li key={childindex}>
+                return (<li className='menu-item-container' key={childindex}>
                     <MenuItem link={link} childlink={childlink} />
                     <div className="panel-body">
                         <div className="panel-header">
@@ -128,11 +95,11 @@ const MainMenu = () => {
                         </ul>
                     </div> </li>)
             } else {
-                return (<li key={childindex}>
+                return (<li className='menu-item-container' key={childindex}>
                     <StatefulLink to={childlink.url}>
-                        <span>
+                        <Button>
                                 {childlink.title}
-                        </span>
+                        </Button>
                     </StatefulLink>
                 </li>)
             }
@@ -140,7 +107,7 @@ const MainMenu = () => {
         
         if (link.links && link.links.length) {
             return (
-                <li className="panel" key={index}>
+                <li className="panel menu-item-container" key={index}>
                     <MenuItem link={link} />
                     <div className="panel-body">
                         <div className="panel-header">
@@ -154,32 +121,54 @@ const MainMenu = () => {
             )
         } else {
             return (
-                <li key={index}>
+                <li className='menu-item-container' key={index}>
                     <StatefulLink to={link.url}>
-                        <span className='menuItem'>{link.title}</span>
+                        <Button>{link.title}</Button>
                     </StatefulLink>
                 </li>
             )
         }
     });
-    const menuClassName = menuVisible ? "visible" : "";
-    return (
-        <div className='mainMenu'>
-            <div className="header">
-                <span onClick={() => showMenu(true)}>
-                    Portfolio
-                </span>
-            </div>
-            <div className={menuClassName}  id='sidebar'>
-                <div>
-                    <span onClick={() => showMenu(false)}>X</span>
+
+    const renderedMenu = menu && renderMenu(menu);
+
+    React.useLayoutEffect( () => {
+        setTimeout( () => setDelayedVisiblity(visible), 250)
+    }, [visible]);
+
+    let menuClassName = "sidebar";
+    let maskClassName = 'sidebar-mask';
+    
+    if ( delayedVisiblity ) {
+        menuClassName = `${menuClassName} visible`;
+        maskClassName = `${maskClassName} visible`;
+    }
+
+    const wrapper = visible && <>
+        <div className={menuClassName}>
+            <div className="sidebar-header">
+                <div 
+                    className='header-title'
+                    title={title}
+                    style={{backgroundImage: logo && `url(${logo})`}}
+                >
+                    &nbsp;
                 </div>
-                <ul className="menu">
-                    {renderMenu(fakeMenu)}
-                </ul>
             </div>
+            { menu && <ul className="menu">
+                {renderedMenu}
+            </ul> }
         </div>
-    )
+        { visible && 
+        <div className={maskClassName} onClick={() => show(false)}>
+            
+        </div>}
+    </>
+
+    return {
+        sidebarWrapper: wrapper,
+        showSidebar: show
+    }
 }
 
-export default MainMenu;
+export default useSidebar;

@@ -6,7 +6,7 @@ import {
     useNavigate
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import MainMenu from '../../components/MainMenu';
+import useSidebar from '../../components/Sidebar';
 import { UIState, route } from '../../features/ui';
 import { StoreState } from '../../store';
 import logger from '../../utils/logger';
@@ -19,6 +19,58 @@ const App = () => {
 	const path = useSelector<StoreState, UIState['path']>( s => s.ui.path );
 	const isRouted = useSelector<StoreState, UIState['isRouted']>( s => s.ui.isRouted );
     const [ isTestLoading, showTestLoading ] = React.useState(true);
+
+    // Sidebar wrapper and visibility fn
+    const { sidebarWrapper, showSidebar } = useSidebar({
+        logo: require('../../assets/logo.svg'),
+        title: 'Onyx Ganda',
+        menu: {
+            links: [
+                {
+                    title: 'My link',
+                    slug: 'my-link',
+                    url: '#',
+                    links: []
+                },
+                {
+                    title: 'My nested link',
+                    slug: 'my-nested-link',
+                    url: '#',
+                    links: [
+                        {
+                            title: 'Nice link',
+                            slug: 'nice-link',
+                            url: '#',
+                        },
+                        {
+                            title: 'Another nice link',
+                            slug: 'another-nice-link',
+                            url: '#',
+                        }
+                    ]
+                },
+                {
+                    title: 'My deep nested link',
+                    slug: 'my-deep-nested-linl',
+                    url: '#',
+                    links: [
+                        {
+                            title: 'Tricky link',
+                            slug: 'my-tricky-link',
+                            url: '#',
+                            links: [
+                                {
+                                    title: 'Surprise',
+                                    slug: 'surprise',
+                                    url: '#',
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    })
 
 	React.useEffect( () => {
 		if (location && !isRouted && location.pathname !== path ) { 
@@ -40,7 +92,16 @@ const App = () => {
     return(
         <>
         <Loader show={isTestLoading}/>
-        <MainMenu /> 
+        <div className="header">
+            <div 
+                className='header-title' 
+                onClick={() => showSidebar(true)}
+                style={{backgroundImage: `url(${require('../../assets/logo.svg')})`}}
+            >
+                &nbsp;
+            </div>
+        </div>
+        { sidebarWrapper }
         <Routes>
             <Route path="/" element={<>Home</>} />
             <Route path="/article" element={<>List of articles</>}>
