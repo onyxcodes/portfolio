@@ -1,0 +1,46 @@
+@use '~styles/vars.scss';
+
+.btn {
+    padding: 0.5em;
+    
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    &.btn-default {
+        border: solid thin vars.$secondary-color;
+        color: vars.$secondary-color-dark;
+        &:hover {
+            background: vars.$secondary-color-light;
+        }
+    }
+
+    &.btn-primary {
+        border: solid thin vars.$primary-color;
+        background-color: vars.$primary-color;
+        color: vars.$light-color;
+        &:hover {
+            background: vars.$primary-color-light;
+        }
+    }
+    
+    &.btn-text {
+        border: none;
+        color: vars.$primary-color;
+        border: solid thin transparent;
+        &:hover {
+            border: solid thin vars.$primary-color;
+        }
+    }
+
+    &.btn-circle {
+        border-radius: 100%;
+        width: 24px;
+        height: 24px;
+    }
+
+    
+}
