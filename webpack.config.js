@@ -88,6 +88,7 @@ const config = {
     ],
     alias: {
       'react-dom': '@hot-loader/react-dom',
+      'styles': path.resolve(__dirname, "src/styles"),
     },
   },
 };
