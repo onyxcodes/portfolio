@@ -151,15 +151,6 @@ const useSidebar = ( props: SidebarProps ) => {
             visiblityTimeoutId && window.clearTimeout(visiblityTimeoutId);
         }
     }, [visible]);
-
-    // React.useLayoutEffect( () => {
-    //     let timeoutId: number;
-    //     if ( visible ) setDelayedVisiblity(visible);
-    //     else timeoutId = window.setTimeout( () => setDelayedVisiblity(visible), 1000);
-    //     return () => {
-    //         timeoutId && window.clearTimeout(timeoutId);
-    //     }
-    // }, [visible]);
     
     if ( visibility ) {
         menuClassName = `${menuClassName} visible`;
