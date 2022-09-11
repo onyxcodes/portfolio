@@ -3,14 +3,14 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// require('dotenv').config({ path: './.env.local' }); 
+require('dotenv').config({ path: './.env' }); 
 
 const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, "docs"),
+    path: path.resolve(__dirname, "build"),
   },
   devServer: {
     host: "localhost",
@@ -24,9 +24,22 @@ const config = {
     new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
+    new webpack.EnvironmentPlugin({
+      API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
+      API_TOKEN: JSON.stringify(process.env.API_TOKEN),
+      G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID)
+    })
   ],
   module: {
     rules: [
+      {
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false
+      }
+    },
       {
         test: /\.(ts|tsx)$/i,
         loader: "ts-loader",
@@ -89,6 +102,12 @@ const config = {
     alias: {
       'react-dom': '@hot-loader/react-dom',
       'styles': path.resolve(__dirname, "src/styles"),
+      'components': path.resolve(__dirname, "src/components"),
+      'views': path.resolve(__dirname, "src/views"),
+      'assets': path.resolve(__dirname, "src/assets"),
+      'features': path.resolve(__dirname, "src/features"),
+      'store': path.resolve(__dirname, "src/store"),
+      'utils': path.resolve(__dirname, "src/utils"),
     },
   },
 };
