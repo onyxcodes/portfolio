@@ -1,0 +1,35 @@
+@use '~styles/vars';
+@use '~styles/utils';
+
+header.subheader {
+    .subheader-bg {
+        background-color: vars.$primary-color-dark;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .subheader-content-wrapper {
+        backdrop-filter: blur(5px);
+        background-color: rgba(0,0,0,0.3);
+        .subheader-content {
+            @include utils.mq_min(sm) { 
+                align-items: end;
+            }
+        }
+        .subheader-image-container {
+            flex: 1;
+            .subheader-image {
+                background-size: cover;
+                background-position: center;
+                @include utils.mq_max(sm) { 
+                    margin-top: 10em; 
+                }
+            }
+        }
+        
+        .subheader-caption {
+            flex: 1;
+            color: vars.$light-color;
+        }
+    }
+}
