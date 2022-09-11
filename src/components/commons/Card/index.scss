@@ -1,0 +1,38 @@
+@use '~styles/vars.scss';
+
+.card {
+    border-radius: vars.$border-radius;
+    overflow: hidden;
+    box-shadow: 0 15px 20px rgba(0,0,0,.1);
+    background-color: vars.$bg-color-light;;
+    border-bottom: solid 1em vars.$bg-color-light;
+    user-select: none;
+    touch-action: pan-y;
+    .card-content {
+        overflow: hidden;
+        .card-cover {
+            background-size: cover;
+            background-position: center;
+        }
+        .card-content-link {
+            content: "Read more";
+            display: none;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 1em 1em 0 1em;
+            background-color: vars.$bg-color-light;
+            cursor: pointer;
+        }
+    }
+    &:hover {
+        box-shadow: 0 30px 40px rgba(vars.$secondary-color-dark,.1);
+
+        .card-content-link {
+            display: block;
+        }
+    }
+    .card-selector:checked ~ .card-content-link {
+        display: block;
+    }
+}
