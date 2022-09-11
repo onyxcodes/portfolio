@@ -1,0 +1,53 @@
+@use '~styles/vars.scss';
+@use '~styles/utils.scss';
+
+.header {
+    display: flex;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: vars.$bg-color-light;
+    box-shadow: 0 0 10px rgba(black,0.3);
+    gap: 2em;
+    position: absolute;
+    width: 100%;
+    z-index: vars.$zindex-1;
+    @include utils.mq_max(sm) {
+        flex-direction: column;
+    }
+    .header-title {
+        height: 2rem;
+        min-width: 10rem;
+        // height: vars.$header-height;  
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    .breadcrumb {
+        flex: 6;
+        @include utils.mq_max(sm) {
+            flex-direction: column;
+        }
+    }
+}
+
+// .header.extended {
+//     height: 100vh;
+//     width: calc(180px + 15vw);
+//     background: aquamarine;
+//     justify-content: start;
+//     @include utils.mq_max(sm) {
+//         width: 100%;
+//         height: vars.$header-height;  
+//         padding: 1rem;
+//     }
+//     .header-title {
+//         height: vars.$header-height;
+//         max-width: 15rem;
+//         @include utils.mq_max(sm) {
+//             max-width: auto;
+//             height: 100%;
+//         }
+//     }
+// }
+
