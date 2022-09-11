@@ -1,0 +1,13 @@
+@use '~styles/vars';
+
+.notfound {
+    padding: 1rem;
+    .notfound-wrapper {
+        background-color: vars.$bg-color-light;
+        .notfound-img {
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+    }  
+}
