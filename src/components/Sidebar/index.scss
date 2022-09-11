@@ -1,54 +1,38 @@
 @use '~styles/utils.scss';
 @use '~styles/vars.scss';
-@use '~styles/typography.scss';
-// @use '~styles/icomoon.css';
 
-$header-height: 4rem;
 $sidebar-width: calc(180px + 10vw);
-.header {
-  height: $header-height;  
-  display: flex;
-  padding: 1rem;
-  box-sizing: border-box;
-  .header-title {
-    height: 100%;
-    background-repeat: no-repeat;
-    flex: 1;
-  }
-}
+
 .sidebar-mask {
   position: absolute;
-  background: fade-in(vars.$light-color, 0.75);
+  background-color: rgba(vars.$light-color, 0.75);
   width: 100vw;
   height: 100vh;
   top: 0;
   z-index: vars.$zindex-4 - 1;
-  display: none;
   opacity: 0;
-  transition: all 0.5s ease;
+  transition: all 1.5s ease;
 
   &.visible {
-    display: block !important;
-    opacity:inherit;
+    opacity: 1;
   }
 }
 .sidebar {
   display: flex;
-  @extend .fd-col ;
   position: absolute;
   top: 0;
   height: 100%;
   width: 0;
   background: #fcfcfc;
   overflow-y: auto;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
   white-space: nowrap;
   overflow: hidden;
   -ms-scroll-limit: 0 0 0 0;
   box-shadow: 10px 5px 10px -15px rgba(0,0,0,0.75);
 
   .sidebar-header {
-    height: $header-height;  
+    height: vars.$header-height;  
     display: flex;
     padding: 1rem;
     box-sizing: border-box;
@@ -60,24 +44,20 @@ $sidebar-width: calc(180px + 10vw);
   }
   
   .menu {
-    @extend .list-nostyle ;
     margin: 0;
     min-width: 180px;
-    label, a {
-      @extend .text-nosel ;
-    } 
     
     .panel-body {
       position: absolute;
       left: 0;
       top:200%;
-      height: calc(100% - #{$header-height});
+      height: calc(100% - #{vars.$header-height});
       width: 100%;
       transition: all 1s .1s;
       box-shadow: 0 -5px 10px -10px rgba(0,0,0,.75);
       background-color: #fcfcfc;
       .panel-header {
-        height: $header-height;
+        height: vars.$header-height;
         display: flex;
         align-items: center;
         margin: 0 1em;
@@ -85,7 +65,7 @@ $sidebar-width: calc(180px + 10vw);
       }
     }
     .panel input[type="radio"]:checked ~ .panel-body {
-      top: $header-height;
+      top: vars.$header-height;
     }
   }
 }
@@ -117,7 +97,6 @@ $sidebar-width: calc(180px + 10vw);
 
 .menu-item-container {
   margin: 2em 1em;
-  @extend .text-uppercase;
   &:first-child {
     margin-top: 1em;
   }

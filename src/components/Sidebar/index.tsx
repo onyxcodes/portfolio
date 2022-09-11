@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './index.scss';
-import StatefulLink from '../commons/StatefulLink';
-import Icon from '../commons/Icon';
-import Button from '../commons/Button';
+import Link from 'components/commons/Link';
+import SidemenuItem from 'components/commons/SidemenuItem';
+import Button from 'components/commons/Button';
 
-type MenuLink = {
+export type MenuLink = {
     title: string;
     slug: string;
     url: string;
@@ -52,9 +52,9 @@ const MenuItem = ( props: MenuItemProps ) => {
                     {childlink?.title || link.title}
                 </Button>
             </label>
-            { isHeading && <StatefulLink to={childlink?.url || link.url}>
+            { isHeading && <Link to={childlink?.url || link.url}>
                 <Button iconName='angle-double-right' shape='circle'/>
-            </StatefulLink>}
+            </Link>}
         </>
     )
 }
@@ -67,17 +67,18 @@ interface SidebarProps {
 const useSidebar = ( props: SidebarProps ) => {
     const { menu, title, logo } = props;
     const [ visible, show ] = useState(false);
-    const [ delayedVisiblity, setDelayedVisiblity ] = useState(visible);
+    const [ wrapperMounted, mountWrapper ] = useState(false);
+    const [ visibility, setVisibility ] = useState(false);
 
     const renderMenu = ( menu: Menu ) => menu.links.map((link, index) => {
         const renderSubLinks = ( menuLinks: MenuLink[] ) => menuLinks.map((sublink, subindex) => {
             return (
                 <li className='menu-item-container' key={subindex}>
-                    <StatefulLink to={sublink.url}>
-                        <Button>
+                    <Link to={sublink.url}>
+                        <SidemenuItem onClick={() => show(false)}>
                             {sublink.title}
-                        </Button>
-                    </StatefulLink>
+                        </SidemenuItem>
+                    </Link>
                 </li>
             )
         });
@@ -96,11 +97,11 @@ const useSidebar = ( props: SidebarProps ) => {
                     </div> </li>)
             } else {
                 return (<li className='menu-item-container' key={childindex}>
-                    <StatefulLink to={childlink.url}>
-                        <Button>
+                    <Link to={childlink.url}>
+                        <SidemenuItem onClick={() => show(false)}>
                                 {childlink.title}
-                        </Button>
-                    </StatefulLink>
+                        </SidemenuItem>
+                    </Link>
                 </li>)
             }
         });
@@ -121,10 +122,10 @@ const useSidebar = ( props: SidebarProps ) => {
             )
         } else {
             return (
-                <li className='menu-item-container' key={index}>
-                    <StatefulLink to={link.url}>
-                        <Button>{link.title}</Button>
-                    </StatefulLink>
+                <li className='menu-item-container text-uppercase' key={index}>
+                    <Link to={link.url}>
+                        <SidemenuItem onClick={() => show(false)}>{link.title}</SidemenuItem>
+                    </Link>
                 </li>
             )
         }
@@ -132,19 +133,40 @@ const useSidebar = ( props: SidebarProps ) => {
 
     const renderedMenu = menu && renderMenu(menu);
 
+    let menuClassName = "sidebar fd-col text-nosel";
+    let maskClassName = 'sidebar-mask';
+
     React.useLayoutEffect( () => {
-        setTimeout( () => setDelayedVisiblity(visible), 250)
+        let unmountTimeoutId: number,
+            visiblityTimeoutId: number;
+        if ( visible ) {
+            mountWrapper(visible);
+            visiblityTimeoutId = window.setTimeout(() =>  setVisibility(visible),250);
+        } else {
+            unmountTimeoutId = window.setTimeout( () => mountWrapper(visible), 1000);
+            setVisibility(visible);
+        }
+        return () => {
+            unmountTimeoutId && window.clearTimeout(unmountTimeoutId);
+            visiblityTimeoutId && window.clearTimeout(visiblityTimeoutId);
+        }
     }, [visible]);
 
-    let menuClassName = "sidebar";
-    let maskClassName = 'sidebar-mask';
+    // React.useLayoutEffect( () => {
+    //     let timeoutId: number;
+    //     if ( visible ) setDelayedVisiblity(visible);
+    //     else timeoutId = window.setTimeout( () => setDelayedVisiblity(visible), 1000);
+    //     return () => {
+    //         timeoutId && window.clearTimeout(timeoutId);
+    //     }
+    // }, [visible]);
     
-    if ( delayedVisiblity ) {
+    if ( visibility ) {
         menuClassName = `${menuClassName} visible`;
         maskClassName = `${maskClassName} visible`;
     }
 
-    const wrapper = visible && <>
+    const wrapper = wrapperMounted && <>
         <div className={menuClassName}>
             <div className="sidebar-header">
                 <div 
@@ -159,10 +181,9 @@ const useSidebar = ( props: SidebarProps ) => {
                 {renderedMenu}
             </ul> }
         </div>
-        { visible && 
         <div className={maskClassName} onClick={() => show(false)}>
             
-        </div>}
+        </div>
     </>
 
     return {
