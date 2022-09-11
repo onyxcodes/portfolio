@@ -1,12 +1,24 @@
-@use '../../../styles/vars.scss';
+@use '~styles/vars.scss';
 
 .loader {
     width: 100vw;
-    height: 100vh;
     position: absolute;
+    z-index: vars.$zindex-3;
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 1s;
+    cursor: wait;
+    &.visible {
+        opacity: 1;
+        display: flex;
+    }
+    &.mask {
+        background-color: rgba(vars.$light-color, 0.75);
+    }
     .loader-default {
         height: 30px;
         width: 300px;

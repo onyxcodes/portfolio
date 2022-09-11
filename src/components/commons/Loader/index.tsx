@@ -8,6 +8,9 @@ import './index.scss';
 interface LoaderProps { 
     show: boolean;
     element?: JSX.Element;
+    mask?: boolean;
+    positionX?: 'start' | 'center' | 'end';
+    positionY?: 'start' | 'center' | 'end';
 } 
 
 const DefaultElement = () => <div className='loader-default'>
@@ -17,11 +20,29 @@ const DefaultElement = () => <div className='loader-default'>
 const Loader = ( props: LoaderProps ) => {
     const { 
         show = false,
-        element = <DefaultElement/>
+        element = <DefaultElement/>,
+        mask = true,
+        positionX = 'center',
+        positionY = 'center'
     } = props;
+    const [ visible, setDelayedVisiblity ] = React.useState(false);
+
+    React.useLayoutEffect( () => {
+        let timeoutId: number;
+        if ( show ) setDelayedVisiblity(show);
+        else timeoutId = window.setTimeout( () => setDelayedVisiblity(show), 1000);
+        return () => {
+            timeoutId && window.clearTimeout(timeoutId);
+        }
+    }, [show]);
+
+    let loaderClass = 'loader';
+
+    if ( mask ) loaderClass = `${loaderClass} mask`;
+    if ( show ) loaderClass = `${loaderClass} visible`;
 
     return (
-        show ? <div className='loader'>
+        visible ? <div className={loaderClass}>
             {element}
         </div> : <></>
     );
