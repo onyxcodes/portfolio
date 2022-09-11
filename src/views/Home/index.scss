@@ -1,0 +1,7 @@
+@use '~styles/vars.scss';
+
+.home {
+    bottom: 0;
+    position: absolute;
+    top: vars.$header-height;
+}
