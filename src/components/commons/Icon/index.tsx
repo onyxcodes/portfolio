@@ -1,6 +1,5 @@
 import React from 'react';
-import '../../../styles/icomoon.css';
-// import '~styles/icomoon.css';
+import 'styles/icomoon.css';
 
 interface IconProps {
     name: string
