@@ -1,0 +1,10 @@
+@use '~styles/vars.scss';
+.text-block {
+    overflow: hidden;
+    box-shadow: 0 15px 20px rgba(0,0,0,.1);
+    background-color: vars.$bg-color-light;
+
+    img {
+        max-width: 100%;
+    }
+}
