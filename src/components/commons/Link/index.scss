@@ -1,17 +1,21 @@
 /* NOTE: not getting applied from css, inline works
  */
-/* .statefulLink { 
-    cursor: 'pointer' 
-} */
+.link { 
+    cursor: 'pointer';
 
-.statefulLink:hover {
+    &.disabled {
+        cursor: not-allowed !important;
+    }
+}
+
+.link:hover {
     text-decoration: underline;
 }
 
 // TODO: parametrize
-.statefulLink.disabled:hover {
+.link.disabled:hover {
     text-decoration:none !important;
     color: #999;
 }
 
-/* .statefulLink.disabled  */
+/* .link.disabled  */

@@ -1,8 +1,8 @@
 import path from 'path';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import route from '../../../features/ui/route';
-import { StoreState } from '../../../store';
+import route from 'features/ui/route';
+import { StoreState } from 'store';
 import './index.scss';
 
 
@@ -45,13 +45,15 @@ const addStatefulLink = (props: StatefulLinkProps) => {
     const elementClass = element.props.className || '';
     const linkedEl = React.cloneElement(
       element, {
-      onClick: (e: any) => { e.stopPropagation(); !disabled && goToLink(); },
-      className: disabled ? `${elementClass} statefulLink disabled` : 
-      `${elementClass} statefulLink`,
+      onClick: (e: any) => {
+        element.props.onClick && element.props.onClick();
+        !disabled && goToLink(); 
+      },
+      className: disabled ? `link disabled` : `${elementClass} link`,
       style: getStyle()
     })
     return(linkedEl)
 }
 
-const StatefulLink = addStatefulLink;
-export default StatefulLink;
+const Link = addStatefulLink;
+export default Link;
