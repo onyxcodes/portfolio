@@ -1,0 +1,42 @@
+.actionbar-container {
+    width: 100%;
+    height: 40px;
+    display: flex;
+}
+
+.actionbar-container.top {
+    align-self: top;
+}
+
+.actionbar-container.bottom {
+    align-self: bottom;
+}
+
+.actionbar-left,
+.actionbar-right,
+.actionbar-center {
+    align-items: center;
+    padding: 0 10px;
+}
+
+.actionbar-left {
+    flex: 0.5;
+    display: flex;
+    place-content: start;
+}
+
+.actionbar-center {
+    flex: 0.5;
+    display: flex;
+    place-content: center;
+}
+
+.actionbar-right {
+    flex: 0.5;
+    display: flex;
+    place-content: end;
+}
+
+.actionbar-item {
+    margin: 0 5px;
+}
