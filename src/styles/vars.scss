@@ -6,14 +6,14 @@ $version: "0.5.8";
 // Core features
 $rtl: false !default;
 
-$font-heading: 'futura_n6', 'cabin_n4';
-$font-alt-heading: var(--font-alt-heading);
-$font-body: var(--font-body);
-$font-body-weight: var(--font-body-weight);
-$font-body-style: var(--font-body-style);
-$font-alt-body: var(--font-alt-body);
-$font-alt-body-weight: var(--font-body-weight);
-$font-alt-body-style: var(--font-body-style);
+$font-heading: 'Maven Pro';
+$font-alt-heading: 'Oswald';
+$font-body: 'Epilogue';
+$font-body-weight: 400;
+$font-body-style: normal;
+$font-alt-body: 'Epilogue';
+$font-alt-body-weight: 400;
+$font-alt-body-style: normal;
 
 
 // Core colors
@@ -22,8 +22,8 @@ $primary-color: #6200EE;
 $primary-color-dark: darken($primary-color, 30%);
 $primary-color-light:  lighten($primary-color, 30%);
 
-$primary-color-alpha: fade-in($primary-color, 0.35);
-$primary-color-alpha-dark: fade-in($primary-color-dark, 0.35);
+$primary-color-alpha: rgba($primary-color, 0.35);
+$primary-color-alpha-dark: rgba($primary-color-dark, 0.35);
 
 $secondary-color: #1DE9B6;
 $secondary-color-dark: darken($secondary-color, 30%);
@@ -133,4 +133,6 @@ $zindex-1: 100 !default;
 $zindex-2: 200 !default;
 $zindex-3: 300 !default;
 $zindex-4: 400 !default;
+
+$header-height: 4rem;
 
