@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../Icon';
+import Icon from 'components/commons/Icon';
 import './index.scss';
 
 interface ButtonProps {
@@ -9,6 +9,7 @@ interface ButtonProps {
     children?: string;
     type?: 'default' | 'primary' | 'text';
     shape?: 'default' | 'circle';
+    className?: string
 }
 const Button = ( props: ButtonProps ) => {
     const { 
@@ -17,13 +18,15 @@ const Button = ( props: ButtonProps ) => {
         disabled = false,
         children,
         type = 'default',
-        shape = 'default-shape'
+        shape = 'default-shape',
+        className
     } = props;
 
-    let className = `btn btn-${type} btn-${shape}`;
-    if ( disabled ) className = `${className} btn-disabled`;
+    let btnClass = className ? `${className} btn btn-${type} btn-${shape}` :
+    `btn btn-${type} btn-${shape}`;
+    if ( disabled ) btnClass = `${btnClass} btn-disabled`;
     return(
-        <div className={className}>
+        <div onClick={onClick} className={btnClass}>
             { iconName && <Icon name={iconName}/>}
             { children }
         </div>
