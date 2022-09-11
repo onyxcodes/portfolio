@@ -1,0 +1,19 @@
+@use '~styles/vars.scss';
+
+.breadcrumb {
+    display: flex;
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        &::after {
+            content: '/';
+            color: vars.$primary-color;
+            margin: 0 1em;
+        }
+        &:last-child {
+            &::after {
+                content: '';
+            }
+        }
+    }
+}
