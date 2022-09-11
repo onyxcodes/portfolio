@@ -1,0 +1,66 @@
+@keyframes colorchange {
+    0% {
+        fill: #000;
+    }
+    25% {
+        fill: #FF0096;
+
+    }
+    50% {
+        fill: #FB7413;
+    }
+    75% {
+        fill: #1DE9B6;
+    }
+    100% {
+        fill: #6200EE;
+    }
+}
+
+@keyframes rotatebnf {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(360deg) scale(0.75);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+.onyx {
+    .onyx-path {
+        fill: #000;
+    }
+    
+    .onyx-y {
+        .onyx-line {
+            stroke-width: 16.29px;
+        }
+    }
+    
+    .onyx-x {
+        .onyx-line {
+            stroke-width: 17.91px;
+        }
+    }
+    
+    .onyx-line {
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        fill: none;
+        stroke: #000;
+        
+    }
+    &:hover .onyx-o, &.animated .onyx-o {
+        animation: colorchange 10s linear;
+        animation-iteration-count: infinite;
+    }
+    // &:hover .onyx-x {
+    //     transform-origin: center;
+    //     transform-box: fill-box;
+    //     animation: rotatebnf 10s linear;
+    //     animation-iteration-count: infinite;
+    // }
+}
