@@ -1,0 +1,22 @@
+@use '~styles/vars.scss';
+@use '~styles/utils.scss';
+
+.sidemenu-item {
+    padding: 0.5em;
+    
+    cursor: pointer;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    font-family: vars.$font-alt-heading;
+    color: vars.$secondary-color-dark;
+    @include utils.responsive-font(4vmin, 1rem);
+
+    &:hover {
+        color: vars.$secondary-color-light;
+        background: vars.$secondary-color-dark;
+    }
+
+}
