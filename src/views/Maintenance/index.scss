@@ -1,0 +1,13 @@
+@use '~styles/vars';
+
+.maintenance {
+    padding: 1rem;
+    .maintenance-wrapper {
+        background-color: vars.$bg-color-light;
+        .maintenance-img {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }  
+}
