@@ -1,5 +1,5 @@
 @mixin google-font($family) {
-  @import url(http://fonts.googleapis.com/css?family=#{$family});
+  @import url(https://fonts.googleapis.com/css?family=#{$family});
 }
 
 @mixin pseudo($display: block, $pos: absolute, $content: ''){
