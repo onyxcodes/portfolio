@@ -10,6 +10,7 @@ import './index.scss';
 // add style for pointer cursor
 interface StatefulLinkProps {
     to: string;
+    target?: '_self' | '_blank';
     children: JSX.Element | string;
 }
 
@@ -21,10 +22,17 @@ const normalizePath = (path: string) => {
 
 const addStatefulLink = (props: StatefulLinkProps) => {
     const dispatch = useDispatch();
-    const { to, children } = props;
+    const { 
+      to, children,
+      target = '_self' 
+    } = props;
     
-    const goToLink = React.useCallback(() => {
+    const internalLink = React.useCallback(() => {
        dispatch(route(to))
+    }, [to]);
+
+    const externalLink = React.useCallback(() => {
+      window.open(to, '_blank');
     }, [to]);
 
 	  const path = useSelector<StoreState, StoreState['ui']['path']>( s => s.ui.path );
@@ -47,7 +55,7 @@ const addStatefulLink = (props: StatefulLinkProps) => {
       element, {
       onClick: (e: any) => {
         element.props.onClick && element.props.onClick();
-        !disabled && goToLink(); 
+        !disabled && ( target === '_self' ? internalLink() : externalLink()); 
       },
       className: disabled ? `link disabled` : `${elementClass} link`,
       style: getStyle()
