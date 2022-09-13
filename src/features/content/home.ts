@@ -18,7 +18,10 @@ export type FeaturedBlockType = {
     focusAnimation: any; // TODO
     background: {
         data: MediaContentType[]
-    }
+    };
+    link?: string;
+    linkTarget: '_self' | '_blank';
+    linkText: string;
 }
 const loadHome = async () => {
     const { data } = await axios.get(

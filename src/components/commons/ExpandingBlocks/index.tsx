@@ -11,7 +11,6 @@ export type BlockProps = {
     caption: string;
     captionColor: string;
     captionBgColor: string;
-    link?: string;
     captionPositionY: 'start' | 'center' | 'end',
     captionPositionX: 'start' | 'center' | 'end',
     captionBgAlpha: number;
@@ -21,16 +20,20 @@ export type BlockProps = {
         alt: string;
         type?: string;
     }[],
-    bgColor?: string
+    bgColor?: string;
+    link?: string;
+    linkTarget: '_self' | '_blank';
+    linkText: string;
 }
 interface ExpandingBlocksProps {
     blocks: BlockProps[]
 }
 
 const Block = ( props: BlockProps ) => {
-    const { background, link, caption, captionTitle, captionPositionY, captionPositionX, bgColor = '#999',
+    const { background, caption, captionTitle, captionPositionY, captionPositionX, bgColor = '#999',
     captionBgColor, captionColor, captionBgAlpha,
-    captionTextAlignment
+    captionTextAlignment,
+    link, linkTarget, linkText
 } = props;
 
     const [ activeBackground, setBackground ] = React.useState({
@@ -70,13 +73,7 @@ const Block = ( props: BlockProps ) => {
         textAlign: captionTextAlignment
     }
 
-    const heading = link ? <Link to={link}>
-        <h2>
-            {captionTitle}
-        </h2>
-    </Link> : <h2>{captionTitle}</h2>
-
-    const { TouchSelector, touchHandler } = useTouchSelection('block-selector', 'expanding-blocks');
+    const { TouchSelector, touchHandler } = useTouchSelection('block-selector', 'expanding-blocks'); 
 
     return(
         <>
@@ -95,8 +92,11 @@ const Block = ( props: BlockProps ) => {
                 <div className="expand-column-content"
                     style={contentStyle}
                 >
-                    {heading}
+                    <h2>{captionTitle}</h2>
                     <p>{caption}</p>
+                    { link && <Link to={link} target={linkTarget}>
+                        <span className='h6'>{linkText}</span>
+                    </Link>}
                 </div>
             </div>
         </>
