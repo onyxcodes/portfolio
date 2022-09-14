@@ -3,6 +3,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackFavicons = require('webpack-favicons');
 require('dotenv').config({ path: './.env' }); 
 
 const isProduction = process.env.NODE_ENV == "production";
@@ -28,7 +29,20 @@ const config = {
       API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
       G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID)
-    })
+    }),
+    new WebpackFavicons({
+      src: 'src/assets/favicon.svg',
+      path: 'assets/',
+      background: '#000',
+      theme_color: '#000',
+      icons: {
+        favicons: true
+      },
+      appName: 'Portfolio',
+      developerName: 'Onyx Ganda',
+      developerUrl: 'https://onyxganda.com',
+      start_url: '/'
+  }),
   ],
   module: {
     rules: [
