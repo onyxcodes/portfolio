@@ -17,10 +17,19 @@
     .header-title {
         height: 2rem;
         min-width: 10rem;
-        // height: vars.$header-height;  
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
+        .menu-icon {
+            line-height: 2rem;
+            color: vars.$secondary-color-dark;
+        }
+        @include utils.mq_min(md) {
+            margin-left: 1rem;
+            .menu-icon {
+                margin-left: -2.5rem;
+            }
+        }
     }
 
     .breadcrumb {
@@ -30,24 +39,3 @@
         }
     }
 }
-
-// .header.extended {
-//     height: 100vh;
-//     width: calc(180px + 15vw);
-//     background: aquamarine;
-//     justify-content: start;
-//     @include utils.mq_max(sm) {
-//         width: 100%;
-//         height: vars.$header-height;  
-//         padding: 1rem;
-//     }
-//     .header-title {
-//         height: vars.$header-height;
-//         max-width: 15rem;
-//         @include utils.mq_max(sm) {
-//             max-width: auto;
-//             height: 100%;
-//         }
-//     }
-// }
-
