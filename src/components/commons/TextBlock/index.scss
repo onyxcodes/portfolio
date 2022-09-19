@@ -7,4 +7,36 @@
     img {
         max-width: 100%;
     }
+
+    code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+    }
+      
+    p > code,
+    li > code,
+    dd > code,
+    td > code {
+        background-color: rgba(vars.$dark-color, 0.75);
+        word-wrap: break-word;
+        box-decoration-break: clone;
+        padding: .25rem .5rem;
+        color: vars.$light-color;
+        border-radius: .25rem;
+    }
+
+    pre {
+        background-color: rgba(vars.$dark-color, 0.75);
+        color: vars.$light-color;
+        padding: .25rem 0.5rem;
+        overflow-x:hidden;
+        border-radius: .25rem;
+
+        code {
+            white-space: pre;
+            display: block;
+            overflow-x: scroll;
+        }
+    }
 }
+
