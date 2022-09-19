@@ -1,4 +1,4 @@
-if ( process.env.G_ANALYTICS_ENABLED ) {
+if ( process.env.G_ANALYTICS_ENABLED != 'false' ) {
     var script = document.createElement("script");
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.G_ANALYTICS_MEASUREMENT_ID}`;
