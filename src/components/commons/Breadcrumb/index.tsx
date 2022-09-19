@@ -48,7 +48,7 @@ const Breadcrumb = (props: BreadcrumbProps) => {
     const breadcrumbs = React.useMemo( () => pathToBreadcrumb(path, title), [path, title]);
     const allBreadcrumbs = showHome ? [ homeBreadcrumb, ...breadcrumbs] : breadcrumbs
     return allBreadcrumbs.length ? 
-        <ul className='breadcrumb'>
+        <ul className='breadcrumb no-list'>
             {allBreadcrumbs}
         </ul> : <></>;
 };

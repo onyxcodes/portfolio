@@ -12,7 +12,6 @@ const useTouchSelection = ( className: string, name: string) => {
     const touchHandler = React.useCallback( () => {
         if (touchSelector && touchSelector.current) {
             touchSelector.current.checked = true
-            console.log('Checked an item')
         }
     }, [touchSelector]);
 

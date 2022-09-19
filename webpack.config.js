@@ -28,7 +28,8 @@ const config = {
     new webpack.EnvironmentPlugin({
       API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
-      G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID)
+      G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID),
+      G_ANALYTICS_ENABLED: JSON.stringify(process.env.G_ANALYTICS_ENABLED),
     }),
     new WebpackFavicons({
       src: 'src/assets/favicon.svg',

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import './index.scss';
 
 interface TextBlockProps {
@@ -9,7 +10,7 @@ const TextBlock = ( props: TextBlockProps ) => {
     const { text } = props;
 
     return(<div className='text-block p1'>
-        <ReactMarkdown  children={text} />
+        <ReactMarkdown  children={text} remarkPlugins={[remarkGfm]}/>
     </div>)
 }
 
