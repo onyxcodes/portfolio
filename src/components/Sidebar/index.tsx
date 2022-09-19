@@ -91,7 +91,7 @@ const useSidebar = ( props: SidebarProps ) => {
                         <div className="panel-header">
                             <MenuItem link={link} childlink={childlink} isHeading/>
                         </div>
-                        <ul>
+                        <ul className='no-list'>
                             {renderSubLinks(childlink.links)}
                         </ul>
                     </div> </li>)
@@ -114,7 +114,7 @@ const useSidebar = ( props: SidebarProps ) => {
                         <div className="panel-header">
                             <MenuItem link={link} isHeading />
                         </div>
-                        <ul>
+                        <ul className='no-list'>
                             {renderChildLinks(link.links)}
                         </ul>
                     </div>
@@ -168,7 +168,7 @@ const useSidebar = ( props: SidebarProps ) => {
                     &nbsp;
                 </div>
             </div>
-            { menu && <ul className="menu">
+            { menu && <ul className="menu no-list">
                 {renderedMenu}
             </ul> }
         </div>
