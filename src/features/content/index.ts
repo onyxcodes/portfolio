@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import loadHome, { FeaturedBlockType } from './home';
+import loadHome, { BlockType } from './home';
 import fetchMenu, { MenuEntry } from './menu';
 import getArticle, { listArticles, ArticleType } from './article';
 
@@ -19,6 +19,7 @@ export type MediaContentType = {
         caption: string;
         width: number | null,
         height: number | null,
+        previewUrl: any; // TODO: specify
         formats: any,
         hash: string,
         ext: string,
@@ -48,7 +49,7 @@ export interface ContentState {
     home: {
         loading: boolean,
         error: any;
-        featured: FeaturedBlockType[]
+        featured: BlockType[]
     },
     articlesOp: {
         loading: boolean;
@@ -168,5 +169,5 @@ const reducer = createReducer(initialState, builder => { builder
 
 export { loadHome, fetchMenu, listArticles, getArticle };
 export type { MenuEntry }
-export type { FeaturedBlockType };
+export type { BlockType };
 export default reducer;

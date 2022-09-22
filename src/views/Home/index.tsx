@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ExpandingBlocks, { BlockProps } from 'components/commons/ExpandingBlocks';
-import { loadHome, ContentState, FeaturedBlockType } from 'features/content';
+import ExpandingBlocks, { ColumnProps } from 'components/commons/ExpandingBlocks';
+import { loadHome, ContentState, BlockType } from 'features/content';
 import { setTitle } from 'features/ui';
 import { StoreState } from 'store';
 
@@ -13,15 +13,15 @@ interface HomeProps {
 const Home = ( props: HomeProps ) => {
     const dispatch = useDispatch();
     const loadHomeReq = useSelector<StoreState, ContentState['home']>( s => s.content.home );
-    const [ featuredBlocks, setFeaturedBlocks ] = React.useState<BlockProps[]>([]);
+    const [ featuredBlocks, setFeaturedBlocks ] = React.useState<ColumnProps[]>([]);
     
     React.useEffect( () => {
         dispatch(loadHome(true));
         dispatch(setTitle('Portfolio'));
     }, [dispatch]);
 
-    const processBlocks = ( blocks: FeaturedBlockType[] ) => blocks.map( block => {
-        let blockConf: BlockProps = {
+    const processBlocks = ( blocks: BlockType[] ) => blocks.map( block => {
+        let blockConf: ColumnProps = {
             ...block,
             key: `${block.id}`,
             background: block.background.data.map( background => {

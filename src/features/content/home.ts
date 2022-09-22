@@ -2,10 +2,10 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MediaContentType } from '.';
 
-export type FeaturedBlockType = {
+export type BlockType = {
     id: number;
     bgColor: string;
-    focusBgColor: string;
+    focusBgColor: string | null;
     captionTitle: string;
     captionColor: string;
     caption: string;
@@ -15,11 +15,15 @@ export type FeaturedBlockType = {
     captionPositionY: 'start' | 'center' | 'end';
     captionBgColor: string;
     captionBgAlpha: number;
-    focusAnimation: any; // TODO
+    focusAnimation: 'shutter' | 'fade' | 'zoom-out' | 'fold';
+    // Consider making compulsory since it must be populated
     background: {
         data: MediaContentType[]
     };
-    link?: string;
+    focusBackground?: {
+        data: MediaContentType[] | null
+    };
+    link: string | null;
     linkTarget: '_self' | '_blank';
     linkText: string;
 }

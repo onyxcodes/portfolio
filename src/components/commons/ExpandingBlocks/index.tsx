@@ -5,8 +5,10 @@ import './index.scss';
 import { hex2rgba } from 'utils/colors';
 import useTouchSelection from 'components/commons/useTouchSelection';
 
-export type BlockProps = {
+export type ColumnProps = {
+    id: number;
     key: string;
+    focusAnimation?: string
     captionTitle: string;
     caption: string;
     captionColor: string;
@@ -21,15 +23,15 @@ export type BlockProps = {
         type?: string;
     }[],
     bgColor?: string;
-    link?: string;
+    link: string | null;
     linkTarget: '_self' | '_blank';
     linkText: string;
 }
 interface ExpandingBlocksProps {
-    blocks: BlockProps[]
+    blocks: ColumnProps[]
 }
 
-const Block = ( props: BlockProps ) => {
+const Block = ( props: ColumnProps ) => {
     const { background, caption, captionTitle, captionPositionY, captionPositionX, bgColor = '#999',
     captionBgColor, captionColor, captionBgAlpha,
     captionTextAlignment,
@@ -106,7 +108,7 @@ const Block = ( props: BlockProps ) => {
 const ExpandingBlocks = (props: ExpandingBlocksProps) => {
     const { blocks } = props;
 
-    const renderBlocks = ( blocks: BlockProps[] ) => blocks.map( props => <Block {...props}/>);
+    const renderBlocks = ( blocks: ColumnProps[] ) => blocks.map( props => <Block {...props}/>);
 
     return (<div className="row expand-column-wrapper">
         {renderBlocks(blocks)}

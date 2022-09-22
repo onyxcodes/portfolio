@@ -20,7 +20,8 @@ import useLoader from 'components/useLoader';
 import OnyxLogo from 'components/OnyxLogo';
 import useElementHeight from 'components/commons/useElementHeight';
 import NotFound from 'views/NotFound';
-import Maintenance from '../Maintenance';
+import Maintenance from 'views/Maintenance';
+import Page from 'views/Page';
 
 const App = () => {
 	const location = useLocation();
@@ -119,8 +120,9 @@ const App = () => {
                     <Route path="" element={<Maintenance/>}/>
                     <Route path=":slug" element={<Maintenance/>} />
                 </Route> 
-                <Route path="/page" element={<Maintenance/>}>
-                    <Route path=":slug" element={<Maintenance/>} />
+                <Route path="/page" >
+                    <Route path="" element={<Maintenance/>}/>
+                    <Route path=":slug" element={<Page/>} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
