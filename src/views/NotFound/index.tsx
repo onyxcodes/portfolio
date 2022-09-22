@@ -16,7 +16,7 @@ const NotFound = () => {
         <div className='notfound-wrapper col-9 col-lg-10 col-sm-12 p1'>
         <div className='notfound-img r-18-9 lgr-4-5'
                 style={{
-                    backgroundImage: `url(${require('assets/notfound.svg')})`
+                    backgroundImage: `url(${require('assets/notfound-animated.svg')})`
                 }}
             >
             </div>

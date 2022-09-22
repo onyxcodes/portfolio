@@ -6,7 +6,7 @@ import React from 'react';
  */
 const useElementHeight = (element: HTMLElement | null) => {
 	// save current element width in the state object
-	let [height, setHeight] = React.useState(element?.clientHeight || 0);
+	const [height, setHeight] = React.useState(element?.clientHeight || 0);
 
 	React.useEffect(() => {
 		if (element) {
@@ -32,6 +32,12 @@ const useElementHeight = (element: HTMLElement | null) => {
 			}
 		}
 	}, [element])
+
+	// Tracks elemenet height also when changing in content size
+	React.useEffect(() => {
+		setHeight(element?.clientHeight || 0)
+	}, [element?.clientHeight])
+
 	return height;
 }
 
