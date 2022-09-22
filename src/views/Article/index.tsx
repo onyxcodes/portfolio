@@ -7,6 +7,7 @@ import { getArticle, ContentState } from 'features/content';
 import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';
 import './index.scss';
+import NotFound from 'views/NotFound';
 
 interface ArticleProps {
 
@@ -33,14 +34,14 @@ const Article = () => {
         dispatch(setLoading(articleOp.loading));
     }, [articleOp.loading]);
 
-    return <>
+    return articleOp.data ? <>
         <SubHeader cover={cover?.url} title={title!} />
         <div className='article f jcc'>
             <div className='article-content col-9 col-lg-10 col-sm-12'>
                 {text && <TextBlock text={text}/>}
             </div>
         </div>
-    </>
+    </> : <NotFound />
 }
 
 export default Article;
