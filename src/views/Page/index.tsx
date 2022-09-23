@@ -10,6 +10,9 @@ import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';
 import NotFound from 'views/NotFound';
 
+import './index.scss';
+import FileBlock from 'components/FileBlock';
+
 const exampleSlideshow: {
     id: number;
     __component: "display.slideshow",
@@ -157,6 +160,7 @@ const Page = ( props: PageProps ) => {
     const pageOp = useSelector<StoreState, ContentState['pageOp']>( s => s.content.pageOp );
 
     let title = pageOp.data?.attributes.title;
+    let content = pageOp.data?.attributes.content;
 
     React.useEffect( () => {
         title && dispatch(setTitle(title));
@@ -166,9 +170,29 @@ const Page = ( props: PageProps ) => {
         dispatch(setLoading(pageOp.loading));
     }, [pageOp.loading]);
 
-    return pageOp.data ? <>
+    if (pageOp.data) debugger;
+
+    const renderContents = React.useCallback( () => content?.map( (el, i) => {
+        let component,
+            cmpWrapperClass = 'page-content';
+        switch ( el.__component ) {
+            case 'display.text-block':
+                cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`
+                component = <TextBlock text={el.content}/>;
+            break;
+            case 'display.file-block':
+                cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`;
+                component = <FileBlock {...el} />
+            break;
+            default: null;
+        }
+        return <div key={i} className={cmpWrapperClass}>{component}</div>
+    }), [content])
+
+    return pageOp.data ? <div className='page f fd-col aic'>
         {/* <Slideshow id={1} slides={exampleSlideshow.slide} slideSpacing={exampleSlideshow.slideSpacing}  /> */}
-    </> : ( !pageOp.loading ? <NotFound/> : <></>)
+        { renderContents() }
+    </div> : ( !pageOp.loading ? <NotFound/> : <></>)
 }
 
 export default Page;

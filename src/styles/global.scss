@@ -810,6 +810,11 @@
   .r05 {
       border-radius: 0.5em;
   }
+  .full-w {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
   .blur {
     filter: blur(7.5px);
   }
@@ -1008,6 +1013,11 @@
   }
   .r-16-9 {
     @include utils.responsive-ratio(16,9, true);
+    @include utils.content-in-ratio;
+    position: relative;
+  }
+  .r-16-3 {
+    @include utils.responsive-ratio(16,3, true);
     @include utils.content-in-ratio;
     position: relative;
   }

@@ -1,0 +1,31 @@
+@use '~styles/utils';
+
+.file-block {
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+background-color: white;
+}
+.file-list {
+    display: flex;
+    flex-direction: row;
+    @include utils.mq_max(md) {
+        flex-direction: column;
+    }
+}
+.file-icon {
+    flex: 1;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.file {
+    flex: 1;
+}
+
+.file-caption {
+    flex: 2;
+}
+
+.file-actions {
+    flex: 1;
+}

@@ -29,13 +29,14 @@ export type ContentBlockType = {
 
 export type TextBlockType = {
     id: number;
-    __component?: string;
+    __component?: 'display.text-block';
     content: string;
 }
 
 export type FileBlockType = {
     id: number;
-    __component?: string;
+    __component?: 'display.file-block';
+    title: string;
     files: {
         data: MediaType[]
     }
