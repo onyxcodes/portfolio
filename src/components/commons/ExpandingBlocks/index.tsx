@@ -4,34 +4,14 @@ import './index.scss';
 
 import { hex2rgba } from 'utils/colors';
 import useTouchSelection from 'components/commons/useTouchSelection';
+import { ContentBlockType } from 'features/content';
+import { getStrapiMedia } from 'utils/strapi';
 
-export type ColumnProps = {
-    id: number;
-    key: string;
-    focusAnimation?: string
-    captionTitle: string;
-    caption: string;
-    captionColor: string;
-    captionBgColor: string;
-    captionPositionY: 'start' | 'center' | 'end',
-    captionPositionX: 'start' | 'center' | 'end',
-    captionBgAlpha: number;
-    captionTextAlignment: 'left' | 'center' | 'right';
-    background: {
-        url: string;
-        alt: string;
-        type?: string;
-    }[],
-    bgColor?: string;
-    link: string | null;
-    linkTarget: '_self' | '_blank';
-    linkText: string;
-}
 interface ExpandingBlocksProps {
-    blocks: ColumnProps[]
+    blocks: ContentBlockType[]
 }
 
-const Block = ( props: ColumnProps ) => {
+const Block = ( props: ContentBlockType ) => {
     const { background, caption, captionTitle, captionPositionY, captionPositionX, bgColor = '#999',
     captionBgColor, captionColor, captionBgAlpha,
     captionTextAlignment,
@@ -40,20 +20,17 @@ const Block = ( props: ColumnProps ) => {
 
     const [ activeBackground, setBackground ] = React.useState({
         index: 0,
-        url: background[0].url,
-        alt: background[0].alt,
-        type: background[0].type || 'image'
+        ...getStrapiMedia(background.data[0])
     });
 
     React.useEffect( () => {
         let timeoutId: number;
-        if ( background.length > 1 ) {
-            let index = (activeBackground.index+1 < background.length) ? activeBackground.index+1 : 0;
+        if ( background.data.length > 1 ) {
+            let i = (activeBackground.index+1 < background.data.length) ? activeBackground.index+1 : 0;
+
             timeoutId = window.setTimeout( () => setBackground({
-                index: index,
-                url: background[index].url,
-                alt: background[index].alt,
-                type: background[index].type || 'image'
+                index: i,
+                ...getStrapiMedia(background.data[i])
             }), 5000)
         }
         return () => {
@@ -64,7 +41,7 @@ const Block = ( props: ColumnProps ) => {
 
     const style = {
         backgroundolor: bgColor,
-        backgroundImage: activeBackground.type === 'image' ? `url('${activeBackground.url}')` : undefined,
+        backgroundImage: activeBackground.type?.startsWith('image') ? `url('${activeBackground.url}')` : undefined,
         alignItems: captionPositionY,
         justifyContent: captionPositionX,
     };
@@ -84,13 +61,14 @@ const Block = ( props: ColumnProps ) => {
             <div className="column" 
                 style={style} onClick={() => touchHandler()}
             >
-                {activeBackground.type === 'video' && 
+                { activeBackground.type?.startsWith('video') && 
                     <video className='block-bgvideo' playsInline autoPlay muted loop>
                     <source src={activeBackground.url} type="video/mp4"/>
                     Your browser does not support the video tag.
-                </video>
-                }
+                </video> }
+
                 <span role="img" aria-label={activeBackground.alt}></span>
+
                 <div className="expand-column-content"
                     style={contentStyle}
                 >
@@ -108,7 +86,7 @@ const Block = ( props: ColumnProps ) => {
 const ExpandingBlocks = (props: ExpandingBlocksProps) => {
     const { blocks } = props;
 
-    const renderBlocks = ( blocks: ColumnProps[] ) => blocks.map( props => <Block {...props}/>);
+    const renderBlocks = ( blocks: ContentBlockType[] ) => blocks.map( props => <Block {...props}/>);
 
     return (<div className="row expand-column-wrapper">
         {renderBlocks(blocks)}

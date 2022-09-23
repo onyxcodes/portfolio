@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArticleType } from 'features/content/article';
+import { ArticleType } from 'features/content';
 import Card, { CardProps } from 'components/commons/Card'; 
+import { getStrapiMedia } from 'utils/strapi';
 
 interface ListProps {
     parent: string;
@@ -11,14 +12,14 @@ interface ListProps {
 const List = ( props: ListProps ) => {
     const { data, parent, type = 'list' } = props;
 
-    const processGridData = (list: ArticleType[]) => list.map( el => {
+    const processGridData = ( list: ArticleType[] ) => list.map( el => {
         let cardConf: CardProps = {
             key: `${el.id}`,
             listName: parent,
             title: el.attributes.title,
             content: el.attributes.content,
             url: `${parent}/${el.attributes.slug}`,
-            cover: el.attributes.cover.data && `${process.env.API_ENDPOINT}${el.attributes.cover.data.attributes.url}`
+            cover: el.attributes.cover.data && getStrapiMedia(el.attributes.cover.data).url
         };
         return <Card {...cardConf}/>
     });
@@ -27,7 +28,7 @@ const List = ( props: ListProps ) => {
     
     return(<div className={listClass}>
         <div className='columns jcc'>
-        {processGridData(data)}
+            {processGridData(data)}
         </div>
     </div>)
 }

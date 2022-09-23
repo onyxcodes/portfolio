@@ -1,11 +1,12 @@
 import React from 'react';
 import './index.scss';
-import { BlockType } from 'features/content/home';
+import { ContentBlockType } from 'features/content';
+import { getStrapiMedia } from 'utils/strapi';
 
 
 interface SlideshowProps {
     id: number;
-    slides: BlockType[];
+    slides: ContentBlockType[];
     slideSpacing: number;
 }
 const Slideshow = ( props: SlideshowProps ) => {
@@ -74,9 +75,9 @@ const Slideshow = ( props: SlideshowProps ) => {
                 break;
             }
             let captionClass = `z2 fill p-absolute p1 f fd-col`;
-            let bgImageUrl = `${process.env.API_ENDPOINT}${slide.background.data[0].attributes.url}`;
+            let bgImageUrl = getStrapiMedia(slide.background.data[0]).url;
             let focusBgImageUrl = slide.focusBackground?.data?.[0] ? 
-                `${process.env.API_ENDPOINT}${slide.focusBackground.data[0].attributes.url}` :
+                getStrapiMedia(slide.focusBackground.data[0]) :
                 bgImageUrl;
             return <div  key={i} className="slider" id={`slide-${slide.id}`}>
                 <style>{ slideStyle }</style> 

@@ -1,35 +1,11 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { MediaContentType } from '.';
+import { getStrapiURL } from 'utils/strapi';
 
-export type BlockType = {
-    id: number;
-    bgColor: string;
-    focusBgColor: string | null;
-    captionTitle: string;
-    captionColor: string;
-    caption: string;
-    captionTextAlignment: 'left' | 'center' | 'right';
-    captionVisible: boolean;
-    captionPositionX: 'start' | 'center' | 'end';
-    captionPositionY: 'start' | 'center' | 'end';
-    captionBgColor: string;
-    captionBgAlpha: number;
-    focusAnimation: 'shutter' | 'fade' | 'zoom-out' | 'fold';
-    // Consider making compulsory since it must be populated
-    background: {
-        data: MediaContentType[]
-    };
-    focusBackground?: {
-        data: MediaContentType[] | null
-    };
-    link: string | null;
-    linkTarget: '_self' | '_blank';
-    linkText: string;
-}
+
 const loadHome = async () => {
     const { data } = await axios.get(
-        `${process.env.API_ENDPOINT}/api/homepage?populate[0]=featured&populate[1]=featured.block&populate[2]=featured.block.background`, {
+        getStrapiURL('/api/homepage?populate[0]=featured&populate[1]=featured.block&populate[2]=featured.block.background'), {
             'method': 'GET',
             "headers": {
                 'Authorization': `Bearer ${process.env.API_TOKEN}`
