@@ -11,7 +11,9 @@ import { UIState, route } from 'features/ui';
 import { StoreState } from 'store';
 import logger from 'utils/logger';
 import Loader from 'components/commons/Loader';
-import { ContentState, fetchMenu, MenuEntry } from 'features/content';
+
+import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
+
 import Home from 'views/Home';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
@@ -20,7 +22,8 @@ import useLoader from 'components/useLoader';
 import OnyxLogo from 'components/OnyxLogo';
 import useElementHeight from 'components/commons/useElementHeight';
 import NotFound from 'views/NotFound';
-import Maintenance from '../Maintenance';
+import Maintenance from 'views/Maintenance';
+import Page from 'views/Page';
 
 const App = () => {
 	const location = useLocation();
@@ -46,7 +49,7 @@ const App = () => {
         // dispatch(fetchMenu('footer'));
     }, [dispatch]);
 
-    const processMenuEntry = ( entry: MenuEntry ) => {
+    const processMenuEntry = ( entry: MenuEntryType ) => {
         let links: MenuLink[] = [];
         if ( entry.attributes.children?.data &&
             entry.attributes.children?.data.length
@@ -61,7 +64,7 @@ const App = () => {
         }
     }
 
-    const processMenu = (menu: MenuEntry[]): MenuLink[] => 
+    const processMenu = (menu: MenuEntryType[]): MenuLink[] => 
         menu.map( entry => processMenuEntry(entry))
 
     React.useEffect( () => {
@@ -119,8 +122,9 @@ const App = () => {
                     <Route path="" element={<Maintenance/>}/>
                     <Route path=":slug" element={<Maintenance/>} />
                 </Route> 
-                <Route path="/page" element={<Maintenance/>}>
-                    <Route path=":slug" element={<Maintenance/>} />
+                <Route path="/page" >
+                    <Route path="" element={<Maintenance/>}/>
+                    <Route path=":slug" element={<Page/>} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
