@@ -170,18 +170,16 @@ const Page = ( props: PageProps ) => {
         dispatch(setLoading(pageOp.loading));
     }, [pageOp.loading]);
 
-    if (pageOp.data) debugger;
-
     const renderContents = React.useCallback( () => content?.map( (el, i) => {
         let component,
-            cmpWrapperClass = 'page-content';
+            cmpWrapperClass = 'page-content f';
         switch ( el.__component ) {
             case 'display.text-block':
                 cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`
                 component = <TextBlock text={el.content}/>;
             break;
             case 'display.file-block':
-                cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`;
+                // cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`;
                 component = <FileBlock {...el} />
             break;
             default: null;

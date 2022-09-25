@@ -31,6 +31,8 @@ export type TextBlockType = {
     id: number;
     __component?: 'display.text-block';
     content: string;
+    size?: 'xl' | 'l' | 'm';
+    position?: 'start' | 'center' | 'end' ;
 }
 
 export type FileBlockType = {
@@ -40,4 +42,6 @@ export type FileBlockType = {
     files: {
         data: MediaType[]
     }
+    size?: 'xl' | 'l' | 'm';
+    position?: 'start' | 'center' | 'end' ;
 }
