@@ -41,7 +41,7 @@ const Article = () => {
                 {text && <TextBlock text={text}/>}
             </div>
         </div>
-    </> : <NotFound />
+    </> : ( !articleOp.loading ? <NotFound /> : <></> )
 }
 
 export default Article;

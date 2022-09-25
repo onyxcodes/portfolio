@@ -1,43 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit';
-import loadHome, { FeaturedBlockType } from './home';
-import fetchMenu, { MenuEntry } from './menu';
-import getArticle, { listArticles, ArticleType } from './article';
-
-
-type PaginationParams = {
-    page: number,
-    pageSize: number,
-    pageCount: number,
-    total: number
-}
-
-export type MediaContentType = {
-    id: number,
-    attributes: {
-        name: string;
-        alternativeText: string;
-        caption: string;
-        width: number | null,
-        height: number | null,
-        formats: any,
-        hash: string,
-        ext: string,
-        mime: string,
-        size: number;
-        url: string;
-        provider: string;
-        provider_metadata: any;
-        createdAt: string;
-        updatedAt: string;
-    }
-}
+import loadHome from './home';
+import fetchMenu from './plugins/menu';
+import getArticle, { listArticles } from './collections/article';
+import getPage from './collections/page';
+import { PaginationType } from './types';
+import { ContentBlockType, FileBlockType, TextBlockType } from './components/types';
+import { MenuEntryType } from './plugins/types';
+import { ArticleType, PageType } from './collections/types';
 
 export interface ContentState {
     menu: {
         main: {
             loading: boolean;
             error: any;
-            data: MenuEntry[] | null;
+            data: MenuEntryType[] | null;
         },
         footer: {
             loading: boolean;
@@ -48,18 +24,23 @@ export interface ContentState {
     home: {
         loading: boolean,
         error: any;
-        featured: FeaturedBlockType[]
+        featured: ContentBlockType[]
     },
     articlesOp: {
         loading: boolean;
         error: any;
         data: ArticleType[];
-        meta: PaginationParams | null;
+        meta: PaginationType | null;
     },
     articleOp: {
         loading: boolean;
         error: any;
         data: ArticleType | null
+    },
+    pageOp: {
+        loading: boolean;
+        error: any;
+        data: PageType | null;
     }
 }
 
@@ -88,6 +69,11 @@ const initialState = {
         meta: null
     },
     articleOp: {
+        loading: false,
+        error: null,
+        data: null
+    },
+    pageOp: {
         loading: false,
         error: null,
         data: null
@@ -164,9 +150,27 @@ const reducer = createReducer(initialState, builder => { builder
         debugger;
         // state.articleOp.error = ? 
     })
+
+    // fetch page
+    .addCase(getPage.pending, (state, action) => {
+        state.pageOp.loading = true;
+        state.pageOp.data = initialState.pageOp.data;
+        state.pageOp.error = initialState.pageOp.error;
+    })
+    .addCase(getPage.fulfilled, (state, action) => {
+        state.pageOp.loading = initialState.pageOp.loading;
+        state.pageOp.error = initialState.pageOp.error;
+        state.pageOp.data = action.payload;
+    })
+    .addCase(getPage.rejected, (state, action) => {
+        state.pageOp.loading = initialState.pageOp.loading;
+        debugger;
+        // state.articleOp.error = ? 
+    })
+
 })
 
-export { loadHome, fetchMenu, listArticles, getArticle };
-export type { MenuEntry }
-export type { FeaturedBlockType };
+export { loadHome, fetchMenu, listArticles, getArticle, getPage };
+export type { MenuEntryType, ContentBlockType, TextBlockType, FileBlockType }
+export type { ArticleType, PageType }
 export default reducer;
