@@ -4,11 +4,10 @@ import { getStrapiURL } from 'utils/strapi';
 
 const getPage = async ( slug: string ) => {
     const { data } = await axios.get(
-        getStrapiURL(`/api/pages?populate[0]=content&filters[slug][$eq]=${slug}&populate[1]=content.files`), {
+        getStrapiURL(`/api/pages?filters[slug][$eq]=${slug}&populate[0]=content&populate[1]=content.files&populate[2]=content.blocks&populate[3]=content.blocks.background`), {
             'method': 'GET',
             "headers": {
                 'Authorization': `Bearer ${process.env.API_TOKEN}`
-
             }
         }
     );

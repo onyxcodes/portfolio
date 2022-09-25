@@ -1,6 +1,15 @@
 .page {
-    // padding: 1rem;
+    position: relative;
+    height: 100%;
     .page-content {
         width: 100%;
+    }
+    &.fullpage {
+        overflow: scroll;
+        .page-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
     }
 }
