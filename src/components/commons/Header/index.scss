@@ -34,8 +34,6 @@
 
     .breadcrumb {
         flex: 6;
-        @include utils.mq_max(sm) {
-            flex-direction: column;
-        }
+        flex-wrap: wrap;
     }
 }
