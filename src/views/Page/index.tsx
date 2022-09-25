@@ -172,11 +172,10 @@ const Page = ( props: PageProps ) => {
 
     const renderContents = React.useCallback( () => content?.map( (el, i) => {
         let component,
-            cmpWrapperClass = 'page-content f';
+            cmpWrapperClass = 'page-content f py1';
         switch ( el.__component ) {
             case 'display.text-block':
-                cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`
-                component = <TextBlock text={el.content}/>;
+                component = <TextBlock {...el}/>;
             break;
             case 'display.file-block':
                 // cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`;
