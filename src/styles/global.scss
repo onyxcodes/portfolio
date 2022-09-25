@@ -490,6 +490,58 @@
    .jcb {
     justify-content:space-between
    }
+   @include utils.mq_max(md) {
+    .ais-md {
+      align-items:flex-start
+    }
+    .aie-md {
+      align-items:flex-end
+    }
+    .aic-md {
+      align-items:center
+    }
+    .aib-md {
+      align-items:baseline
+    }
+    .jcs-md {
+      justify-content:flex-start
+    }
+    .jce-md {
+      justify-content:flex-end
+    }
+    .jcc-md {
+      justify-content:center
+    }
+    .jcb-md {
+      justify-content:space-between
+    }
+   }
+   @include utils.mq_max(sm) {
+    .ais-sm {
+      align-items:flex-start
+    }
+    .aie-sm {
+      align-items:flex-end
+    }
+    .aic-sm {
+      align-items:center
+    }
+    .aib-sm {
+      align-items:baseline
+    }
+    .jcs-sm {
+      justify-content:flex-start
+    }
+    .jce-sm {
+      justify-content:flex-end
+    }
+    .jcc-sm {
+      justify-content:center
+    }
+    .jcb-sm {
+      justify-content:space-between
+    }
+   }
    .fa {
     flex:1 1 auto;
     min-width:0;
@@ -810,6 +862,11 @@
   .r05 {
       border-radius: 0.5em;
   }
+  .full-w {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
   .blur {
     filter: blur(7.5px);
   }
@@ -1008,6 +1065,11 @@
   }
   .r-16-9 {
     @include utils.responsive-ratio(16,9, true);
+    @include utils.content-in-ratio;
+    position: relative;
+  }
+  .r-16-3 {
+    @include utils.responsive-ratio(16,3, true);
     @include utils.content-in-ratio;
     position: relative;
   }

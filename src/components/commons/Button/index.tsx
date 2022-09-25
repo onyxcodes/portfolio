@@ -22,8 +22,8 @@ const Button = ( props: ButtonProps ) => {
         className
     } = props;
 
-    let btnClass = className ? `${className} btn btn-${type} btn-${shape}` :
-    `btn btn-${type} btn-${shape}`;
+    let btnClass = `btn btn-${type} btn-${shape} anim-pulse`; 
+    if ( className ) btnClass = `${btnClass} ${className}`;
     if ( disabled ) btnClass = `${btnClass} btn-disabled`;
     return(
         <div onClick={onClick} className={btnClass}>

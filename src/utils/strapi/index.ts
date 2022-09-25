@@ -22,7 +22,7 @@ const getStrapiMedia = ( media: MediaType | null ) => {
         caption = media.attributes.caption,
         type = media.attributes.mime;
     }
-    return { url, alt, type };
+    return { url, alt, caption, type };
 }
 
 export { getStrapiURL, getStrapiMedia }
