@@ -12,6 +12,8 @@ import NotFound from 'views/NotFound';
 
 import './index.scss';
 import FileBlock from 'components/FileBlock';
+import ExpandingBlocks from 'components/ExpandingBlocks';
+import useSnapScroll from 'hooks/useSnapScroll';
 
 const exampleSlideshow: {
     id: number;
@@ -152,6 +154,7 @@ interface PageProps {
 const Page = ( props: PageProps ) => {
     const dispatch = useDispatch();
     const { slug } = useParams();
+    const pageRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useEffect( () => {
         slug && dispatch(getPage(slug))
@@ -161,6 +164,7 @@ const Page = ( props: PageProps ) => {
 
     let title = pageOp.data?.attributes.title;
     let content = pageOp.data?.attributes.content;
+    let isFullScreen = pageOp.data?.attributes.fullScreenContent;
 
     React.useEffect( () => {
         title && dispatch(setTitle(title));
@@ -170,25 +174,39 @@ const Page = ( props: PageProps ) => {
         dispatch(setLoading(pageOp.loading));
     }, [pageOp.loading]);
 
-    const renderContents = React.useCallback( () => content?.map( (el, i) => {
+    useSnapScroll(pageRef.current);
+
+    const renderedContent = React.useMemo( () => content?.map( (el, i) => {
         let component,
-            cmpWrapperClass = 'page-content f py1';
+            cmpWrapperClass = 'page-content f';
+
+        if (!isFullScreen) cmpWrapperClass = `${cmpWrapperClass} py1`; 
+
         switch ( el.__component ) {
             case 'display.text-block':
                 component = <TextBlock {...el}/>;
             break;
             case 'display.file-block':
-                // cmpWrapperClass = `${cmpWrapperClass} col-9 col-lg-10 col-sm-12`;
                 component = <FileBlock {...el} />
+            break;
+            case 'display.expanding-columns':
+                component = <ExpandingBlocks {...el} />
             break;
             default: null;
         }
-        return <div key={i} className={cmpWrapperClass}>{component}</div>
-    }), [content])
+        return <div key={i} className={cmpWrapperClass}
+            style={{
+                transform: `translateY(calc(100% * ${i}))`
+            }}
+        >{component}</div>
+    }), [content]);
 
-    return pageOp.data ? <div className='page f fd-col aic'>
+    let pageClass = 'page f fd-col aic';
+    if (isFullScreen) pageClass = `${pageClass} fullpage`;
+
+    return pageOp.data ? <div className={pageClass} ref={pageRef}>
         {/* <Slideshow id={1} slides={exampleSlideshow.slide} slideSpacing={exampleSlideshow.slideSpacing}  /> */}
-        { renderContents() }
+        { renderedContent }
     </div> : ( !pageOp.loading ? <NotFound/> : <></>)
 }
 

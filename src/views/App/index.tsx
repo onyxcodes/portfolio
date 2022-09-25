@@ -110,8 +110,11 @@ const App = () => {
         </div>} show={isViewLoading}/> */}
         <Header ref={headerRef} title='Menu' onTitleClick={() => showSidebar(true)} />
         { sidebarWrapper }
-        <main>
-            <div className='header-doppelganger' style={{height: `${headerHeight}px`}}>&nbsp;</div>
+        <main className='f fd-col' style={{
+            paddingTop: `${headerHeight}px`,
+            height: `calc(100% - ${headerHeight}px)`
+        }}>
+            {/* <div className='header-doppelganger' >&nbsp;</div> */}
             <Routes>
                 <Route path="/" element={<Home/>} />
                 <Route path="/article">
