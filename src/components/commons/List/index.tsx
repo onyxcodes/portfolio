@@ -17,7 +17,7 @@ const List = ( props: ListProps ) => {
             key: `${el.id}`,
             listName: parent,
             title: el.attributes.title,
-            content: el.attributes.content,
+            content: el.attributes.description,
             url: `${parent}/${el.attributes.slug}`,
             cover: el.attributes.cover.data && getStrapiMedia(el.attributes.cover.data).url
         };

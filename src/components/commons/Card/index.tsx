@@ -8,7 +8,7 @@ export interface CardProps {
     key: string;
     listName: string;
     title: string;
-    content: string;
+    content?: string | null;
     cover?: string;
     url: string;
 }
@@ -18,8 +18,8 @@ const Card = (props: CardProps) => {
 
     const { TouchSelector, touchHandler } = useTouchSelection('card-selector', listName);
 
-    let excerpt = cover ? content.slice(0, 250) : content.slice(0, 1000);
-    let cardContent = <ReactMarkdown disallowedElements={['img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a']} children={excerpt} />
+    let excerpt; 
+    if (content) excerpt = cover ? content.slice(0, 250) : content.slice(0, 1000);
 
     return <div className={cardClass}>
         <div className='card-content' onClick={() => touchHandler()}>
@@ -33,7 +33,7 @@ const Card = (props: CardProps) => {
             </div>}
             <div className='card-caption p1'>
                 <h5>{title}</h5>
-                {cardContent}
+                {excerpt}
             </div>
             <div className='card-content-link'>
                 <Link to={url}>Read more</Link>

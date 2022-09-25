@@ -58,32 +58,36 @@ const FileBlock = ( props: FileBlockType ) => {
             </div>
         })
     }, [files.data])
-    let blockClass = 'file-block f p1';
+    let blockClass = 'file-block f';
 
     // Based on the position assign class to outer container
     switch ( position ) {
         case 'start':
-            blockClass = `${blockClass} jcs jcc-sm`;
+            blockClass = `${blockClass} jcs`;
         break;
         case 'center':
             blockClass = `${blockClass} jcc`;
         break;
         case 'end':
-            blockClass = `${blockClass} jce jcc-sm`;
+            blockClass = `${blockClass} jce`;
         break;
     }
 
     // Based on the size assign class to inner container
-    let blockWrapperClass = 'file-block-wrapper f fd-col p1 my1'
+    // consider that for bigger sizes should be centered for mobile devices
+    let blockWrapperClass = 'file-block-wrapper f p1 fd-col'
     switch ( size ) {
         case 'xl':
-            blockWrapperClass = `${blockWrapperClass} full-w`;
+            blockClass = `${blockClass} jcc-sm`;
+            blockWrapperClass = `${blockWrapperClass} col-12`;
         break;
         case 'l':
-            blockWrapperClass = `${blockWrapperClass} col-9 col-lg-10 col-sm-12`;
+            blockClass = `${blockClass} jcc-sm`;
+            blockWrapperClass = `${blockWrapperClass} m1 col-9 col-lg-10 col-sm-11`;
         break;
         case 'm':
-            blockWrapperClass = `${blockWrapperClass} full-w`;
+            // blockClass = `${blockClass}`;
+            blockWrapperClass = `${blockWrapperClass} m1 col-7 col-lg-8 col-sm-9`;
         break;
     }
     return <div className={blockClass}>

@@ -3,10 +3,11 @@
 
 .file-block {
     width: 100%;
-
+    box-sizing: border-box;
     .file-block-wrapper {
         box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
         background-color: white;
+        box-sizing: border-box;
     }
 }
 .file-list {
