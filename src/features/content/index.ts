@@ -4,7 +4,7 @@ import fetchMenu from './plugins/menu';
 import getArticle, { listArticles } from './collections/article';
 import getPage from './collections/page';
 import { PaginationType } from './types';
-import { ContentBlockType, FileBlockType, TextBlockType } from './components/types';
+import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType } from './components/types';
 import { MenuEntryType } from './plugins/types';
 import { ArticleType, PageType } from './collections/types';
 
@@ -171,6 +171,6 @@ const reducer = createReducer(initialState, builder => { builder
 })
 
 export { loadHome, fetchMenu, listArticles, getArticle, getPage };
-export type { MenuEntryType, ContentBlockType, TextBlockType, FileBlockType }
+export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType }
 export type { ArticleType, PageType }
 export default reducer;

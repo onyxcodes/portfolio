@@ -27,6 +27,12 @@ export type ContentBlockType = {
     linkText: string;
 }
 
+export type ExpandingBlocksType = {
+    id: number;
+    __component?: 'display.expanding-columns';
+    blocks: ContentBlockType[];
+}
+
 export type TextBlockType = {
     id: number;
     __component?: 'display.text-block';
