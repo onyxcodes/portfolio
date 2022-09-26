@@ -1,4 +1,4 @@
-import { TextBlockType, FileBlockType, ExpandingBlocksType } from 'features/content';
+import { TextBlockType, FileBlockType, ExpandingBlocksType, MediaTextType } from 'features/content';
 import { MediaType } from 'features/content/types';
 
 export type ArticleType = {
@@ -27,7 +27,7 @@ export type PageType ={
         updatedAt: string;
         publishedAt: string;
         slug: string;
-        content: TextBlockType[] | FileBlockType[] | ExpandingBlocksType[];
+        content: TextBlockType[] | FileBlockType[] | ExpandingBlocksType[] | MediaTextType[];
         fullScreenContent: boolean;
     }
 }

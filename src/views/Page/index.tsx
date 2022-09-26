@@ -14,6 +14,7 @@ import './index.scss';
 import FileBlock from 'components/FileBlock';
 import ExpandingBlocks from 'components/ExpandingBlocks';
 import useSnapScroll from 'hooks/useSnapScroll';
+import MediaTextBlock from 'components/MediaTextBlock';
 
 const exampleSlideshow: {
     id: number;
@@ -201,6 +202,9 @@ const Page = ( props: PageProps ) => {
             break;
             case 'display.expanding-columns':
                 component = <ExpandingBlocks {...el} />
+            break;
+            case 'display.media-text-block':
+                component = <MediaTextBlock {...el} />
             break;
             default: null;
         }
