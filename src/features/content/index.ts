@@ -33,6 +33,7 @@ export interface ContentState {
         meta: PaginationType | null;
     },
     articleOp: {
+        success: boolean;
         loading: boolean;
         error: any;
         data: ArticleType | null
@@ -69,6 +70,7 @@ const initialState = {
         meta: null
     },
     articleOp: {
+        success: false,
         loading: false,
         error: null,
         data: null
@@ -137,15 +139,18 @@ const reducer = createReducer(initialState, builder => { builder
     // fetch article
     .addCase(getArticle.pending, (state, action) => {
         state.articleOp.loading = true;
+        state.articleOp.success = initialState.articleOp.success;
         state.articleOp.data = initialState.articleOp.data;
         state.articleOp.error = initialState.articleOp.error;
     })
     .addCase(getArticle.fulfilled, (state, action) => {
         state.articleOp.loading = initialState.articleOp.loading;
+        state.articleOp.success = true;
         state.articleOp.error = initialState.articleOp.error;
         state.articleOp.data = action.payload;
     })
     .addCase(getArticle.rejected, (state, action) => {
+        state.articleOp.success = initialState.articleOp.success;
         state.articleOp.loading = initialState.articleOp.loading;
         debugger;
         // state.articleOp.error = ? 

@@ -6,7 +6,7 @@ export type ArticleType = {
     attributes: {
         title: string;
         description: string | null;
-        content: TextBlockType[] | FileBlockType[];
+        content: TextBlockType[] | FileBlockType[] | MediaTextType[];
         slug: string;
         createdAt: string;
         publishedAt: string;
