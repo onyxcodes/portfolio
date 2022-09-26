@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import loadHome from './home';
 import fetchMenu from './plugins/menu';
-import getArticle, { listArticles } from './collections/article';
+import getArticle, { listArticles, resetArticles } from './collections/article';
 import getPage from './collections/page';
 import { PaginationType } from './types';
 import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType } from './components/types';
@@ -121,19 +121,30 @@ const reducer = createReducer(initialState, builder => { builder
     // list Articles
     .addCase(listArticles.pending, (state, action) => {
         state.articlesOp.loading = true;
-        state.articlesOp.data = initialState.articlesOp.data;
+        // state.articlesOp.data = initialState.articlesOp.data;
         state.articlesOp.error = initialState.articlesOp.error;
     })
     .addCase(listArticles.fulfilled, (state, action) => {
+        const { page, pageSize } = action.meta.arg;
+        const { data, meta } = action.payload;
+        // debugger;
+        // const { page, pageSize, query } = action.meta.arg;
         state.articlesOp.loading = initialState.articlesOp.loading;
         state.articlesOp.error = initialState.articlesOp.error;
-        state.articlesOp.data = action.payload.data;
-        state.articlesOp.meta = action.payload.meta;
+        let offset = (page - 1) * pageSize;
+        let endOffset = offset + pageSize;
+        state.articlesOp.data.splice( offset, endOffset, ...data );
+        // state.articlesOp.data = data;
+        state.articlesOp.meta = meta;
     })
     .addCase(listArticles.rejected, (state, action) => {
         state.articlesOp.loading = initialState.articlesOp.loading;
         debugger;
         // state.articlesOp.error = initialState.articlesOp.error;
+    })
+    //reset articles
+    .addCase(resetArticles, (state, action) => {
+        state.articlesOp.data = initialState.articlesOp.data
     })
 
     // fetch article
@@ -175,7 +186,7 @@ const reducer = createReducer(initialState, builder => { builder
 
 })
 
-export { loadHome, fetchMenu, listArticles, getArticle, getPage };
+export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage };
 export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType }
 export type { ArticleType, PageType }
 export default reducer;
