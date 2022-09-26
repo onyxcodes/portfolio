@@ -32,19 +32,19 @@ $expand-column-hover-width: 40%;
 
         @include utils.mq_max(md) {
             flex-direction: column;
-            &:active {
+            // &:active {
+            //     flex-basis: $expand-column-hover-width;
+            //     .expand-column-content {
+            //         opacity: 1;
+            //     }
+            // }
+        }
+        @media (hover: hover) {
+            &:hover {
                 flex-basis: $expand-column-hover-width;
                 .expand-column-content {
                     opacity: 1;
                 }
-            }
-    
-        }
-
-        &:hover {
-            flex-basis: $expand-column-hover-width;
-            .expand-column-content {
-                opacity: 1;
             }
         }
 
