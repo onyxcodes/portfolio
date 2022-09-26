@@ -1,15 +1,13 @@
 @use '~styles/vars.scss';
 
 .card {
-    border-radius: vars.$border-radius;
-    overflow: hidden;
     box-shadow: 0 15px 20px rgba(0,0,0,.1);
     background-color: vars.$bg-color-light;;
-    border-bottom: solid 1em vars.$bg-color-light;
     user-select: none;
     touch-action: pan-y;
     .card-content {
         overflow: hidden;
+        height: 100%;
         .card-cover {
             background-size: cover;
             background-position: center;
@@ -20,7 +18,8 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            padding: 1em 1em 0 1em;
+            padding: 1rem;
+            color: vars.$primary-color-dark;
             background-color: vars.$bg-color-light;
             cursor: pointer;
         }
@@ -35,4 +34,19 @@
     .card-selector:checked ~ .card-content-link {
         display: block;
     }
+}
+
+.card-wrapper {
+    height: 100%;
+}
+
+.card-cover {
+    flex: 1
+}
+
+.card-caption {
+    flex: 1;
+    overflow: auto;
+height: 100%;
+box-sizing: border-box;
 }
