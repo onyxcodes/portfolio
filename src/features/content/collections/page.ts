@@ -3,8 +3,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getStrapiURL } from 'utils/strapi';
 
 const getPage = async ( slug: string ) => {
+    let requestURL = `/api/pages?filters[slug][$eq]=${slug}`
+        .concat('&populate[0]=content')
+        .concat('&populate[1]=content.files')
+        .concat('&populate[2]=content.blocks')
+        .concat('&populate[3]=content.blocks.background')
+        .concat('&populate[4]=content.media')
     const { data } = await axios.get(
-        getStrapiURL(`/api/pages?filters[slug][$eq]=${slug}&populate[0]=content&populate[1]=content.files&populate[2]=content.blocks&populate[3]=content.blocks.background`), {
+        getStrapiURL(requestURL), {
             'method': 'GET',
             "headers": {
                 'Authorization': `Bearer ${process.env.API_TOKEN}`

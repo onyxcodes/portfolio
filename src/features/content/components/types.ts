@@ -1,7 +1,7 @@
 import { MediaType } from 'features/content/types';
 
 export type ContentBlockType = {
-    id: number;
+    id?: number;
     __component?: string;
     bgColor: string;
     focusBgColor: string | null;
@@ -28,13 +28,13 @@ export type ContentBlockType = {
 }
 
 export type ExpandingBlocksType = {
-    id: number;
+    id?: number;
     __component?: 'display.expanding-columns';
     blocks: ContentBlockType[];
 }
 
 export type TextBlockType = {
-    id: number;
+    id?: number;
     __component?: 'display.text-block';
     content: string;
     size?: 'xl' | 'l' | 'm';
@@ -42,7 +42,7 @@ export type TextBlockType = {
 }
 
 export type FileBlockType = {
-    id: number;
+    id?: number;
     __component?: 'display.file-block';
     title: string;
     files: {
@@ -50,4 +50,14 @@ export type FileBlockType = {
     }
     size?: 'xl' | 'l' | 'm';
     position?: 'start' | 'center' | 'end' ;
+}
+
+export type MediaTextType = {
+    id?: number;
+    __component?: 'display.media-text-block';
+    text: string;
+    media: {
+        data: MediaType
+    }
+    reverse: boolean;
 }
