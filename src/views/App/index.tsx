@@ -114,9 +114,8 @@ const App = () => {
             paddingTop: `${headerHeight}px`,
             height: `calc(100% - ${headerHeight}px)`
         }}>
-            {/* <div className='header-doppelganger' >&nbsp;</div> */}
             <Routes>
-                <Route path="/" element={<Home/>} />
+                <Route path="/" element={<Page forcedSlug='home'/>} />
                 <Route path="/article">
                     <Route path="" element={<ArticleList/>}/>
                     <Route path=":slug" element={<Article/>} />

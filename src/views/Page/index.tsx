@@ -149,16 +149,19 @@ const exampleSlideshow: {
 }
 
 interface PageProps {
-    //
+    forcedSlug?: string;
 }
 const Page = ( props: PageProps ) => {
+    const { forcedSlug } = props;
     const dispatch = useDispatch();
     const { slug } = useParams();
     const pageRef = React.useRef<HTMLDivElement | null>(null);
-
+    
+    // Loads a specific page instead of parsing param
+    const _slug = forcedSlug || slug;
     React.useEffect( () => {
-        slug && dispatch(getPage(slug))
-    }, [slug]);
+        _slug && dispatch(getPage(_slug))
+    }, [_slug]);
 
     const pageOp = useSelector<StoreState, ContentState['pageOp']>( s => s.content.pageOp );
 
@@ -174,13 +177,20 @@ const Page = ( props: PageProps ) => {
         dispatch(setLoading(pageOp.loading));
     }, [pageOp.loading]);
 
-    useSnapScroll(pageRef.current);
+    // Enable snap scrolling only when full screen is enabled
+    useSnapScroll( isFullScreen ? pageRef.current : null);
 
     const renderedContent = React.useMemo( () => content?.map( (el, i) => {
         let component,
-            cmpWrapperClass = 'page-content f';
+            cmpWrapperClass = 'page-content f',
+            cmpWrapperStyle;
 
-        if (!isFullScreen) cmpWrapperClass = `${cmpWrapperClass} py1`; 
+        // If fullscreen mode not enabled add vertical padding
+        if (!isFullScreen) cmpWrapperClass = `${cmpWrapperClass} py1`;
+        else cmpWrapperStyle = {
+            // Translate content in full screen mode
+            transform: `translateY(calc(100% * ${i}))`
+        }
 
         switch ( el.__component ) {
             case 'display.text-block':
@@ -195,9 +205,7 @@ const Page = ( props: PageProps ) => {
             default: null;
         }
         return <div key={i} className={cmpWrapperClass}
-            style={{
-                transform: `translateY(calc(100% * ${i}))`
-            }}
+            style={cmpWrapperStyle}
         >{component}</div>
     }), [content]);
 
