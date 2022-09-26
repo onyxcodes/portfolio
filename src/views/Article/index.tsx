@@ -9,6 +9,7 @@ import { StoreState } from 'store';
 import './index.scss';
 import NotFound from 'views/NotFound';
 import FileBlock from 'components/FileBlock';
+import MediaTextBlock from 'components/MediaTextBlock';
 
 interface ArticleProps {
 
@@ -35,7 +36,7 @@ const Article = () => {
         dispatch(setLoading(articleOp.loading));
     }, [articleOp.loading]);
 
-    const renderContents = React.useCallback( () => content?.map( (el, i) => {
+    const renderedContent = React.useMemo( () => content?.map( (el, i) => {
         let component,
             cmpWrapperClass = 'article-content f py1';
         switch ( el.__component ) {
@@ -45,6 +46,9 @@ const Article = () => {
             case 'display.file-block':
                 component = <FileBlock {...el} />
             break;
+            case 'display.media-text-block':
+                component = <MediaTextBlock {...el} />
+            break;
             default: null;
         }
         return <div key={i} className={cmpWrapperClass}>{component}</div>
@@ -53,9 +57,9 @@ const Article = () => {
     return articleOp.data ? <>
         <SubHeader cover={cover?.url} title={title!} />
         <div className='article f fd-col aic'>
-        { renderContents() }
+        { renderedContent }
         </div>
-    </> : ( !articleOp.loading ? <NotFound /> : <></> )
+    </> : ( !articleOp.loading && articleOp.success ? <NotFound /> : <></> )
 }
 
 export default Article;

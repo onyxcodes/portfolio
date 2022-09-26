@@ -11,7 +11,7 @@
             background-repeat: no-repeat;
             background-position: center;
             position: relative;
-            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+            filter: drop-shadow(0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.2));
             video.block-bgvideo {
                 object-fit: cover;
                 position: absolute;
