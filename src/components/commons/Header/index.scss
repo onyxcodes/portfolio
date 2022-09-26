@@ -15,16 +15,19 @@
         flex-direction: column;
     }
     .header-title {
-        height: 2rem;
+        // height: 2rem;
         min-width: 10rem;
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
         .menu-icon {
-            line-height: 2rem;
+            // line-height: 2rem;
             color: vars.$secondary-color-dark;
+            i {
+                line-height: inherit;
+            }
         }
-        @include utils.mq_min(md) {
+        @include utils.mq_min(sm) {
             margin-left: 1rem;
             .menu-icon {
                 margin-left: -2.5rem;
