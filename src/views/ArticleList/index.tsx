@@ -8,7 +8,7 @@ import { getStrapiMedia } from 'utils/strapi';
 import { ArticleType } from 'features/content';
 import Card, { CardProps } from 'components/commons/Card';
 import Button from 'components/commons/Button';
-import Selector from 'components/commons/Selector';
+import Select from 'components/commons/Form/Select';
 import { setLoading, setTitle } from 'features/ui';
 
 interface ArticleListProps {
@@ -117,17 +117,17 @@ const ArticleList = ( props: ArticleListProps ) => {
             pageSize={pageSize}
             listProcessor={(_list) => processGridData(_list)}
             headerItems={[
-                { item: <Selector 
+                { item: <Select 
                     name='pagination' label='Pagination'
-                    data={[
+                    options={[
                         { label: 'Paged', value: 'paged', selected: true },
                         { label: 'Scroll', value: 'scroll' },
                     ]}
                     onChange={ (selected) => ( selected.value === 'paged' || selected.value === 'scroll' ) && setPagination(selected.value)}
                 />, position: 'left'},
-                { item: <Selector 
+                { item: <Select 
                     name='sorting' label='Sort by'
-                    data={[
+                    options={[
                         { label: 'Newer', value: 'publishedAt:desc', selected: true },
                         { label: 'Older', value: 'publishedAt:asc' },
                     ]}
