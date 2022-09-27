@@ -30,6 +30,9 @@
             &.second {
                 margin-left: -10%;
             }
+            .text-block {
+                align-items: center;
+            }
         }
         &.reverse {
             flex-direction: row-reverse;
