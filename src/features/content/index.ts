@@ -39,6 +39,7 @@ export interface ContentState {
         data: ArticleType | null
     },
     pageOp: {
+        success: boolean,
         loading: boolean;
         error: any;
         data: PageType | null;
@@ -76,6 +77,7 @@ const initialState = {
         data: null
     },
     pageOp: {
+        success: false,
         loading: false,
         error: null,
         data: null
@@ -170,15 +172,18 @@ const reducer = createReducer(initialState, builder => { builder
     // fetch page
     .addCase(getPage.pending, (state, action) => {
         state.pageOp.loading = true;
+        state.pageOp.success = initialState.pageOp.success;
         state.pageOp.data = initialState.pageOp.data;
         state.pageOp.error = initialState.pageOp.error;
     })
     .addCase(getPage.fulfilled, (state, action) => {
         state.pageOp.loading = initialState.pageOp.loading;
+        state.pageOp.success = true;
         state.pageOp.error = initialState.pageOp.error;
         state.pageOp.data = action.payload;
     })
     .addCase(getPage.rejected, (state, action) => {
+        state.pageOp.success = false;
         state.pageOp.loading = initialState.pageOp.loading;
         debugger;
         // state.articleOp.error = ? 
