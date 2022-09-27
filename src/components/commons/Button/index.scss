@@ -11,6 +11,7 @@
     align-items: center;
     gap: 5px;
     box-sizing: border-box;
+    width: fit-content;
     &.btn-default {
         border: solid thin vars.$secondary-color;
         color: vars.$secondary-color-dark;
