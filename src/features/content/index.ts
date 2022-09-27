@@ -4,9 +4,9 @@ import fetchMenu from './plugins/menu';
 import getArticle, { listArticles, resetArticles } from './collections/article';
 import getPage from './collections/page';
 import { PaginationType } from './types';
-import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType } from './components/types';
+import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType, FormBlockType, TextInputFieldType } from './components/types';
 import { MenuEntryType } from './plugins/types';
-import { ArticleType, PageType } from './collections/types';
+import { ArticleType, PageType, FormType } from './collections/types';
 
 export interface ContentState {
     menu: {
@@ -192,6 +192,6 @@ const reducer = createReducer(initialState, builder => { builder
 })
 
 export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage };
-export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType }
-export type { ArticleType, PageType }
+export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType, FormBlockType, TextInputFieldType }
+export type { ArticleType, PageType, FormType }
 export default reducer;
