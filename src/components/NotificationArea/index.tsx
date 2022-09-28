@@ -5,29 +5,51 @@ import { StoreState } from 'store';
 import './index.scss';
 
 import Alert from 'components/commons/Alert';
+import Button from 'components/commons/Button';
+
+import { clearNotification } from 'features/ui';
+import { globalFunctions } from 'utils/';
 
 const NotificationArea = () => {
     const dispatch = useDispatch();
     const notifications = useSelector<StoreState, UIState['notifications']>( s => s.ui.notifications);
 
-    return <div className='notification-area f fd-col aie'>
-        <Alert
-            message={`This is just a test with a very long message. For example here I write about Alice in Wonderland and how she could avoid getting lost if only she stayed put. I mean, I actually understand the desire to escape from a place where you don't feel at home. Even more the desire to go hunt for mushrooms and rabbits.
-            Yet, I think it would have been better to stay at the party and live a boring life. Hope this text his long enough to stay at least in three lines`}
+    const closeNotification = React.useCallback( (id?: string) => {
+        id && dispatch(clearNotification(id))
+    }, [dispatch]);
+
+    const renderedNotifications = React.useMemo( () => notifications.map( (notification, i) => {
+        let buttons = notification.actions?.map( (action, i) => {
+            /* Redux doesn't like non-serializable data, therefore,
+             * to specify a function to call I'll use a mapping. 
+             * TODO: Consider passing the whole notification to the global methods
+             * instead of only the id
+             */
+            const buttonAction = () => {
+                globalFunctions[action.globalFnName] && globalFunctions[action.globalFnName](notification.id, action.payload);
+            }
+            return <Button key={i}
+                onClick={() => buttonAction()}
+            >
+                {action.label}
+            </Button>
+        });
+        return <Alert key={notification.id}
+            message={notification.message}
+            level={notification.level}
+            clearable={notification.clearable}
+            timeout={notification.timeout}
+            timestamp={notification.timestamp}
+            showElapsedTime={!!!notification.timestamp}
+            buttons={buttons}
+            onClose={() => closeNotification(notification.id)}
         />
-        <Alert level='debug'
-            message='This is just a test with a very small message'
-        />
-        <Alert level='warning'
-            message='Careful to not leave bug araound!'
-        />
-        <Alert level='error'
-            message='Oh snap! Something went wrong'
-        />
-        <Alert level='prompt'
-            message='Are you ok with me stealing some of your data?'
-        />
-    </div>
+    }), [notifications]);
+
+    return renderedNotifications.length ? 
+        <div className='notification-area f fd-col aie'>
+        {renderedNotifications}
+        </div> : <></>
 }
 
-export default NotificationArea
+export default NotificationArea;
