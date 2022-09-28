@@ -5,18 +5,25 @@ import Button from 'components/commons/Button';
 import { NotificationType } from 'features/ui/types';
 
 interface AlertProps extends NotificationType {
-    order?: number;
+    onClose?: () => void;
     showIcon?: boolean;
+    showElapsedTime?: boolean;
+    buttons?: JSX.Element[];
+    closeOnAction?: boolean;
 }
 const Alert = ( props: AlertProps ) => {
     const {
-        id, order = 0,
+        id,
         level = 'info',
         message, actions,
         clearable = true,
         timeout,
         timestamp,
         showIcon = true,
+        showElapsedTime = false,
+        buttons,
+        closeOnAction = true,
+        onClose,
     } = props;
     
     const [ visible, setVisible ] = React.useState(true);
@@ -66,8 +73,28 @@ const Alert = ( props: AlertProps ) => {
         </div>
     }
 
+    const renderedButtons = React.useMemo( () => buttons?.map( (button, i) => {
+        const extendedOnClick = () => {
+            button.props.onClick && button.props.onClick;
+            if ( closeOnAction ) setVisible(false);
+        }
+        return <button.type key={button.key || i} 
+            {...button.props}
+            onClick={() => extendedOnClick()}
+        />
+    }), [buttons])
+
+    /* Trace unmount of component to trigger, if provided,
+     * fire onClose callback
+     */
+    React.useEffect( () => {
+        if (!mounted && !visible) {
+            onClose && onClose();
+        }
+    }, [mounted]);
+
     return mounted ? <>
-        <div id={`alert-${order}`} className={alertClass}>
+        <div className={alertClass}>
             { clearable && <Button onClick={() => setVisible(false)} className='f-right m025' 
                 iconName='close' shape='circle' type='text'
             /> }
@@ -75,6 +102,9 @@ const Alert = ( props: AlertProps ) => {
                 { alertIcon }
                 <div className='alert-content f aic t6 px05'>
                     <span>{message}</span>
+                    { renderedButtons?.length && <div className='alert-buttons px05 f jcc'>
+                        {renderedButtons}
+                    </div>}
                 </div>
             </div>
         </div>
