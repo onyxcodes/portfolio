@@ -37,9 +37,8 @@ const reducer = createReducer(initalState, builder => { builder
         state.notifications.push(action.payload)
     })
     .addCase(clearNotification, (state, action) => {
-        state.notifications.filter( (notification) => {
-            notification.id && notification.id !== action.payload
-        } )
+        let notificationIndex = state.notifications.findIndex( el => el.id === action.payload );
+        state.notifications.splice(notificationIndex,1)
     })
     .addCase(clearAllNotifications, (state, action) => {
         state.notifications = initalState.notifications;
@@ -49,5 +48,5 @@ const reducer = createReducer(initalState, builder => { builder
     })
 })
 
-export { route, setTitle, setLoading };
+export { route, setTitle, setLoading, clearNotification, notify, loadNotifications, clearAllNotifications };
 export default reducer;
