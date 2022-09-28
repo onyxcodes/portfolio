@@ -1,0 +1,34 @@
+@use '~styles/vars';
+
+.input-text {
+    gap: 1rem;
+    .input-wrapper-class {
+        flex-wrap: wrap;
+        width: 100%;
+        .input-text-label {
+            position: relative;
+        }
+        input {
+            padding: 0.5rem 1rem;
+            font-size: inherit;
+            border: solid thin vars.$gray-color;
+            &:focus-visible {
+                outline: 2px solid vars.$primary-color;
+            }
+        }
+    
+        
+        .input-errors {
+            color: vars.$error-color;
+        }
+    }
+    &.input-required {
+        label::before {
+            content: '•';
+            color: vars.$error-color;
+            position: absolute;
+            left: -1rem;
+            font-size: inherit;
+        }
+    }
+}

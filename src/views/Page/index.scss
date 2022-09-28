@@ -6,10 +6,13 @@
     }
     &.fullpage {
         overflow: scroll;
+        // overflow: hidden;
+        box-sizing: border-box;
         .page-content {
             position: absolute;
             top: 0;
             bottom: 0;
+            height: 100%;
         }
     }
 }

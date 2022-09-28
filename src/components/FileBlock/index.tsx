@@ -57,7 +57,8 @@ const FileBlock = ( props: FileBlockType ) => {
                 </div>
             </div>
         })
-    }, [files.data])
+    }, [files.data]);
+
     let blockClass = 'file-block f';
 
     // Based on the position assign class to outer container
@@ -90,6 +91,7 @@ const FileBlock = ( props: FileBlockType ) => {
             blockWrapperClass = `${blockWrapperClass} m1 col-7 col-lg-8 col-sm-9`;
         break;
     }
+    
     return <div className={blockClass}>
         <div className={blockWrapperClass}>
             <h2>{title}</h2>

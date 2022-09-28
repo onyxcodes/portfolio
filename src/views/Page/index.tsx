@@ -15,6 +15,7 @@ import FileBlock from 'components/FileBlock';
 import ExpandingBlocks from 'components/ExpandingBlocks';
 import useSnapScroll from 'hooks/useSnapScroll';
 import MediaTextBlock from 'components/MediaTextBlock';
+import FormBlock from 'components/FormBlock';
 
 const exampleSlideshow: {
     id: number;
@@ -206,6 +207,9 @@ const Page = ( props: PageProps ) => {
             case 'display.media-text-block':
                 component = <MediaTextBlock {...el} />
             break;
+            case 'input.form-block':
+                component = <FormBlock {...el} />
+            break;
             default: null;
         }
         return <div key={i} className={cmpWrapperClass}
@@ -219,7 +223,7 @@ const Page = ( props: PageProps ) => {
     return pageOp.data ? <div className={pageClass} ref={pageRef}>
         {/* <Slideshow id={1} slides={exampleSlideshow.slide} slideSpacing={exampleSlideshow.slideSpacing}  /> */}
         { renderedContent }
-    </div> : ( !pageOp.loading ? <NotFound/> : <></>)
+    </div> : ( !pageOp.loading && pageOp.success ? <NotFound/> : <></>)
 }
 
 export default Page;

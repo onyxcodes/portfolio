@@ -7,9 +7,9 @@ import './index.scss';
 interface TextBlockProps extends TextBlockType {
 }
 const TextBlock = ( props: TextBlockProps ) => {
-    const { content,  size = 'l', position = 'center' } = props;
+    const { content, size = 'l', position = 'center' } = props;
 
-    let blockClass = 'text-block f';
+    let blockClass = 'text-block f aic py1';
 
     // Based on the position assign class to outer container
     switch ( position ) {

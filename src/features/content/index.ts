@@ -3,10 +3,11 @@ import loadHome from './home';
 import fetchMenu from './plugins/menu';
 import getArticle, { listArticles, resetArticles } from './collections/article';
 import getPage from './collections/page';
+import sendContactInquiry from './custom/contactform';
 import { PaginationType } from './types';
-import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType } from './components/types';
+import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType, FormBlockType, TextInputFieldType } from './components/types';
 import { MenuEntryType } from './plugins/types';
-import { ArticleType, PageType } from './collections/types';
+import { ArticleType, PageType, FormType } from './collections/types';
 
 export interface ContentState {
     menu: {
@@ -39,9 +40,15 @@ export interface ContentState {
         data: ArticleType | null
     },
     pageOp: {
+        success: boolean,
         loading: boolean;
         error: any;
         data: PageType | null;
+    },
+    formOp: {
+        success: boolean;
+        pending: boolean;
+        error: any
     }
 }
 
@@ -76,9 +83,15 @@ const initialState = {
         data: null
     },
     pageOp: {
+        success: false,
         loading: false,
         error: null,
         data: null
+    },
+    formOp: {
+        success: false,
+        pending: false,
+        error: null
     }
 } as ContentState;
 
@@ -170,23 +183,42 @@ const reducer = createReducer(initialState, builder => { builder
     // fetch page
     .addCase(getPage.pending, (state, action) => {
         state.pageOp.loading = true;
+        state.pageOp.success = initialState.pageOp.success;
         state.pageOp.data = initialState.pageOp.data;
         state.pageOp.error = initialState.pageOp.error;
     })
     .addCase(getPage.fulfilled, (state, action) => {
         state.pageOp.loading = initialState.pageOp.loading;
+        state.pageOp.success = true;
         state.pageOp.error = initialState.pageOp.error;
         state.pageOp.data = action.payload;
     })
     .addCase(getPage.rejected, (state, action) => {
+        state.pageOp.success = false;
         state.pageOp.loading = initialState.pageOp.loading;
         debugger;
         // state.articleOp.error = ? 
     })
 
+    // contact form submission
+    .addCase(sendContactInquiry.pending, (state, action) => {
+        state.formOp.pending = true;
+    })
+    .addCase(sendContactInquiry.fulfilled, (state, action) => {
+        state.formOp.pending = initialState.formOp.pending;
+        state.formOp.success = action.payload.success;
+        if (action.payload.error) 
+            state.formOp.error = action.payload.error
+    })
+    .addCase(sendContactInquiry.rejected, (state, action) => {
+        state.formOp.success = false;
+        debugger;
+        // state.articleOp.error = ?
+    })
+
 })
 
-export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage };
-export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType }
-export type { ArticleType, PageType }
+export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage, sendContactInquiry };
+export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType, FormBlockType, TextInputFieldType }
+export type { ArticleType, PageType, FormType }
 export default reducer;

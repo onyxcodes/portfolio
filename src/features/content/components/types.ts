@@ -1,4 +1,5 @@
 import { MediaType } from 'features/content/types';
+import { FormType } from 'features/content';
 
 export type ContentBlockType = {
     id?: number;
@@ -60,4 +61,27 @@ export type MediaTextType = {
         data: MediaType
     }
     reverse: boolean;
+}
+
+export type FormBlockType = {
+    id?: number;
+    __component?: 'input.form-block';
+    name: string;
+    size?: 'xl' | 'l' | 'm';
+    position?: 'start' | 'center' | 'end' ;
+    form: {
+        data: FormType
+    }
+}
+
+export type TextInputFieldType = {
+    id: number;
+    __component?: 'input.text-field';
+    type: 'text' | 'email' | 'textarea';
+    name: string;
+    placeholder: string | null;
+    label: string | null;
+    required: boolean;
+    maxLength: number;
+    minLength: number | null;
 }

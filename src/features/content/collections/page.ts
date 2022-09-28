@@ -9,6 +9,8 @@ const getPage = async ( slug: string ) => {
         .concat('&populate[2]=content.blocks')
         .concat('&populate[3]=content.blocks.background')
         .concat('&populate[4]=content.media')
+        .concat('&populate[5]=content.form')
+        .concat('&populate[6]=content.form.inputs')
     const { data } = await axios.get(
         getStrapiURL(requestURL), {
             'method': 'GET',

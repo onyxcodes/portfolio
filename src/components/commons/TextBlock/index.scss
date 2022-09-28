@@ -3,12 +3,15 @@
 
 .text-block {
     width: 100%;
+    max-height: 100%;
     box-sizing: border-box;
     .text-block-wrapper {
         overflow: auto;
         box-shadow: 0 15px 20px rgba(0,0,0,.1);
         background-color: vars.$bg-color-light;
         box-sizing: border-box;
+        max-height: 100%;
+        height: max-content;
         img {
             max-width: 100%;
         }
