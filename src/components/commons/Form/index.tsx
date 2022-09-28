@@ -6,7 +6,7 @@ import { InputRefType } from 'components/commons/Form/types';
 interface FormProps {
     children: JSX.Element | JSX.Element[];
     name?: string;
-    onSubmit?: ( formData: {}[] ) => void;
+    onSubmit?: ( formData: {} ) => void;
 }
 const Form = ( props: FormProps ) => {
     const { children, name, onSubmit } = props;
@@ -30,9 +30,7 @@ const Form = ( props: FormProps ) => {
         }
     }
 
-    /* Works correctly when all children can be referenced. 
-     * Therefore React components must forward ref.
-     * Uses callback ref to dinamically populate ref array
+    /* Renders all given child while using callback ref to dinamically populate ref array
      */
     const renderedChildren = React.useMemo( () => _children.map( (child, i) => {
         return <child.type key={i} 
@@ -42,13 +40,11 @@ const Form = ( props: FormProps ) => {
     
     const submitForm = () => {
         let validity = [],
-            /* formData is an array of objects describing a field's by
-             * providing it's name (by design of InputRefType mandatory!) and its value
+            /* formData is an object with field's mapped to their values
              */
             formData: {
-                name: string;
-                value: string | undefined
-            }[] = [];
+                [fieldName: string]: string | undefined
+            } = {};
 
         for ( const inputRef of inputsRef.current ) {
 
@@ -56,12 +52,9 @@ const Form = ( props: FormProps ) => {
             let inputValidity = inputRef.checkValidity();
             if ( inputValidity.length ) validity.push(inputValidity);
 
-            // Wraps field's data in an object and add it to form's data
-            let inputData = {
-                name: inputRef.current?.name!,
-                value: inputRef.current?.value
-            }
-            formData.push(inputData)
+            // Append field's data to form's data
+            if (inputRef.current?.name)
+                formData[inputRef.current?.name] = inputRef.current?.value;
         }
 
         // Marks the form as invalid when there is at least one field error
