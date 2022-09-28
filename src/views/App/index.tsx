@@ -14,7 +14,8 @@ import Loader from 'components/commons/Loader';
 
 import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
 
-import Home from 'views/Home';
+import Alert from 'components/commons/Alert';
+import NotificationArea from 'components/NotificationArea';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
@@ -131,6 +132,14 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </main>
+        {/* <Alert
+            message={`This is just a test with a very long message. For example here I write about Alice in Wonderland and how she could avoid getting lost if only she stayed put. I mean, I actually understand the desire to escape from a place where you don't feel at home. Even more the desire to go hunt for mushrooms and rabbits.
+            Yet, I think it would have been better to stay at the party and live a boring life. Hope this text his long enough to stay at least in three lines`}
+        /> */}
+        {/* <Alert
+            message='This is just a test with a very small message'
+        /> */}
+        {/* <NotificationArea /> */}
         </>
     )
 }
