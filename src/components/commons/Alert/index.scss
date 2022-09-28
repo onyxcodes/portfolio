@@ -30,7 +30,10 @@
             border-left: solid;
         }
         .alert-content {
-            // height: 100%;
+            .alert-buttons {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
         }
     }
 
