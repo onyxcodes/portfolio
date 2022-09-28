@@ -1,12 +1,14 @@
 import React from 'react';
 import './index.scss';
-import { FormBlockType } from 'features/content';
+import { FormBlockType, sendContactInquiry } from 'features/content';
 
 import TextInput from 'components/commons/Form/TextInput';
 import TextArea from 'components/commons/Form/TextArea';
 import Form from 'components/commons/Form';
+import { useDispatch } from 'react-redux';
 
 const FormBlock = ( props: FormBlockType ) => {
+    const dispatch = useDispatch();
     const { 
         name, form,
         size = 'l', position = 'center'
@@ -125,11 +127,15 @@ const FormBlock = ( props: FormBlockType ) => {
         return results;
     }, [_form.inputs]);
 
+    const submitForm = React.useCallback( (formData: {}) => {
+        dispatch(sendContactInquiry(formData));
+    }, [dispatch]);
+
     return <div className={blockClass}>
         <div className={blockWrapperClass}>
             <h2>{_form.title}</h2>
             { _form.description ? <p>{_form.description}</p> : null }
-            <Form name={name}>
+            <Form name={name} onSubmit={(data) => submitForm(data)}>
                 { renderInputs }
             </Form>  
         </div>

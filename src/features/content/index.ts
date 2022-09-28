@@ -3,6 +3,7 @@ import loadHome from './home';
 import fetchMenu from './plugins/menu';
 import getArticle, { listArticles, resetArticles } from './collections/article';
 import getPage from './collections/page';
+import sendContactInquiry from './custom/contactform';
 import { PaginationType } from './types';
 import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType, FormBlockType, TextInputFieldType } from './components/types';
 import { MenuEntryType } from './plugins/types';
@@ -43,6 +44,11 @@ export interface ContentState {
         loading: boolean;
         error: any;
         data: PageType | null;
+    },
+    formOp: {
+        success: boolean;
+        pending: boolean;
+        error: any
     }
 }
 
@@ -81,6 +87,11 @@ const initialState = {
         loading: false,
         error: null,
         data: null
+    },
+    formOp: {
+        success: false,
+        pending: false,
+        error: null
     }
 } as ContentState;
 
@@ -189,9 +200,25 @@ const reducer = createReducer(initialState, builder => { builder
         // state.articleOp.error = ? 
     })
 
+    // contact form submission
+    .addCase(sendContactInquiry.pending, (state, action) => {
+        state.formOp.pending = true;
+    })
+    .addCase(sendContactInquiry.fulfilled, (state, action) => {
+        state.formOp.pending = initialState.formOp.pending;
+        state.formOp.success = action.payload.success;
+        if (action.payload.error) 
+            state.formOp.error = action.payload.error
+    })
+    .addCase(sendContactInquiry.rejected, (state, action) => {
+        state.formOp.success = false;
+        debugger;
+        // state.articleOp.error = ?
+    })
+
 })
 
-export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage };
+export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage, sendContactInquiry };
 export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType, FormBlockType, TextInputFieldType }
 export type { ArticleType, PageType, FormType }
 export default reducer;
