@@ -1,19 +1,23 @@
 import route from './route';
 import setTitle from './title';
 import setLoading from './loading';
+import notify, { clearNotification, clearAllNotifications, loadNotifications } from './notify';
 import { createReducer } from '@reduxjs/toolkit';
+import { NotificationType } from './types';
 
 export interface UIState {
     title: string;
     path:string;
     isRouted: boolean;
-    loading: boolean
+    loading: boolean;
+    notifications: NotificationType[];
 }
 const initalState = {
-    title: 'Onyx Ganda - Portfolio',
+    title: '...',
     path: "/",
     isRouted: false,
-    loading: false
+    loading: false,
+    notifications: []
 } as UIState;
 
 const reducer = createReducer(initalState, builder => { builder
@@ -26,6 +30,22 @@ const reducer = createReducer(initalState, builder => { builder
     })
     .addCase(setLoading, (state, action) => {
         state.loading = action.payload;
+    })
+
+    // Notification management
+    .addCase(notify, (state, action) => {
+        state.notifications.push(action.payload)
+    })
+    .addCase(clearNotification, (state, action) => {
+        state.notifications.filter( (notification) => {
+            notification.id && notification.id !== action.payload
+        } )
+    })
+    .addCase(clearAllNotifications, (state, action) => {
+        state.notifications = initalState.notifications;
+    })
+    .addCase(loadNotifications, (state, action) => {
+        state.notifications = [...state.notifications, ...action.payload ];
     })
 })
 
