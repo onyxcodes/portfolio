@@ -81,7 +81,8 @@ const TextInput = React.forwardRef( ( props: TextInputProps, ref: React.Forwarde
             { label && 
                 <label className='input-text-label' htmlFor={name}>{`${label}${labelSeparator}`}</label>
             }
-            <input ref={inputRef} 
+            <input ref={inputRef}
+                name={name}
                 type={type}
                 onChange={onValueChange}
                 placeholder={placeholder}

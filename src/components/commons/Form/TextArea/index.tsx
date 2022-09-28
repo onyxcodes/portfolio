@@ -79,7 +79,8 @@ const TextArea = React.forwardRef( ( props: TextAreaProps, ref: React.ForwardedR
             { label && 
                 <label className='input-textarea-label' htmlFor={name}>{`${label}${labelSeparator}`}</label>
             }
-            <textarea ref={inputRef} 
+            <textarea ref={inputRef}
+                name={name}
                 onChange={onValueChange}
                 placeholder={placeholder}
                 rows={lineNumber}
