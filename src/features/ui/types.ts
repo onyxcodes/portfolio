@@ -4,7 +4,9 @@ export type NotificationType = {
     message: string;
     actions?: {
         label: string;
-        callback: ( arg?: any ) => void
+        // May be a redux action payload.. ;)
+        payload?: {[key: string]: any};
+        globalFnName: string;
     }[];
     clearable?: boolean;
     timeout?: number;
