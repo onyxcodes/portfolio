@@ -75,7 +75,7 @@ const Alert = ( props: AlertProps ) => {
 
     const renderedButtons = React.useMemo( () => buttons?.map( (button, i) => {
         const extendedOnClick = () => {
-            button.props.onClick && button.props.onClick;
+            button.props.onClick && button.props.onClick();
             if ( closeOnAction ) setVisible(false);
         }
         return <button.type key={button.key || i} 
