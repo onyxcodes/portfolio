@@ -95,6 +95,9 @@ const initialState = {
     }
 } as ContentState;
 
+/* TODO: manage async thunks rejection by setting corresponding
+ * state object 'success' and 'error' values. 
+*/
 const reducer = createReducer(initialState, builder => { builder
     // load home
     .addCase(loadHome.pending, (state, action) => {
@@ -106,10 +109,10 @@ const reducer = createReducer(initialState, builder => { builder
         state.home.loading = false;
         state.home.featured = action.payload.block;
     })
-    .addCase(loadHome.rejected, (state, action) => {
-        state.home.loading = false;
-        debugger;
-    })
+    // .addCase(loadHome.rejected, (state, action) => {
+    //     state.home.loading = false;
+    //     debugger;
+    // })
     // fetchMenus
     .addCase(fetchMenu.pending, (state, action) => {
         if (action.meta.arg === 'main') {
@@ -124,12 +127,12 @@ const reducer = createReducer(initialState, builder => { builder
             state.menu.main.data = action.payload;
         }
     })
-    .addCase(fetchMenu.rejected, (state, action) => {
-        if (action.meta.arg === 'main') {
-            state.menu.main.loading = false;
-            state.menu.main.error = true;
-        }
-    })
+    // .addCase(fetchMenu.rejected, (state, action) => {
+    //     if (action.meta.arg === 'main') {
+    //         state.menu.main.loading = false;
+    //         state.menu.main.error = true;
+    //     }
+    // })
 
     // list Articles
     .addCase(listArticles.pending, (state, action) => {
@@ -150,11 +153,11 @@ const reducer = createReducer(initialState, builder => { builder
         // state.articlesOp.data = data;
         state.articlesOp.meta = meta;
     })
-    .addCase(listArticles.rejected, (state, action) => {
-        state.articlesOp.loading = initialState.articlesOp.loading;
-        debugger;
-        // state.articlesOp.error = initialState.articlesOp.error;
-    })
+    // .addCase(listArticles.rejected, (state, action) => {
+    //     state.articlesOp.loading = initialState.articlesOp.loading;
+    //     debugger;
+    //     // state.articlesOp.error = initialState.articlesOp.error;
+    // })
     //reset articles
     .addCase(resetArticles, (state, action) => {
         state.articlesOp.data = initialState.articlesOp.data
@@ -173,12 +176,12 @@ const reducer = createReducer(initialState, builder => { builder
         state.articleOp.error = initialState.articleOp.error;
         state.articleOp.data = action.payload;
     })
-    .addCase(getArticle.rejected, (state, action) => {
-        state.articleOp.success = initialState.articleOp.success;
-        state.articleOp.loading = initialState.articleOp.loading;
-        debugger;
-        // state.articleOp.error = ? 
-    })
+    // .addCase(getArticle.rejected, (state, action) => {
+    //     state.articleOp.success = initialState.articleOp.success;
+    //     state.articleOp.loading = initialState.articleOp.loading;
+    //     debugger;
+    //     // state.articleOp.error = ? 
+    // })
 
     // fetch page
     .addCase(getPage.pending, (state, action) => {
@@ -193,12 +196,12 @@ const reducer = createReducer(initialState, builder => { builder
         state.pageOp.error = initialState.pageOp.error;
         state.pageOp.data = action.payload;
     })
-    .addCase(getPage.rejected, (state, action) => {
-        state.pageOp.success = false;
-        state.pageOp.loading = initialState.pageOp.loading;
-        debugger;
-        // state.articleOp.error = ? 
-    })
+    // .addCase(getPage.rejected, (state, action) => {
+    //     state.pageOp.success = false;
+    //     state.pageOp.loading = initialState.pageOp.loading;
+    //     debugger;
+    //     // state.articleOp.error = ? 
+    // })
 
     // contact form submission
     .addCase(sendContactInquiry.pending, (state, action) => {
@@ -210,11 +213,11 @@ const reducer = createReducer(initialState, builder => { builder
         if (action.payload.error) 
             state.formOp.error = action.payload.error
     })
-    .addCase(sendContactInquiry.rejected, (state, action) => {
-        state.formOp.success = false;
-        debugger;
-        // state.articleOp.error = ?
-    })
+    // .addCase(sendContactInquiry.rejected, (state, action) => {
+    //     state.formOp.success = false;
+    //     debugger;
+    //     // state.articleOp.error = ?
+    // })
 
 })
 
