@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import useSidebar, { MenuLink } from 'components/Sidebar';
-import { UIState, route } from 'features/ui';
+import { UIState, route, loadNotifications } from 'features/ui';
 import { StoreState } from 'store';
 import logger from 'utils/logger';
 import Loader from 'components/commons/Loader';
@@ -47,6 +47,12 @@ const App = () => {
 
     React.useEffect( () => {
         dispatch(fetchMenu('main'));
+        // dispatch(loadNotifications([
+        //     { id: 'pippo', message: 'This is just a test with a very small message', level: 'debug'},
+        //     { id: 'pluto', message: 'Careful to not leave bug around!', level: 'warning', actions: [
+        //         { label: 'OK', globalFnName: 'test'}
+        //     ]},
+        // ]))
         // dispatch(fetchMenu('footer'));
     }, [dispatch]);
 
@@ -90,7 +96,7 @@ const App = () => {
 	React.useEffect( () => {
 		if (location && location.pathname !== path ) { 
 			dispatch(route(location.pathname));
-			logger.debug({'location': location}, `Location changed but doesn't match path and "isRouted" flag is set to false. Routing to new location`);
+			logger.debug({'location': location}, `Location changed. Routing to new location`);
 		}
 	}, [location]);
 
@@ -132,14 +138,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </main>
-        {/* <Alert
-            message={`This is just a test with a very long message. For example here I write about Alice in Wonderland and how she could avoid getting lost if only she stayed put. I mean, I actually understand the desire to escape from a place where you don't feel at home. Even more the desire to go hunt for mushrooms and rabbits.
-            Yet, I think it would have been better to stay at the party and live a boring life. Hope this text his long enough to stay at least in three lines`}
-        /> */}
-        {/* <Alert
-            message='This is just a test with a very small message'
-        /> */}
-        {/* <NotificationArea /> */}
+        <NotificationArea />
         </>
     )
 }
