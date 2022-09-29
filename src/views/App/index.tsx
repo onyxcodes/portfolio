@@ -7,14 +7,15 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import useSidebar, { MenuLink } from 'components/Sidebar';
-import { UIState, route } from 'features/ui';
+import { UIState, route, loadNotifications } from 'features/ui';
 import { StoreState } from 'store';
 import logger from 'utils/logger';
 import Loader from 'components/commons/Loader';
 
 import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
 
-import Home from 'views/Home';
+import Alert from 'components/commons/Alert';
+import NotificationArea from 'components/NotificationArea';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
@@ -46,6 +47,12 @@ const App = () => {
 
     React.useEffect( () => {
         dispatch(fetchMenu('main'));
+        // dispatch(loadNotifications([
+        //     { id: 'pippo', message: 'This is just a test with a very small message', level: 'debug'},
+        //     { id: 'pluto', message: 'Careful to not leave bug around!', level: 'warning', actions: [
+        //         { label: 'OK', globalFnName: 'test'}
+        //     ]},
+        // ]))
         // dispatch(fetchMenu('footer'));
     }, [dispatch]);
 
@@ -89,7 +96,7 @@ const App = () => {
 	React.useEffect( () => {
 		if (location && location.pathname !== path ) { 
 			dispatch(route(location.pathname));
-			logger.debug({'location': location}, `Location changed but doesn't match path and "isRouted" flag is set to false. Routing to new location`);
+			logger.debug({'location': location}, `Location changed. Routing to new location`);
 		}
 	}, [location]);
 
@@ -131,6 +138,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </main>
+        <NotificationArea />
         </>
     )
 }
