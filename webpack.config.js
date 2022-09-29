@@ -12,6 +12,7 @@ const config = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "build"),
+    publicPath: '/'
   },
   devServer: {
     host: "localhost",
@@ -21,6 +22,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      base: process.env.APP_ROOT ,
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
