@@ -4,12 +4,8 @@
     right:0;
     max-height: 100%;
     max-width: 100%;
-
+    flex-direction: column-reverse;
     .alert {
         position: relative !important;
-        // transform: translateY(100px);
     }
-    // &.visible {
-    //     transform: translateX(0);
-    // }
 }
