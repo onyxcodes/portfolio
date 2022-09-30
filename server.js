@@ -1,17 +1,20 @@
 const express = require('express');
 const jsdom = require("jsdom");
 const axios = require('axios');
-
+const https = require('https');
 require('dotenv').config({ path: './.env' }); 
 
 const app = express();
+const httpsAgent = new https.Agent({
+	rejectUnauthorized: false,
+});
 const { JSDOM } = jsdom;
 
 const port = process.env.APP_PORT || 5000;
 const appName = process.env.APP_NAME || 'My website';
 const appRoot = process.env.APP_ROOT || 'http://localhost:5000';
 
-const endpoint = process.env.API_PORT || 'http://localhost:1337';
+const endpoint = process.env.API_ENDPOINT || 'http://localhost:1337';
 const token = process.env.API_TOKEN;
 
 const path = require('path');
@@ -31,7 +34,9 @@ const appendMetas = ( doc, metas ) => {
 }
 
 const getPageMetas = async ( slug, defaultMetas ) => {
+
 	const apiRes = await axios.get( `${endpoint}/api/pages?filters[slug][$eq]=${slug}&populate[0]=metaImage`, {
+		httpsAgent,
 		"headers": {
 			'Authorization': `Bearer ${token}`
 		}
@@ -53,7 +58,7 @@ const getPageMetas = async ( slug, defaultMetas ) => {
 			break;
 			case 'og:image':
 				if (pageData?.metaImage?.data?.attributes?.url)
-					meta.content = pageData?.metaImage?.data?.attributes?.url
+					meta.content = `${endpoint}${pageData?.metaImage?.data?.attributes?.url}`
 			break;
 		}
 	}
@@ -66,6 +71,7 @@ const getPageMetas = async ( slug, defaultMetas ) => {
 
 const getArticleMetas = async ( slug, defaultMetas ) => {
 	const apiRes = await axios.get( `${endpoint}/api/articles?filters[slug][$eq]=${slug}&populate[0]=cover`, {
+		httpsAgent,
 		"headers": {
 			'Authorization': `Bearer ${token}`
 		}
@@ -87,7 +93,7 @@ const getArticleMetas = async ( slug, defaultMetas ) => {
 			break;
 			case 'og:image':
 				if (articleData?.cover?.data?.attributes?.url)
-					meta.content = articleData?.cover?.data?.attributes?.url
+					meta.content = `${endpoint}${articleData?.cover?.data?.attributes?.url}`
 			break;
 		}
 	}
@@ -146,6 +152,7 @@ app.get('/', async (req, res, next) => {
 		// Send serialized document
 		res.send(dom.serialize());
 	} catch (e) {
+		console.log(e)
 		res.sendFile(templatePath);
 	}
 
@@ -186,6 +193,7 @@ app.get('/page/:slug', async (req, res, next) => {
 		// Send serialized document
 		res.send(dom.serialize());
 	} catch (e) {
+		console.log(e)
 		res.sendFile(templatePath);
 	}
 
@@ -226,6 +234,7 @@ app.get('/article/:slug', async (req, res, next) => {
 		// Send serialized document
 		res.send(dom.serialize());
 	} catch (e) {
+		console.log(e)
 		res.sendFile(templatePath);
 	}
 
