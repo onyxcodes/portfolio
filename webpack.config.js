@@ -12,6 +12,7 @@ const config = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "build"),
+    publicPath: '/'
   },
   devServer: {
     host: "localhost",
@@ -21,6 +22,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      base: isProduction ? process.env.APP_ROOT : undefined,
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
@@ -118,6 +120,7 @@ const config = {
       'react-dom': '@hot-loader/react-dom',
       'styles': path.resolve(__dirname, "src/styles"),
       'components': path.resolve(__dirname, "src/components"),
+      'hooks': path.resolve(__dirname, "src/hooks"),
       'views': path.resolve(__dirname, "src/views"),
       'assets': path.resolve(__dirname, "src/assets"),
       'features': path.resolve(__dirname, "src/features"),

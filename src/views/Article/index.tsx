@@ -7,6 +7,9 @@ import { getArticle, ContentState } from 'features/content';
 import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';
 import './index.scss';
+import NotFound from 'views/NotFound';
+import FileBlock from 'components/FileBlock';
+import MediaTextBlock from 'components/MediaTextBlock';
 
 interface ArticleProps {
 
@@ -21,7 +24,7 @@ const Article = () => {
 
     const articleOp = useSelector<StoreState, ContentState['articleOp']>( s => s.content.articleOp );
 
-    let text = articleOp.data?.attributes.content;
+    let content = articleOp.data?.attributes.content;
     let title = articleOp.data?.attributes.title;
     let cover = articleOp.data?.attributes.cover.data?.attributes;
     
@@ -33,14 +36,30 @@ const Article = () => {
         dispatch(setLoading(articleOp.loading));
     }, [articleOp.loading]);
 
-    return <>
+    const renderedContent = React.useMemo( () => content?.map( (el, i) => {
+        let component,
+            cmpWrapperClass = 'article-content f py1';
+        switch ( el.__component ) {
+            case 'display.text-block':
+                component = <TextBlock {...el}/>;
+            break;
+            case 'display.file-block':
+                component = <FileBlock {...el} />
+            break;
+            case 'display.media-text-block':
+                component = <MediaTextBlock {...el} />
+            break;
+            default: null;
+        }
+        return <div key={i} className={cmpWrapperClass}>{component}</div>
+    }), [content])
+
+    return articleOp.data ? <>
         <SubHeader cover={cover?.url} title={title!} />
-        <div className='article f jcc'>
-            <div className='article-content col-9 col-lg-10 col-sm-12'>
-                {text && <TextBlock text={text}/>}
-            </div>
+        <div className='article f fd-col aic'>
+        { renderedContent }
         </div>
-    </>
+    </> : ( !articleOp.loading && articleOp.success ? <NotFound /> : <></> )
 }
 
 export default Article;

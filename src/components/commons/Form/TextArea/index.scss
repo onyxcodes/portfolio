@@ -1,0 +1,35 @@
+@use '~styles/vars';
+
+.input-textarea {
+    gap: 1rem;
+    .input-wrapper-class {
+        flex-wrap: wrap;
+        width: 100%;
+        .input-textarea-label {
+            position: relative;
+        }
+        textarea {
+            padding: 0.5rem 1rem;
+            resize: none;
+            font-size: inherit;
+            border: solid thin vars.$gray-color;
+            &:focus-visible {
+                outline: 2px solid vars.$primary-color;
+            }
+        }
+    
+        
+        .input-errors {
+            color: vars.$error-color;
+        }
+    }
+    &.input-required {
+        label::before {
+            content: '•';
+            color: vars.$error-color;
+            position: absolute;
+            left: -1rem;
+            font-size: inherit;
+        }
+    }
+}

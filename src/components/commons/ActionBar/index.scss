@@ -1,7 +1,7 @@
 .actionbar-container {
     width: 100%;
-    height: 40px;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .actionbar-container.top {
@@ -17,12 +17,14 @@
 .actionbar-center {
     align-items: center;
     padding: 0 10px;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .actionbar-left {
     flex: 0.5;
     display: flex;
-    place-content: start;
+    justify-content: start;
 }
 
 .actionbar-center {
