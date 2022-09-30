@@ -47,7 +47,7 @@ const NotificationArea = () => {
     }), [notifications]);
 
     return renderedNotifications.length ? 
-        <div className='notification-area f fd-col aie'>
+        <div className='notification-area f aie'>
         {renderedNotifications}
         </div> : <></>
 }

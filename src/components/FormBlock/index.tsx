@@ -1,11 +1,13 @@
 import React from 'react';
 import './index.scss';
-import { FormBlockType, sendContactInquiry } from 'features/content';
+import { ContentState, FormBlockType, sendContactInquiry } from 'features/content';
 
+import { StoreState } from 'store';
 import TextInput from 'components/commons/Form/TextInput';
+import Button from 'components/commons/Button';
 import TextArea from 'components/commons/Form/TextArea';
 import Form from 'components/commons/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const FormBlock = ( props: FormBlockType ) => {
     const dispatch = useDispatch();
@@ -131,11 +133,15 @@ const FormBlock = ( props: FormBlockType ) => {
         dispatch(sendContactInquiry(formData));
     }, [dispatch]);
 
+    const pendingSubmission = useSelector<StoreState, ContentState['formOp']['pending']>( s => s.content.formOp.pending );
+
     return <div className={blockClass}>
         <div className={blockWrapperClass}>
             <h2>{_form.title}</h2>
             { _form.description ? <p>{_form.description}</p> : null }
-            <Form name={name} onSubmit={(data) => submitForm(data)}>
+            <Form name={name}
+                submit={<Button disabled={pendingSubmission} type='primary' className='form-submit f-right'>Submit</Button>}
+                onSubmit={(data) => submitForm(data)}>
                 { renderInputs }
             </Form>  
         </div>

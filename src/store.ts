@@ -1,23 +1,26 @@
-import { configureStore, createListenerMiddleware, isRejected } from '@reduxjs/toolkit';
+import { configureStore, nanoid, createListenerMiddleware, isRejected } from '@reduxjs/toolkit';
 import ui, { UIState, notify } from 'features/ui';
 import { NotificationType } from 'features/ui/types';
-import content, { ContentState, getPage, fetchMenu, getArticle, listArticles } from 'features/content';
+import content, { ContentState, getPage, fetchMenu, getArticle, listArticles, sendContactInquiry } from 'features/content';
 
 // Create the middleware instance and methods
 const failListenerMW = createListenerMiddleware();
 
-const isARejectedAction = isRejected( getPage, fetchMenu, getArticle, listArticles );
+// matcher that test if given action is a rejection originated
+// by the specified creators
+const isRejectedAction = isRejected( getPage, fetchMenu, getArticle, listArticles, sendContactInquiry );
 
 failListenerMW.startListening({
-	matcher: isARejectedAction,
+	matcher: isRejectedAction,
 	effect: async (action, listenerApi) => {
 		const dispatch = listenerApi.dispatch;
+		const actionType = action.type.replace('/rejected','');
 
 		// Prepare and dispatch error notification
 		let errNotification: NotificationType = {
-			id: action.meta.requestId,
+			id: nanoid(),
 			level: 'error',
-			message: `Something went wrong while processing your request - (${action.type.replace('/rejected','')})`,
+			message: `Something went wrong while processing your request - (${actionType})`,
 			clearable: true,
 			timestamp: new Date().getTime(),
 			actions: [{

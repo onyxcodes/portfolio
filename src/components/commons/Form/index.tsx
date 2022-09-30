@@ -6,10 +6,11 @@ import { InputRefType } from 'components/commons/Form/types';
 interface FormProps {
     children: JSX.Element | JSX.Element[];
     name?: string;
+    submit: JSX.Element;
     onSubmit?: ( formData: {} ) => void;
 }
 const Form = ( props: FormProps ) => {
-    const { children, name, onSubmit } = props;
+    const { children, name, submit, onSubmit } = props;
     const inputsRef = React.useRef<(InputRefType)[]>([]);
     const [ isInvalid, markInvalid ] = React.useState(false);
 
@@ -66,11 +67,19 @@ const Form = ( props: FormProps ) => {
             onSubmit && onSubmit(formData)
         }
     }
+    
+    const submitComponent = !submit ? <Button 
+        type='primary' 
+        className='form-submit f-right' onClick={() => submitForm()}>
+            Submit
+    </Button> : <submit.type {...submit.props} onClick={() => {
+        submit.props.onClick && submit.props.onClick();
+        submitForm();
+    }}/>
 
     return <form name={name}>
         <div className='form-fields my05'>{renderedChildren}</div>
-        {/* TODO: Make a prop to provide custom elements for form submission */}
-        <Button type='primary' className='form-submit f-right' onClick={() => submitForm()}>Submit</Button>
+        { submitComponent }
         { isInvalid ? 
             <span className='form-error t6 my05'>Check the fields for errors</span> : null
         }
