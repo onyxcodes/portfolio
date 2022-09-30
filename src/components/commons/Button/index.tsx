@@ -22,9 +22,11 @@ const Button = ( props: ButtonProps ) => {
         className
     } = props;
 
-    let btnClass = className ? `${className} btn btn-${type} btn-${shape}` :
-    `btn btn-${type} btn-${shape}`;
+    let btnClass = `btn btn-${type} btn-${shape}`; 
+    if ( className ) btnClass = `${btnClass} ${className}`;
     if ( disabled ) btnClass = `${btnClass} btn-disabled`;
+    else btnClass = `${btnClass} anim-pulse`;
+    
     return(
         <div onClick={onClick} className={btnClass}>
             { iconName && <Icon name={iconName}/>}

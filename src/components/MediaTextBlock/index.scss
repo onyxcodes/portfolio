@@ -1,0 +1,57 @@
+@use '~styles/vars';
+@use '~styles/utils';
+
+.mediatext-block {
+    width: 100%;
+    .mediatext-wrapper {
+        flex-direction: row;
+        .mediatext-media-container{
+            flex: 1;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            filter: drop-shadow(0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.2));
+            video.block-bgvideo {
+                object-fit: cover;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .mediatext-text-container {
+            flex: 1;
+            z-index: vars.$zindex-0;
+            &.first {
+                margin-right: -10%;
+            }
+            &.second {
+                margin-left: -10%;
+            }
+            .text-block {
+                align-items: center;
+            }
+        }
+        &.reverse {
+            flex-direction: row-reverse;
+        }
+        @include utils.mq_max(lg) {
+            flex-direction: column;
+            &.reverse {
+                flex-direction: column-reverse;
+            }
+            .mediatext-text-container {
+                &.first {
+                    margin-right: unset;
+                    margin-bottom: -10%;
+                }
+                &.second {
+                    margin-left: unset;
+                    margin-top: -10%;
+                }
+            }
+        }
+    }
+}

@@ -2,120 +2,124 @@
 @use '~styles/utils.scss';
 
 .text-block {
-    overflow: hidden;
-    box-shadow: 0 15px 20px rgba(0,0,0,.1);
-    background-color: vars.$bg-color-light;
-
-    img {
-        max-width: 100%;
-    }
-
-    code {
-        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-    }
-      
-    p > code,
-    li > code,
-    dd > code,
-    td > code {
-        background-color: rgba(vars.$dark-color, 0.75);
-        word-wrap: break-word;
-        box-decoration-break: clone;
-        padding: .25rem .5rem;
-        color: vars.$light-color;
-        border-radius: .25rem;
-    }
-
-    pre {
-        background-color: rgba(vars.$dark-color, 0.75);
-        color: vars.$light-color;
-        padding: .25rem 0.5rem;
-        overflow-x:hidden;
-        border-radius: .25rem;
-
+    width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    .text-block-wrapper {
+        overflow: auto;
+        box-shadow: 0 15px 20px rgba(0,0,0,.1);
+        background-color: vars.$bg-color-light;
+        box-sizing: border-box;
+        max-height: 100%;
+        height: max-content;
+        img {
+            max-width: 100%;
+        }
+    
         code {
-            white-space: pre;
-            display: block;
-            overflow-x: scroll;
+            font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
         }
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 100%;
-
-        thead {
-            th {
-                color: #ffffff;
-                background-color: vars.$primary-color;
+          
+        p > code,
+        li > code,
+        dd > code,
+        td > code {
+            background-color: rgba(vars.$dark-color, 0.75);
+            word-wrap: break-word;
+            box-decoration-break: clone;
+            padding: .25rem .5rem;
+            color: vars.$light-color;
+            border-radius: .25rem;
+        }
+    
+        pre {
+            background-color: rgba(vars.$dark-color, 0.75);
+            color: vars.$light-color;
+            padding: .25rem 0.5rem;
+            overflow-x:hidden;
+            border-radius: .25rem;
+    
+            code {
+                white-space: pre;
+                display: block;
+                overflow-x: scroll;
             }
-            th:nth-child(odd) {
-                background-color: vars.$primary-color-dark;
-            }
         }
-        
-        td, th {
-            text-align: center;
-            padding: 1rem;
-        }
-        
-        tr:nth-child(even) {
-            background: vars.$bg-color;
-        }
-
-        @include utils.mq_max(md) {
-            display: flex;
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
+    
             thead {
-                float: left;
-                flex: 1;
-                display: flex;
-                tr {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1;
-                    th {
-                        flex: 1;
-                        padding: 1rem 0.5rem;
-                        text-align: left;
-                    }
+                th {
+                    color: #ffffff;
+                    background-color: vars.$primary-color;
+                }
+                th:nth-child(odd) {
+                    background-color: vars.$primary-color-dark;
                 }
             }
-            tbody {
-                width: auto;
-                position: relative;
-                overflow-x: auto;
+            
+            td, th {
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            tr:nth-child(even) {
+                background: vars.$bg-color;
+            }
+    
+            @include utils.mq_max(md) {
                 display: flex;
-                flex: 1;
-                touch-action: pan-x;
-                tr {
+                thead {
+                    float: left;
+                    flex: 1;
                     display: flex;
-                    flex-direction: column;
-                    td {
+                    tr {
                         display: flex;
                         flex-direction: column;
-                        justify-content: center;
                         flex: 1;
-                        border-right: 1px solid vars.$bg-color-dark;
-                        padding: 0.5rem;
-                        white-space: nowrap;
-                    }
-                    td:nth-child(odd) {
-                        background: #F8F8F8;
+                        th {
+                            flex: 1;
+                            padding: 1rem 0.5rem;
+                            text-align: left;
+                        }
                     }
                 }
-                tr:nth-child(odd) {
-                    background: none;
-                }
-                tr:nth-child(even) {
-                    background: none;
+                tbody {
+                    width: auto;
+                    position: relative;
+                    overflow-x: auto;
+                    display: flex;
+                    flex: 1;
+                    touch-action: pan-x;
+                    tr {
+                        display: flex;
+                        flex-direction: column;
+                        td {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            flex: 1;
+                            border-right: 1px solid vars.$bg-color-dark;
+                            padding: 0.5rem;
+                            white-space: nowrap;
+                        }
+                        td:nth-child(odd) {
+                            background: #F8F8F8;
+                        }
+                    }
+                    tr:nth-child(odd) {
+                        background: none;
+                    }
+                    tr:nth-child(even) {
+                        background: none;
+                    }
                 }
             }
         }
-    }
-    
-    
-    
+    } 
 }
 

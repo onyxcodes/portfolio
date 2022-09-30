@@ -15,6 +15,7 @@ const keywords: {
 } = {
     'home': '',
     'article': 'Articles',
+    'page': '',
     'category': 'Categories'
 }
 const pathToBreadcrumb = ( path: string, title: string ) => {

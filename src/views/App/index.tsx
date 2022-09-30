@@ -7,12 +7,15 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import useSidebar, { MenuLink } from 'components/Sidebar';
-import { UIState, route } from 'features/ui';
+import { UIState, route, loadNotifications } from 'features/ui';
 import { StoreState } from 'store';
 import logger from 'utils/logger';
 import Loader from 'components/commons/Loader';
-import { ContentState, fetchMenu, MenuEntry } from 'features/content';
-import Home from 'views/Home';
+
+import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
+
+import Alert from 'components/commons/Alert';
+import NotificationArea from 'components/NotificationArea';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
@@ -20,7 +23,8 @@ import useLoader from 'components/useLoader';
 import OnyxLogo from 'components/OnyxLogo';
 import useElementHeight from 'components/commons/useElementHeight';
 import NotFound from 'views/NotFound';
-import Maintenance from '../Maintenance';
+import Maintenance from 'views/Maintenance';
+import Page from 'views/Page';
 
 const App = () => {
 	const location = useLocation();
@@ -43,10 +47,16 @@ const App = () => {
 
     React.useEffect( () => {
         dispatch(fetchMenu('main'));
+        // dispatch(loadNotifications([
+        //     { id: 'pippo', message: 'This is just a test with a very small message', level: 'debug'},
+        //     { id: 'pluto', message: 'Careful to not leave bug around!', level: 'warning', actions: [
+        //         { label: 'OK', globalFnName: 'test'}
+        //     ]},
+        // ]))
         // dispatch(fetchMenu('footer'));
     }, [dispatch]);
 
-    const processMenuEntry = ( entry: MenuEntry ) => {
+    const processMenuEntry = ( entry: MenuEntryType ) => {
         let links: MenuLink[] = [];
         if ( entry.attributes.children?.data &&
             entry.attributes.children?.data.length
@@ -61,7 +71,7 @@ const App = () => {
         }
     }
 
-    const processMenu = (menu: MenuEntry[]): MenuLink[] => 
+    const processMenu = (menu: MenuEntryType[]): MenuLink[] => 
         menu.map( entry => processMenuEntry(entry))
 
     React.useEffect( () => {
@@ -86,7 +96,7 @@ const App = () => {
 	React.useEffect( () => {
 		if (location && location.pathname !== path ) { 
 			dispatch(route(location.pathname));
-			logger.debug({'location': location}, `Location changed but doesn't match path and "isRouted" flag is set to false. Routing to new location`);
+			logger.debug({'location': location}, `Location changed. Routing to new location`);
 		}
 	}, [location]);
 
@@ -107,10 +117,12 @@ const App = () => {
         </div>} show={isViewLoading}/> */}
         <Header ref={headerRef} title='Menu' onTitleClick={() => showSidebar(true)} />
         { sidebarWrapper }
-        <main>
-            <div className='header-doppelganger' style={{height: `${headerHeight}px`}}>&nbsp;</div>
+        <main className='f fd-col' style={{
+            paddingTop: `${headerHeight}px`,
+            height: `calc(100% - ${headerHeight}px)`
+        }}>
             <Routes>
-                <Route path="/" element={<Home/>} />
+                <Route path="/" element={<Page forcedSlug='home'/>} />
                 <Route path="/article">
                     <Route path="" element={<ArticleList/>}/>
                     <Route path=":slug" element={<Article/>} />
@@ -119,12 +131,14 @@ const App = () => {
                     <Route path="" element={<Maintenance/>}/>
                     <Route path=":slug" element={<Maintenance/>} />
                 </Route> 
-                <Route path="/page" element={<Maintenance/>}>
-                    <Route path=":slug" element={<Maintenance/>} />
+                <Route path="/page" >
+                    <Route path="" element={<Maintenance/>}/>
+                    <Route path=":slug" element={<Page/>} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </main>
+        <NotificationArea />
         </>
     )
 }

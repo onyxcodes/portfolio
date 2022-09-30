@@ -1,35 +1,78 @@
 import React from 'react';
-import { ArticleType } from 'features/content/article';
-import Card, { CardProps } from 'components/commons/Card'; 
+import './index.scss';
+import ActionBar, { ActionBarItemProps } from 'components/commons/ActionBar';
+import Page from './page';
 
 interface ListProps {
-    parent: string;
-    data: ArticleType[];
+    data: any[];
+    pageSize: number;
+    infiniteScroll?: boolean;
+    headerItems?: ActionBarItemProps[];
+    footerItems?: ActionBarItemProps[];
+    listProcessor: (arg: any) => {
+        processed?: any;
+        elements: JSX.Element[]
+    },
+    onProcessEnd?: (arg: any) => void;
     // size?: 'm' | 'l';
     type?: 'list' | 'grid';
 }
 const List = ( props: ListProps ) => {
-    const { data, parent, type = 'list' } = props;
+    const { 
+        data, pageSize,
+        infiniteScroll,
+        type = 'list',
+        headerItems, footerItems,
+        listProcessor, onProcessEnd,
+    } = props;
 
-    const processGridData = (list: ArticleType[]) => list.map( el => {
-        let cardConf: CardProps = {
-            key: `${el.id}`,
-            listName: parent,
-            title: el.attributes.title,
-            content: el.attributes.content,
-            url: `${parent}/${el.attributes.slug}`,
-            cover: el.attributes.cover.data && `${process.env.API_ENDPOINT}${el.attributes.cover.data.attributes.url}`
-        };
-        return <Card {...cardConf}/>
-    });
+    const useInfinitePages = (
+        list: any[],
+        pageSize: number,
+        listProcessor: (arg: any) => {
+            processed?: any;
+            elements: JSX.Element[]
+        },
+        onProcessEnd?: (arg: any) => void
+    ) => {
+        let pageNumber = Math.ceil(list.length / pageSize);
+        let pages: JSX.Element[] = [];
+        for ( var i = 0; i < pageNumber; i++ ) {
+            let listSubset = list.slice( i * pageSize, i * pageSize + pageSize );
+            let page = <Page key={i} list={listSubset} 
+                listProcessor={listProcessor}
+                onProcessEnd={onProcessEnd}
+            />
+            pages.push(page)
+        }
+        return pages
+    }
 
-    let listClass = `${type} col-9 col-lg-12`;
+    let listClass = `col-9 col-lg-12`;
     
-    return(<div className={listClass}>
-        <div className='columns jcc'>
-        {processGridData(data)}
+    return <div className='list f p1 fd-col aic'>
+        { headerItems && <ActionBar position="top"
+            items={headerItems || []}
+        /> }
+        <div className={listClass}>
+            <div className='columns jcc'>
+                { infiniteScroll ? 
+                    useInfinitePages(
+                        data, pageSize,
+                        listProcessor, 
+                        onProcessEnd
+                    ) :
+                    <Page list={data} 
+                        listProcessor={listProcessor}
+                        onProcessEnd={onProcessEnd}
+                    />
+                }
+            </div>
         </div>
-    </div>)
+        { footerItems && <ActionBar position="bottom"
+            items={footerItems}
+        /> }
+    </div>
 }
 
 export default List;

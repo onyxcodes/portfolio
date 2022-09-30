@@ -1,0 +1,61 @@
+@use '~styles/vars';
+
+.alert {
+    position: absolute;
+    box-shadow: 0 15px 20px rgba(0,0,0,.1);
+    z-index: vars.$zindex-3;
+    bottom: 0;
+    transform: translateY(100px);
+    right: 0;
+    background: white;
+    visibility: hidden;
+    opacity: 0;
+    margin: 1.5rem;
+    box-sizing: border-box;
+    // Bounce and no delay when hiding
+    transition: all cubic-bezier(.47,1.64,.41,.8) 1s;
+    &.visible {
+        // Bounce and delay when 1s when showing
+        transition: all cubic-bezier(.47,1.64,.41,.8) 1s 1s;
+        transform: translateX(0);
+        bottom: 0;
+        visibility:visible;
+        opacity: 1;
+    }
+    .alert-wrapper {
+        min-height: 3rem;min-height: 4rem;
+        box-sizing: border-box;
+        min-width: 20rem;
+        .alert-icon {
+            border-left: solid;
+        }
+        .alert-content {
+            .alert-buttons {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+        }
+    }
+
+    &.alert-warning, &.alert-debug {
+        .alert-icon {
+            color: vars.$warning-color;
+            border-color: vars.$warning-color;;
+        }
+    }
+
+    &.alert-error {
+        .alert-icon {
+            color: vars.$error-color;
+            border-color: vars.$error-color;
+        }
+    }
+
+    &.alert-prompt {
+        .alert-icon {
+            color: vars.$primary-color;
+            border-color: vars.$primary-color;
+        }
+    }
+    
+}

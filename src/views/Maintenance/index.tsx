@@ -16,7 +16,7 @@ const Maintenance = () => {
         <div className='maintenance-wrapper col-9 col-lg-10 col-sm-12 p1'>
         <div className='maintenance-img r-18-9 lgr-4-5'
                 style={{
-                    backgroundImage: `url(${require('assets/maintenance.svg')})`
+                    backgroundImage: `url(${require('assets/maintenance-animated.svg')})`
                 }}
             >
             </div>
