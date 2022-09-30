@@ -30,42 +30,36 @@
     "build": "NODE_ENV=production webpack --mode=production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 --disable-telemetry",
-    "build-storybook": "build-storybook"
+    "storybook": "NODE_ENV=development start-storybook -p 6006 --disable-telemetry",
+    "build-storybook": "NODE_ENV=production build-storybook"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ],
-    "eslintConfig": {
-      "extends": [
-        "react-app",
-        "react-app/jest"
-      ],
-      "overrides": [
-        {
-          "files": [
-            "**/*.stories.*"
-          ]
-        }
-      ]
-    },
-    "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ],
-      "rules": {
-        "import/no-anonymous-default-export": "off"
-      }
+    "rules": {
+      "import/no-anonymous-default-export": "off"
     }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.stories.*"
+      ]
+    }
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.5.12",
