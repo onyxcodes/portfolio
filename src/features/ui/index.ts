@@ -49,4 +49,5 @@ const reducer = createReducer(initalState, builder => { builder
 })
 
 export { route, setTitle, setLoading, clearNotification, notify, loadNotifications, clearAllNotifications };
+export type { NotificationType }
 export default reducer;
