@@ -136,14 +136,14 @@ const useSidebar = ( props: SidebarProps ) => {
     let menuClassName = "sidebar fd-col text-nosel";
     let maskClassName = 'sidebar-mask';
 
-    React.useLayoutEffect( () => {
+    React.useEffect( () => {
         let unmountTimeoutId: number,
             visiblityTimeoutId: number;
         if ( visible ) {
             mountWrapper(visible);
-            visiblityTimeoutId = window.setTimeout(() =>  setVisibility(visible),250);
+            visiblityTimeoutId = window.setTimeout(() =>  setVisibility(visible),150);
         } else {
-            unmountTimeoutId = window.setTimeout( () => mountWrapper(visible), 1000);
+            unmountTimeoutId = window.setTimeout( () => mountWrapper(visible), 500);
             setVisibility(visible);
         }
         return () => {
