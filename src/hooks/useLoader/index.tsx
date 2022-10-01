@@ -21,14 +21,17 @@ const useLoader = (
 ) => {
     const [ isLoading, setLoading ] = React.useState(false);
     React.useEffect( () => {
-        let timeout;
+        let timeout: number = 0;
         if ( isLoading && allFalse(dependency) ) {
-            if ( timeout ) clearTimeout(timeout);
-            timeout = setTimeout( () => {
+            if ( timeout ) window.clearTimeout(timeout);
+            timeout = window.setTimeout( () => {
                 setLoading(false);
-            }, 250 )
+            }, 150 )
         }
         else if ( !isLoading && anyTrue(dependency)) setLoading(true);
+        return () => {
+            window.clearTimeout(timeout);
+        }
     }, [isLoading, ...dependency]);
 
     return isLoading;

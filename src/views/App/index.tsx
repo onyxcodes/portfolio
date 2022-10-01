@@ -14,12 +14,11 @@ import Loader from 'components/commons/Loader';
 
 import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
 
-import Alert from 'components/commons/Alert';
 import NotificationArea from 'components/NotificationArea';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
-import useLoader from 'components/useLoader';
+import useLoader from 'hooks/useLoader';
 import OnyxLogo from 'components/OnyxLogo';
 import useElementHeight from 'hooks/useElementHeight';
 import NotFound from 'views/NotFound';
