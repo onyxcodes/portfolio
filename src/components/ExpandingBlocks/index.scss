@@ -29,6 +29,7 @@ $expand-column-hover-width: 40%;
         justify-content: center;
         background-size: cover;
         background-position: center center;
+        will-change: flex-basis;
 
         @include utils.mq_max(md) {
             flex-direction: column;

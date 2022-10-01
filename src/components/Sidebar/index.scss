@@ -11,7 +11,7 @@ $sidebar-width: calc(180px + 10vw);
   top: 0;
   z-index: vars.$zindex-4 - 1;
   opacity: 0;
-  transition: all 1.5s ease;
+  transition: all 0.5s ease;
 
   &.visible {
     opacity: 1;
@@ -25,7 +25,7 @@ $sidebar-width: calc(180px + 10vw);
   width: 0;
   background: #fcfcfc;
   overflow-y: auto;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s cubic-bezier(.47,1.64,.41,.8);
   white-space: nowrap;
   overflow: hidden;
   -ms-scroll-limit: 0 0 0 0;
@@ -72,13 +72,13 @@ $sidebar-width: calc(180px + 10vw);
 
 /* left sidebar */
 .sidebar {
-  left: -50vw;
+  left: -20vw;
   height: 100vh;
   @include utils.mq_max(sm) {
     width: 100vw;
     height: 0;
     left: 0;
-    top: -80vh;
+    top: -20vh;
   }
 }
 .sidebar.visible {

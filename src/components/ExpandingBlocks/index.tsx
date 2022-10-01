@@ -87,7 +87,7 @@ const ExpandingBlocks = (props: ExpandingBlocksProps) => {
     const { blocks } = props;
 
     const renderBlocks = ( blocks: ContentBlockType[] ) => blocks.map( (props, i) => <Block key={i} {...props}/>);
-
+    
     return (<div className="row expand-column-wrapper">
         {renderBlocks(blocks)}
     </div>)
