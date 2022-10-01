@@ -48,6 +48,13 @@ $expand-column-hover-width: 40%;
                 }
             }
         }
+        
+        &:focus {
+            flex-basis: $expand-column-hover-width;
+            .expand-column-content {
+                opacity: 1;
+            }
+        }
 
         video.block-bgvideo {
             object-fit: cover;
@@ -67,12 +74,5 @@ $expand-column-hover-width: 40%;
         z-index: vars.$zindex-1;
         transition: $expand-column-transition;
         padding: 2rem;
-    }
-
-    .block-selector:checked + .column {
-        flex-basis: $expand-column-hover-width;
-        .expand-column-content {
-            opacity: 1;
-        }
     }
 }

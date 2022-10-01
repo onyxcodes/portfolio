@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.scss';
 import Link from 'components/commons/Link';
-import useTouchSelection from 'components/commons/useTouchSelection';
 
 export interface CardProps {
     key: string;
@@ -15,8 +14,6 @@ const Card = (props: CardProps) => {
     const { cover, title, content, url, listName } = props;
     let cardClass = 'card r-5-2 col-5 smr-4-5 col-lg-10 col-sm-12 m1';
 
-    const { TouchSelector, touchHandler } = useTouchSelection('card-selector', listName);
-
     let excerpt; 
     
     if (content) {
@@ -27,10 +24,9 @@ const Card = (props: CardProps) => {
         }
     }
 
-    return <div className={cardClass}>
-        <div className='card-content' onClick={() => touchHandler()}>
+    return <div tabIndex={0} className={cardClass}>
+        <div className='card-content'>
             <div className='card-wrapper f fd-row mfd-col'>
-                <TouchSelector />
                 {cover && <div className='card-cover r-5-4'
                     style={{
                         backgroundImage: `url(${cover})`
