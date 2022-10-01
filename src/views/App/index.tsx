@@ -6,7 +6,7 @@ import {
     useNavigate
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import useSidebar, { MenuLink } from 'components/Sidebar';
+import useSidebar, { MenuLink } from 'components/custom/Sidebar';
 import { UIState, route, loadNotifications } from 'features/ui';
 import { StoreState } from 'store';
 import logger from 'utils/logger';
@@ -14,14 +14,13 @@ import Loader from 'components/commons/Loader';
 
 import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
 
-import Alert from 'components/commons/Alert';
-import NotificationArea from 'components/NotificationArea';
+import NotificationArea from 'components/custom/NotificationArea';
 import Header from 'components/commons/Header';
 import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
-import useLoader from 'components/useLoader';
-import OnyxLogo from 'components/OnyxLogo';
-import useElementHeight from 'components/commons/useElementHeight';
+import useLoader from 'hooks/useLoader';
+import OnyxLogo from 'components/custom/OnyxLogo';
+import useElementHeight from 'hooks/useElementHeight';
 import NotFound from 'views/NotFound';
 import Maintenance from 'views/Maintenance';
 import Page from 'views/Page';
