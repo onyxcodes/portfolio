@@ -3,7 +3,6 @@ import Link from 'components/commons/Link';
 import './index.scss';
 
 import { hex2rgba } from 'utils/colors';
-import useTouchSelection from 'components/commons/useTouchSelection';
 import { ContentBlockType } from 'features/content';
 import { getStrapiMedia } from 'utils/strapi';
 
@@ -52,14 +51,10 @@ const Block = ( props: ContentBlockType ) => {
         textAlign: captionTextAlignment
     }
 
-    const { TouchSelector, touchHandler } = useTouchSelection('block-selector', 'expanding-blocks'); 
-
     return(
         <>
-            <TouchSelector />
-
-            <div className="column" 
-                style={style} onClick={() => touchHandler()}
+            <div tabIndex={0} className="column" 
+                style={style}
             >
                 { activeBackground.type?.startsWith('video') && 
                     <video className='block-bgvideo' playsInline autoPlay muted loop>
