@@ -21,7 +21,7 @@ import ArticleList from 'views/ArticleList';
 import Article from 'views/Article';
 import useLoader from 'components/useLoader';
 import OnyxLogo from 'components/OnyxLogo';
-import useElementHeight from 'components/commons/useElementHeight';
+import useElementHeight from 'hooks/useElementHeight';
 import NotFound from 'views/NotFound';
 import Maintenance from 'views/Maintenance';
 import Page from 'views/Page';
