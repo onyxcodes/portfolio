@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ExpandingBlocks from 'components/ExpandingBlocks';
+import ExpandingBlocks from 'components/custom/ExpandingBlocks';
 import { loadHome, ContentState, ContentBlockType } from 'features/content';
 import { setTitle } from 'features/ui';
 import { StoreState } from 'store';

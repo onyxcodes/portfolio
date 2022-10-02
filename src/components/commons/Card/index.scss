@@ -31,8 +31,13 @@
             display: block;
         }
     }
-    .card-selector:checked ~ .card-content-link {
-        display: block;
+    &:focus {
+        box-shadow: 0 30px 40px rgba(vars.$secondary-color-dark,.1);
+        transform: translateY(-0.5rem);
+        transition: all 200ms cubic-bezier(.47,1.64,.41,.8);
+        .card-content-link {
+            display: block;
+        }
     }
 }
 

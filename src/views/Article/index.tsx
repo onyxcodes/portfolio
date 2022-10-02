@@ -8,8 +8,8 @@ import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';
 import './index.scss';
 import NotFound from 'views/NotFound';
-import FileBlock from 'components/FileBlock';
-import MediaTextBlock from 'components/MediaTextBlock';
+import FileBlock from 'components/custom/FileBlock';
+import MediaTextBlock from 'components/custom/MediaTextBlock';
 
 interface ArticleProps {
 

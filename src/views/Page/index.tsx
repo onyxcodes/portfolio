@@ -1,5 +1,5 @@
 import React from 'react';
-import Slideshow from 'components/Slideshow';
+import Slideshow from 'components/custom/Slideshow';
 import { ContentBlockType } from 'features/content';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -11,11 +11,11 @@ import { StoreState } from 'store';
 import NotFound from 'views/NotFound';
 
 import './index.scss';
-import FileBlock from 'components/FileBlock';
-import ExpandingBlocks from 'components/ExpandingBlocks';
+import FileBlock from 'components/custom/FileBlock';
+import ExpandingBlocks from 'components/custom/ExpandingBlocks';
 import useSnapScroll from 'hooks/useSnapScroll';
-import MediaTextBlock from 'components/MediaTextBlock';
-import FormBlock from 'components/FormBlock';
+import MediaTextBlock from 'components/custom/MediaTextBlock';
+import FormBlock from 'components/custom/FormBlock';
 
 const exampleSlideshow: {
     id: number;

@@ -29,6 +29,7 @@ $expand-column-hover-width: 40%;
         justify-content: center;
         background-size: cover;
         background-position: center center;
+        will-change: flex-basis;
 
         @include utils.mq_max(md) {
             flex-direction: column;
@@ -45,6 +46,13 @@ $expand-column-hover-width: 40%;
                 .expand-column-content {
                     opacity: 1;
                 }
+            }
+        }
+        
+        &:focus {
+            flex-basis: $expand-column-hover-width;
+            .expand-column-content {
+                opacity: 1;
             }
         }
 
@@ -66,12 +74,5 @@ $expand-column-hover-width: 40%;
         z-index: vars.$zindex-1;
         transition: $expand-column-transition;
         padding: 2rem;
-    }
-
-    .block-selector:checked + .column {
-        flex-basis: $expand-column-hover-width;
-        .expand-column-content {
-            opacity: 1;
-        }
     }
 }
