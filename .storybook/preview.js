@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!../src/styles/index.scss';
+import '!style-loader!css-loader!sass-loader!styles/index.scss';
 
 export const parameters = {
   layout: 'centered',

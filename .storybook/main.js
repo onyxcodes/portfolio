@@ -2,14 +2,16 @@ const path = require("path");
 
 module.exports = {
   "stories": [
-    "../src/components/**/*.stories.mdx",
-    "../src/components/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/components/**/stories.mdx",
+    "../src/components/**/stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app"
+    "@storybook/preset-create-react-app",
+    '@storybook/addon-a11y',
+    '@storybook/addon-storysource'
   ],
   "framework": "@storybook/react",
   "core": {
@@ -18,19 +20,14 @@ module.exports = {
   },
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
-    // You can change the configuration based on that.
-    // 'PRODUCTION' is used when building the static version of storybook.
-
-    // Make whatever fine-grained changes you need
+    // is PRODUCTION when building Storybook
+    
     config.module.rules.push({
       test: /\.s[ac]ss$/i,
       use: [
         // "style-loader","css-loader", 
         {
           loader: 'sass-loader',
-          // options: {
-          //   implementation: require('sass')
-          // }
         }
       ]
     });
