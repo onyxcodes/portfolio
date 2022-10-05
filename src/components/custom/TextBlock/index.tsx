@@ -2,13 +2,18 @@ import { TextBlockType } from 'features/content';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Code from 'components/commons/Code';
+// import {
+//     useLocation,
+// } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from  'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import './index.scss';
 
 interface TextBlockProps extends TextBlockType {
 }
 const TextBlock = ( props: TextBlockProps ) => {
-    const { content, size = 'l', position = 'center' } = props;
+    const { id, content, size = 'l', position = 'center' } = props;
 
     let blockClass = 'text-block f aic py1';
 
@@ -47,20 +52,34 @@ const TextBlock = ( props: TextBlockProps ) => {
     return(<div className={blockClass}>
         <div className={blockWrapperClass}>
             <ReactMarkdown children={content}
-                /* Adds plugins to:
+                /* Adds remark plugins to:
                  * allow github flavored markdown
                 */
                 remarkPlugins={[remarkGfm]}
+                /* Adds rehype plugins to:
+                 * add slugs to headings, prefixed with the component id
+                 * (for uniqueness throughout the page)
+                */
+                rehypePlugins={[
+                    [rehypeSlug, {prefix: id ? `${id}-` : undefined}],
+                    rehypeAutolinkHeadings
+                ]}
+                /* Components mapping
+                 * code -> Code (when not inline)
+                 */
                 components={{
                     code({node, inline, className, children, ...props}) {
-                        console.log('got props', { node, inline, className, children})
                         if (!inline) {
                             return <Code className={className} children={children}/>
                         }
                         return <code className={className} {...props}>
                             {children}
                         </code>
-                    }
+                    },
+                    // Map some of the heading tags to a custom (common) component
+                    // which makes leverage of react-router useLocation to check the hash
+                    // if the hash corresponds to the compone tid property
+                    // use the reference the components itself instantiate to scroll into view
                 }}
             />
         </div>
