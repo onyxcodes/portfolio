@@ -1,6 +1,7 @@
 import { TextBlockType } from 'features/content';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import Code from 'components/commons/Code';
 import remarkGfm from 'remark-gfm';
 import './index.scss';
 
@@ -45,7 +46,23 @@ const TextBlock = ( props: TextBlockProps ) => {
 
     return(<div className={blockClass}>
         <div className={blockWrapperClass}>
-            <ReactMarkdown  children={content} remarkPlugins={[remarkGfm]}/>
+            <ReactMarkdown children={content}
+                /* Adds plugins to:
+                 * allow github flavored markdown
+                */
+                remarkPlugins={[remarkGfm]}
+                components={{
+                    code({node, inline, className, children, ...props}) {
+                        console.log('got props', { node, inline, className, children})
+                        if (!inline) {
+                            return <Code className={className} children={children}/>
+                        }
+                        return <code className={className} {...props}>
+                            {children}
+                        </code>
+                    }
+                }}
+            />
         </div>
     </div>)
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SubHeader from 'components/commons/SubHeader';
-import TextBlock from 'components/commons/TextBlock';
+import TextBlock from 'components/custom/TextBlock';
 import { getArticle, ContentState } from 'features/content';
 import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';

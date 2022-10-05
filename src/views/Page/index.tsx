@@ -4,7 +4,7 @@ import { ContentBlockType } from 'features/content';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import TextBlock from 'components/commons/TextBlock';
+import TextBlock from 'components/custom/TextBlock';
 import { getPage, ContentState } from 'features/content';
 import { setLoading, setTitle } from 'features/ui';
 import { StoreState } from 'store';
