@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'components/commons/Link';
 import './index.scss';
 
-import { hex2rgba } from 'utils/colors';
+import { hex2rgba } from 'utils/commons/colors';
 import { ContentBlockType } from 'features/content';
 import { getStrapiMedia } from 'utils/strapi';
 
