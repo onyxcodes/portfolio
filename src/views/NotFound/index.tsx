@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setTitle } from 'features/ui';
 import './index.scss';
-import TextBlock from 'components/commons/TextBlock';
+import TextBlock from 'components/custom/TextBlock';
 import Link from 'components/commons/Link';
 
 const NotFound = () => {
