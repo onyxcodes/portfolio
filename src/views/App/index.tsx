@@ -117,7 +117,7 @@ const App = () => {
         <Header ref={headerRef} title='Menu' onTitleClick={() => showSidebar(true)} />
         { sidebarWrapper }
         <main className='f fd-col' style={{
-            paddingTop: `${headerHeight}px`,
+            marginTop: `${headerHeight}px`,
             height: `calc(100% - ${headerHeight}px)`
         }}>
             <Routes>
