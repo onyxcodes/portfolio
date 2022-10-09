@@ -22,7 +22,6 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      base: isProduction ? process.env.APP_ROOT : undefined,
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
