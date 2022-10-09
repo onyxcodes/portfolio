@@ -23,7 +23,7 @@
     "paths": {
       "styles": ["styles/*"],
       "components": ["components/*"],
-      "hook": ["hooks/*"],
+      "hooks": ["hooks/*"],
       "assets": ["assets/*"],
       "views": ["views/*"],
       "features": ["features/*"],
