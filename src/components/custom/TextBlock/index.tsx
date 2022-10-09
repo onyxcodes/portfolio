@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from  'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import './index.scss';
+import Heading from 'components/commons/Heading';
 
 interface TextBlockProps extends TextBlockType {
 }
@@ -57,15 +58,30 @@ const TextBlock = ( props: TextBlockProps ) => {
                 */
                 remarkPlugins={[remarkGfm]}
                 /* Adds rehype plugins to:
-                 * add slugs to headings, prefixed with the component id
+                 * - add slugs to headings, prefixed with the component id
                  * (for uniqueness throughout the page)
+                 * - add links to headers
                 */
                 rehypePlugins={[
                     [rehypeSlug, {prefix: id ? `${id}-` : undefined}],
-                    rehypeAutolinkHeadings
+                    [rehypeAutolinkHeadings, { content() {
+                        /* TODO: Consider using hastscript library (https://github.com/syntax-tree/hastscript) 
+                         * to generate hast node. Specification: https://github.com/rehypejs/rehype-autolink-headings#optionscontent
+                         */
+                        return [
+                            {
+                              type: 'element',
+                              tagName: 'span',
+                              properties: { className: 'icon icon-link t6'},
+                              children: []
+                            }
+                        ]
+                      }
+                    }]
                 ]}
                 /* Components mapping
                  * code -> Code (when not inline)
+                 * h{n} -> heading with scroll behavior related to location' hash
                  */
                 components={{
                     code({node, inline, className, children, ...props}) {
@@ -76,10 +92,24 @@ const TextBlock = ( props: TextBlockProps ) => {
                             {children}
                         </code>
                     },
-                    // Map some of the heading tags to a custom (common) component
-                    // which makes leverage of react-router useLocation to check the hash
-                    // if the hash corresponds to the compone tid property
-                    // use the reference the components itself instantiate to scroll into view
+                    h1({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={1} children={children}/>
+                    },
+                    h2({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={2} children={children} />
+                    },
+                    h3({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={3} children={children}/>
+                    },
+                    h4({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={4} children={children}/>
+                    },
+                    h5({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={5} children={children}/>
+                    },
+                    h6({node, className, children, ...props}) {
+                        return <Heading {...props} className='text-block-heading' level={6} children={children}/>
+                    },
                 }}
             />
         </div>

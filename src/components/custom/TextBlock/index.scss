@@ -121,6 +121,23 @@
                 }
             }
         }
+
+        .text-block-heading {
+            a {
+                text-decoration: none;
+                margin-left: -20px;
+            }
+            span {
+                visibility: hidden;
+                line-height: 1;
+                vertical-align: middle;
+            }
+            &:hover, a:hover {
+                span {
+                    visibility: visible;
+                }
+            }
+        }
     } 
 }
 
