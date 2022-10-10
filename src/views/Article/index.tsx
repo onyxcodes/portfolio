@@ -26,6 +26,10 @@ const Article = () => {
 
     const articleOp = useSelector<StoreState, ContentState['articleOp']>( s => s.content.articleOp );
 
+    // Retrieve from env abilitation and config for Disqus
+    const discussionEnabled = process.env.DISQUS_ENABLED;
+    const discussionShortname = process.env.DISQUS_SHORTNAME;
+
     let content = articleOp.data?.attributes.content;
     let title = articleOp.data?.attributes.title;
     let cover = articleOp.data?.attributes.cover.data?.attributes;
@@ -57,8 +61,8 @@ const Article = () => {
     }), [content]);
 
     // Disqus
-    const discussion = React.useMemo( () => <div className='article-discussion'><DiscussionEmbed
-        shortname='portfolio-by-onyx'
+    const discussion = React.useMemo( () => <div className='article-discussion m05'><DiscussionEmbed
+        shortname={discussionShortname!}
         config={
             {
                 url: `${window.location.origin}/${window.location.pathname}`,
@@ -73,7 +77,7 @@ const Article = () => {
         <div className='article f fd-col aic'>
         { renderedContent }
         </div>
-        {discussion}
+        { discussionEnabled !== 'false' && discussion }
     </> : ( !articleOp.loading && articleOp.success ? <NotFound /> : <></> )
 }
 

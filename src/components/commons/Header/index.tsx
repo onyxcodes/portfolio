@@ -20,7 +20,7 @@ const Header = forwardRef( (props: HeaderProps, ref: React.LegacyRef<HTMLDivElem
 
     return(<div ref={ref} className={headerClass}>
         <div
-            className='header-title'
+            className='header-title f aic'
             title={title}
             onClick={onTitleClick}
             style={{backgroundImage: `url(${require('assets/logo.svg')})`}}
