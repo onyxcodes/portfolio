@@ -1,0 +1,10 @@
+.btn-code-copy {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    visibility: hidden;
+}
+
+.code:hover ~ .btn-code-copy, .btn-code-copy:hover {
+    visibility: visible;
+}

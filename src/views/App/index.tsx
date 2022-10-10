@@ -16,14 +16,16 @@ import { ContentState, fetchMenu, MenuEntryType } from 'features/content';
 
 import NotificationArea from 'components/custom/NotificationArea';
 import Header from 'components/commons/Header';
-import ArticleList from 'views/ArticleList';
-import Article from 'views/Article';
+
 import useLoader from 'hooks/useLoader';
 import OnyxLogo from 'components/custom/OnyxLogo';
 import useElementHeight from 'hooks/useElementHeight';
-import NotFound from 'views/NotFound';
-import Maintenance from 'views/Maintenance';
-import Page from 'views/Page';
+
+const ArticleList = React.lazy(() => import('views/ArticleList'));
+const Article = React.lazy(() => import('views/Article'));
+const NotFound = React.lazy(() => import('views/NotFound'));
+const Maintenance = React.lazy(() => import('views/Maintenance'));
+const Page = React.lazy(() => import('views/Page'));
 
 const App = () => {
 	const location = useLocation();
@@ -106,35 +108,53 @@ const App = () => {
 		}
 	}, [path]);
 
+    const fullScreenLoader = <Loader element={<div className='loading-logo'>
+        <OnyxLogo isAnimated/>
+    </div>} show={isLoading}/>
+
     return(
         <>
-        <Loader element={<div className='loading-logo'>
-            <OnyxLogo isAnimated/>
-        </div>} show={isLoading}/>
+        {fullScreenLoader}
         {/* <Loader id='view' element={<div className='loading-logo'>
             <OnyxLogo isAnimated/>
         </div>} show={isViewLoading}/> */}
         <Header ref={headerRef} title='Menu' onTitleClick={() => showSidebar(true)} />
         { sidebarWrapper }
         <main className='f fd-col' style={{
-            paddingTop: `${headerHeight}px`,
+            marginTop: `${headerHeight}px`,
             height: `calc(100% - ${headerHeight}px)`
         }}>
             <Routes>
-                <Route path="/" element={<Page forcedSlug='home'/>} />
+                <Route path="/" element={<React.Suspense fallback={fullScreenLoader}>
+                    <Page forcedSlug='home'/>
+                </React.Suspense>} />
                 <Route path="/article">
-                    <Route path="" element={<ArticleList/>}/>
-                    <Route path=":slug" element={<Article/>} />
+                    <Route path="" element={<React.Suspense fallback={fullScreenLoader}>
+                        <ArticleList/>
+                    </React.Suspense>}/>
+                    <Route path=":slug" element={<React.Suspense fallback={fullScreenLoader}>
+                        <Article/>
+                    </React.Suspense>} />
                 </Route>
                 <Route path="/category" >
-                    <Route path="" element={<Maintenance/>}/>
-                    <Route path=":slug" element={<Maintenance/>} />
+                    <Route path="" element={<React.Suspense fallback={fullScreenLoader}>
+                        <Maintenance/>
+                    </React.Suspense>}/>
+                    <Route path=":slug" element={<React.Suspense fallback={fullScreenLoader}>
+                        <Maintenance/>
+                    </React.Suspense>} />
                 </Route> 
                 <Route path="/page" >
-                    <Route path="" element={<Maintenance/>}/>
-                    <Route path=":slug" element={<Page/>} />
+                    <Route path="" element={<React.Suspense fallback={fullScreenLoader}>
+                        <NotFound/>
+                    </React.Suspense>}/>
+                    <Route path=":slug" element={<React.Suspense fallback={fullScreenLoader}>
+                        <Page/>
+                    </React.Suspense>} />
                 </Route>
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<React.Suspense fallback={fullScreenLoader}>
+                    <NotFound />
+                </React.Suspense>} />
             </Routes>
         </main>
         <NotificationArea />

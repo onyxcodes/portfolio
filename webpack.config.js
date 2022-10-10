@@ -4,15 +4,16 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackFavicons = require('webpack-favicons');
-require('dotenv').config({ path: './.env' }); 
-
 const isProduction = process.env.NODE_ENV == "production";
+require('dotenv').config({ path: './.env' }); 
 
 const config = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "build"),
-    publicPath: '/'
+    publicPath: '/',
+    filename: '[name].[contenthash].js',
+    clean: true,
   },
   devServer: {
     host: "localhost",
@@ -22,13 +23,14 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      base: isProduction ? process.env.APP_ROOT : undefined,
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
     new webpack.EnvironmentPlugin({
       API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
+      DISQUS_ENABLED: JSON.stringify(process.env.DISQUS_ENABLED),
+      DISQUS_SHORTNAME: JSON.stringify(process.env.DISQUS_SHORTNAME),
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
       G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID),
       G_ANALYTICS_ENABLED: JSON.stringify(process.env.G_ANALYTICS_ENABLED),
@@ -110,6 +112,19 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      maxSize: 300000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   resolve: {
     extensions: [
       '.js',
@@ -132,9 +147,9 @@ const config = {
 
 module.exports = () => {
   if (isProduction) {
-    config.mode = "production";
+    console.log('Building with production config');
   } else {
-    config.mode = "development";
+    console.log('Building with development config');
   }
   return config;
 };

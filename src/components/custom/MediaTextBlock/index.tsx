@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import { MediaTextType } from 'features/content'
 import { getStrapiMedia } from 'utils/strapi';
-import TextBlock from 'components/commons/TextBlock';
+import TextBlock from 'components/custom/TextBlock';
 
 // Consider supporting different sizes (will alter
 // the media container size only?)

@@ -34,12 +34,13 @@
         }
     
         pre {
-            background-color: rgba(vars.$dark-color, 0.75);
+            // background-color: rgba(vars.$dark-color, 0.75);
             color: vars.$light-color;
             padding: .25rem 0.5rem;
             overflow-x:hidden;
             border-radius: .25rem;
-    
+            position: relative;
+
             code {
                 white-space: pre;
                 display: block;
@@ -117,6 +118,23 @@
                     tr:nth-child(even) {
                         background: none;
                     }
+                }
+            }
+        }
+
+        .text-block-heading {
+            a {
+                text-decoration: none;
+                margin-left: -20px;
+            }
+            span {
+                visibility: hidden;
+                line-height: 1;
+                vertical-align: middle;
+            }
+            &:hover, a:hover {
+                span {
+                    visibility: visible;
                 }
             }
         }
