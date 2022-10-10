@@ -19,7 +19,7 @@ const Heading = ( props: HeadingProps ) => {
 
     React.useEffect( () => {
         // Checks whether the URL's hash points to this heading
-        if (location.hash === `#${id}` && !registeredListener) {
+        if (location.hash === `#${id}`) {
             let heading = headingRef.current;
             // Smoothly scrolls into view the heading
             if (heading) {
@@ -28,13 +28,15 @@ const Heading = ( props: HeadingProps ) => {
                 // Toggle a listener to enable repeated clicks on anchor
                 // that will smooth scroll the heading even when the location's
                 // hash remain the same
-                let anchor = heading.querySelector(`a[href="#${id}"]`);
-                const scrollHeadingintoView = (e: Event) => {
-                    heading?.scrollIntoView({behavior: 'smooth'});
+                if (!registeredListener) {
+                    let anchor = heading.querySelector(`a[href="#${id}"]`);
+                    const scrollHeadingintoView = (e: Event) => {
+                        heading?.scrollIntoView({behavior: 'smooth'});
+                    }
+                    anchor?.addEventListener('click', scrollHeadingintoView );
+                    // Marks the registration to avoid multiple listeners
+                    markRegisteredListener(true);
                 }
-                anchor?.addEventListener('click', scrollHeadingintoView );
-                // Marks the registration to avoid multiple listeners
-                markRegisteredListener(true);
             }
         }
     }, [location, headingRef]);
