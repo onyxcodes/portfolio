@@ -58,7 +58,7 @@ const Article = () => {
 
     // Disqus
     const discussion = React.useMemo( () => <div className='article-discussion'><DiscussionEmbed
-        shortname='example'
+        shortname='portfolio-by-onyx'
         config={
             {
                 url: `${window.location.origin}/${window.location.pathname}`,
