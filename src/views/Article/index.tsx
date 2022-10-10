@@ -11,6 +11,8 @@ import NotFound from 'views/NotFound';
 import FileBlock from 'components/custom/FileBlock';
 import MediaTextBlock from 'components/custom/MediaTextBlock';
 
+import { DiscussionEmbed } from 'disqus-react';
+
 interface ArticleProps {
 
 }
@@ -52,13 +54,26 @@ const Article = () => {
             default: null;
         }
         return <div key={i} className={cmpWrapperClass}>{component}</div>
-    }), [content])
+    }), [content]);
+
+    // Disqus
+    const discussion = React.useMemo( () => <div className='article-discussion'><DiscussionEmbed
+        shortname='portfolio-by-onyx'
+        config={
+            {
+                url: `${window.location.origin}/${window.location.pathname}`,
+                identifier: slug,
+                title: title,
+            }
+        }
+    /></div>, [articleOp]);
 
     return articleOp.data ? <>
         <SubHeader cover={cover?.url} title={title!} />
         <div className='article f fd-col aic'>
         { renderedContent }
         </div>
+        {discussion}
     </> : ( !articleOp.loading && articleOp.success ? <NotFound /> : <></> )
 }
 
