@@ -28,6 +28,8 @@ const config = {
     }),
     new webpack.EnvironmentPlugin({
       API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
+      DISQUS_ENABLED: JSON.stringify(process.env.DISQUS_ENABLED),
+      DISQUS_ENABLED: JSON.stringify(process.env.DISQUS_SHORTNAME),
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
       G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID),
       G_ANALYTICS_ENABLED: JSON.stringify(process.env.G_ANALYTICS_ENABLED),
