@@ -2,12 +2,12 @@ import React from 'react';
 import './index.scss';
 
 // Method to forcefully onChange event on Select elements
-const triggerNativeEvent = ( el: HTMLSelectElement ) => {
+const triggerNativeEvent = ( el: HTMLSelectElement, value: string ) => {
     var trigger = Object.getOwnPropertyDescriptor(
         window.HTMLSelectElement.prototype,
         "value"
     )!.set;
-    trigger!.call(el, el.value); // 4 is the select option's value we want to set
+    trigger!.call(el, value); // 4 is the select option's value we want to set
     var event = new Event("change", { bubbles: true });
     el.dispatchEvent(event);
 }
@@ -26,35 +26,33 @@ interface SelectProps {
 const Select = (props: SelectProps) => {
     const { options, name, label, onChange } = props;
     const [ selected, setSelected ] = React.useState<SelectOption | undefined>(
-        // TODO: Warning or error when found more than an option with same value
+        // TODO: Add warning or error when found more than an option with same value
         options.filter( el => el.selected )[0]
     );
     const selectRef = React.useRef<HTMLSelectElement | null>(null);
 
     const dropdownRef = React.useRef<HTMLDivElement | null>(null);
 
-    const mirrorSelection = React.useCallback( (el: {
+    const doSelection = React.useCallback( (el: {
         label: string;
         value: string;
         selected?: boolean;
     }) => {
-        // Update surface component
-        setSelected(el);
-        // Update hidden input (mirror) and fire on change event
+        // Update hidden input (mirror)
         if (
             selectRef.current &&
-            // Checks whether value differs to avoid
-            // firing event uselessly
             selectRef.current.value !== el.value
         ) {
             selectRef.current.value = el.value;
-            triggerNativeEvent(selectRef.current);
+            // Update surface component
+            el.selected = true;
+            setSelected(el);
         };
         // Remove focus from surface component
         dropdownRef.current?.blur();
     }, [selectRef]);
 
-    const triggerOnChange = React.useCallback( (e: React.ChangeEvent<HTMLSelectElement>) => {
+    React.useEffect( () => {
         if ( selected && onChange ) {
             onChange(selected)
         };
@@ -68,7 +66,7 @@ const Select = (props: SelectProps) => {
             <ul>
                 {options.map( (el, i) => <li 
                     key={i}
-                    onClick={(e) => {mirrorSelection(el)}}
+                    onClick={(e) => {doSelection(el)}}
                 >
                     {el.label}
                 </li>)}
@@ -79,7 +77,6 @@ const Select = (props: SelectProps) => {
             ref={selectRef}
             name={name}
             defaultValue={selected?.value}
-            onChange={(e) => triggerOnChange(e)}
         >
             {options.map( (el, i) => <option 
                 key={i}
