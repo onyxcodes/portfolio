@@ -3,10 +3,13 @@ import {
     useLocation,
 } from 'react-router-dom';
 
+// TODO: Extract logics related to links and router
+// Should be able to accomplish that with a custom hook
+
 interface HeadingProps {
     level: 1 | 2 | 3 | 4 | 5 | 6;
     id?: string;
-    children: ReactNode | ReactNode[];
+    children: ReactNode;
     className?: string;
 }
 const Heading = ( props: HeadingProps ) => {
@@ -15,7 +18,7 @@ const Heading = ( props: HeadingProps ) => {
     const headingRef = React.useRef<HTMLHeadingElement | null>(null);
     const [ registeredListener, markRegisteredListener ] = React.useState(false);
 
-    let Element: JSX.Element;
+    let element: JSX.Element;
 
     React.useEffect( () => {
         // Checks whether the URL's hash points to this heading
@@ -43,26 +46,32 @@ const Heading = ( props: HeadingProps ) => {
 
     switch (level) {
         case 1:
-            Element = <h1>{children}</h1>;
+            element = <h1>{children}</h1>;
         break;
         case 2:
-            Element = <h2>{children}</h2>;
+            element = <h2>{children}</h2>;
         break;
         case 3:
-            Element = <h3>{children}</h3>;
+            element = <h3>{children}</h3>;
         break;
         case 4:
-            Element = <h4>{children}</h4>;
+            element = <h4>{children}</h4>;
         break;
         case 5:
-            Element = <h5>{children}</h5>;
+            element = <h5>{children}</h5>;
         break;
         case 6:
-            Element = <h6>{children}</h6>;
+            element = <h6>{children}</h6>;
         break;
     }
 
-    return <Element.type className={className} ref={headingRef} key={Element.key} {...Element.props}/>;
+    return <element.type 
+        data-testid={ id ? `heading-${id}` : undefined}
+        className={className}
+        ref={headingRef}
+        key={element.key}
+        {...element.props}
+    />;
 }
 
 export default Heading;

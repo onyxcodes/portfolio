@@ -49,6 +49,10 @@ const addStatefulLink = (props: StatefulLinkProps) => {
       else return { cursor: 'pointer' }
     }
 
+    // TODO: Understand what's the difference between using cloneElement
+    // or re-using element as <element.type {...element.props} myprop='injected'/>
+    // ?
+
     const element = typeof children === 'string' ? <span>{children}</span> : children;
     const elementClass = element.props.className || '';
     const linkedEl = React.cloneElement(

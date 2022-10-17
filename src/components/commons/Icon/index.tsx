@@ -6,7 +6,7 @@ interface IconProps {
 }
 const Icon = ( props: IconProps ) => {
     const { name } = props;
-    return(<i className={`icon-${name}`}>
+    return(<i data-testid={`icon-${name}`} className={`icon-${name}`}>
     </i>)
 }
 

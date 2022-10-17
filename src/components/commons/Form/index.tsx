@@ -17,7 +17,7 @@ const Form = ( props: FormProps ) => {
     // Assures that _children is an array, event when it's not
     const _children = ([] as JSX.Element[]).concat(children);
 
-    // Clears inputs ref list when children changes
+    // Recreate inputs ref list when children changes
     React.useEffect( () => {
         inputsRef.current = inputsRef.current.slice(0, _children.length);
     }, [_children]);
@@ -35,6 +35,8 @@ const Form = ( props: FormProps ) => {
      */
     const renderedChildren = React.useMemo( () => _children.map( (child, i) => {
         return <child.type key={i} 
+            // NOTE: without specifying the parameter type, the ts compiler
+            // may expect null arguments
             ref={(el: JSX.Element | InputRefType) => addInputRef(el,i)}
         {...child.props} />
     }), [_children]);

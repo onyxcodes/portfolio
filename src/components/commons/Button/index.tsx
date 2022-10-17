@@ -9,7 +9,8 @@ interface ButtonProps {
     children?: string;
     type?: 'default' | 'primary' | 'text';
     shape?: 'default' | 'circle';
-    className?: string
+    className?: string;
+    name?: string;
 }
 const Button = ( props: ButtonProps ) => {
     const { 
@@ -19,7 +20,8 @@ const Button = ( props: ButtonProps ) => {
         children,
         type = 'default',
         shape = 'default-shape',
-        className
+        className,
+        name
     } = props;
 
     let btnClass = `btn btn-${type} btn-${shape}`; 
@@ -28,7 +30,12 @@ const Button = ( props: ButtonProps ) => {
     else btnClass = `${btnClass} anim-pulse`;
     
     return(
-        <div onClick={onClick} className={btnClass}>
+        <div
+            role='button'
+            data-testid={ name ? `button-${name}` : undefined}
+            onClick={onClick}
+            className={btnClass}
+        >
             { iconName && <Icon name={iconName}/>}
             { children }
         </div>
