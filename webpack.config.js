@@ -34,6 +34,8 @@ const config = {
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
       G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID),
       G_ANALYTICS_ENABLED: JSON.stringify(process.env.G_ANALYTICS_ENABLED),
+      ADSENSE_ENABLED: JSON.stringify(process.env.ADSENSE_ENABLED),
+      ADSENSE_CLIENT_ID: JSON.stringify(process.env.ADSENSE_CLIENT_ID),
     }),
     // TODO: Substitute with a working lib or alternative solution
   //   new WebpackFavicons({
