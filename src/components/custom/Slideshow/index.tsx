@@ -70,23 +70,7 @@ const defaultSlideWrapper = ( slide: ContentBlockType ) => {
 
     let bgImageUrl = slide.background?.data?.[0] ? getStrapiMedia(slide.background.data[0]).url
     : undefined;
-    let focusStyle;
-    if (slide.focusBackground?.data?.[0]) {
-        focusStyle = {
-            backgroundImage: `url(${getStrapiMedia(slide.focusBackground?.data?.[0]).url})`
-        };
-    } else if (bgImageUrl) {
-        focusStyle = {
-            backgroundImage: `url(${bgImageUrl})`
-        };
-    } else {
-        focusStyle = {
-            backgroundColor: "transparent"
-        };
-    }
 
-    // The caption is only visible if the captionVisible property is set to true
-    // if not, it's visibile only on focus
     let figureClass = `fill`;
     let caption,
         focusCaption;
@@ -109,6 +93,9 @@ const defaultSlideWrapper = ( slide: ContentBlockType ) => {
     }
     
     if (slide.focusBackground?.data?.[0]) {
+        let focusStyle = {
+            backgroundImage: `url(${getStrapiMedia(slide.focusBackground?.data?.[0]).url})`
+        };
         // Show caption inside focus only if it's not visibile by default
         focusCaption = <figcaption style={focusStyle}>
             {!slide.captionVisible ? <Caption className={captionContainerClass}
