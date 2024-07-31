@@ -11,3 +11,12 @@ if ( process.env.G_ANALYTICS_ENABLED !== 'false' ) {
 
     gtag('config', 'G-LW1RHTVX9S');
 }
+
+if (process.env.ADSENSE_ENABLED !== 'false') {
+    var adsenseScript = document.createElement("script");
+    adsenseScript.async = true;
+    adsenseScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    adsenseScript.setAttribute('data-ad-client', process.env.ADSENSE_CLIENT_ID);
+
+    document.head.prepend(adsenseScript);
+}
