@@ -34,6 +34,14 @@ export type ExpandingBlocksType = {
     blocks: ContentBlockType[];
 }
 
+export type SlideshowType = {
+    id: number;
+    __component?: 'display.slideshow';
+    slideSpacing: number;
+    slideSize: 'xl' | 'l' | 'm' | 's';
+    slides: ContentBlockType[];
+}
+
 export type TextBlockType = {
     id?: number;
     __component?: 'display.text-block';

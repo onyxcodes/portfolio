@@ -77,18 +77,22 @@ const Page = ( props: PageProps ) => {
             case 'input.form-block':
                 component = <FormBlock {...el} />
             break;
-            default: null;
+            case 'display.slideshow':
+                component = <Slideshow {...el} />;
+                break;
+            default: 
+                console.log('Unknown component', el.__component);
+                return <></>;
         }
         return <div key={i} className={cmpWrapperClass}
             style={cmpWrapperStyle}
         >{component}</div>
-    }), [content]);
+    }), [content, isFullScreen]);
 
     let pageClass = 'page f fd-col aic';
     if (isFullScreen) pageClass = `${pageClass} fullpage`;
 
     return pageOp.data ? <div className={pageClass} ref={pageRef}>
-        {/* <Slideshow id={1} slides={exampleSlideshow.slide} slideSpacing={exampleSlideshow.slideSpacing}  /> */}
         { renderedContent }
     </div> : ( !pageOp.loading && pageOp.success ? <NotFound/> : <></>)
 }

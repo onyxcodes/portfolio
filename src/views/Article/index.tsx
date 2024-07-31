@@ -56,7 +56,7 @@ const Article = () => {
             case 'display.media-text-block':
                 component = <MediaTextBlock {...el} />
             break;
-            default: null;
+            default: console.log('Unknown component', el.__component);
         }
         return <div key={i} className={cmpWrapperClass}>{component}</div>
     }), [content]);

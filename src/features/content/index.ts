@@ -5,7 +5,7 @@ import getArticle, { listArticles, resetArticles } from './collections/article';
 import getPage from './collections/page';
 import sendContactInquiry from './custom/contactform';
 import { PaginationType } from './types';
-import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType, FormBlockType, TextInputFieldType } from './components/types';
+import { ContentBlockType, ExpandingBlocksType, FileBlockType, TextBlockType, MediaTextType, FormBlockType, SlideshowType, TextInputFieldType } from './components/types';
 import { MenuEntryType } from './plugins/types';
 import { ArticleType, PageType, FormType } from './collections/types';
 
@@ -222,6 +222,6 @@ const reducer = createReducer(initialState, builder => { builder
 })
 
 export { loadHome, fetchMenu, listArticles, resetArticles, getArticle, getPage, sendContactInquiry };
-export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType, FormBlockType, TextInputFieldType }
+export type { MenuEntryType, ContentBlockType, ExpandingBlocksType, TextBlockType, FileBlockType, MediaTextType, FormBlockType, TextInputFieldType, SlideshowType }
 export type { ArticleType, PageType, FormType }
 export default reducer;

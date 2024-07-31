@@ -97,7 +97,7 @@
 
 [class*=" imghvr-"] figcaption,
 [class^=imghvr-] figcaption {
-    background-color: #135796;
+    // background-color: #135796;
     padding: 30px;
     position: absolute;
     top: 0;
@@ -259,7 +259,7 @@
     left: 0;
     right: 0;
     content: "";
-    background-color: #135796
+    // background-color: #135796
 }
 
 [class*=" imghvr-reveal-"] figcaption,
@@ -477,7 +477,7 @@
 
 [class*=" imghvr-shutter-out-"]:before,
 [class^=imghvr-shutter-out-]:before {
-    background: #135796;
+    // background: #135796;
     position: absolute;
     content: "";
     transition-delay: .105s
@@ -554,7 +554,7 @@
 [class*=" imghvr-shutter-in-"]:before,
 [class^=imghvr-shutter-in-]:after,
 [class^=imghvr-shutter-in-]:before {
-    background: #135796;
+    // background: #135796;
     position: absolute;
     content: ""
 }

@@ -2,26 +2,191 @@ import React from 'react';
 import './index.scss';
 import { ContentBlockType } from 'features/content';
 import { getStrapiMedia } from 'utils/strapi';
-
+import Link from 'components/commons/Link';
+import { hex2rgba } from 'alenite-design'
 
 interface SlideshowProps {
     id: number;
     slides: ContentBlockType[];
     slideSpacing: number;
+    slideWrapper?: (slide: ContentBlockType) => JSX.Element;
+    slideSize: 'xl' | 'l' | 'm' | 's';
 }
-const Slideshow = ( props: SlideshowProps ) => {
-    const { id, slides, slideSpacing } = props;
+interface CaptionProps {
+    className?: string;
+    caption: string;
+    captionTitle: string;
+    captionPositionY: 'start' | 'center' | 'end';
+    captionPositionX: 'start' | 'center' | 'end';
+    captionBgColor: string;
+    captionColor: string;
+    captionBgAlpha: number;
+    captionTextAlignment: 'left' | 'center' | 'right';
+    link: string | null;
+    linkTarget?: "_self" | "_blank";
+    linkText?: string;
+}
+const Caption = ( props: CaptionProps ) => {
+    const { 
+        caption, className, captionTitle, captionPositionY, captionPositionX, 
+        captionBgColor, captionColor, captionBgAlpha, captionTextAlignment, 
+        link, linkTarget, linkText 
+    } = props;
 
-    const renderInputCtrl = ( i: number ) => {
+    let captionContainerClass = className;
+
+    return <div className={captionContainerClass} style={{
+        flexWrap: "wrap",
+        textAlign: captionTextAlignment,
+        justifyContent: captionPositionX,
+        alignContent: captionPositionY
+    }}>
+        <div className="caption" style={{
+            color: captionColor,
+            background: hex2rgba(captionBgColor, captionBgAlpha/100),
+        }}>
+            {captionTitle  ? <h3>{captionTitle}</h3> : <></>}
+            {caption ? <p>{caption}</p> : <></>}
+            {link ? <Link to={link} target={linkTarget}>
+                    <span className='h6'>{linkText}</span>
+                </Link> : <></>}
+        </div>
+    </div>
+}
+const defaultSlideWrapper = ( slide: ContentBlockType ) => {
+    let slideStyle = `
+        #slide-${slide.id} [class^='imghvr-'] figcaption:before,
+        #slide-${slide.id} [class*=' imghvr-'] figcaption:before {
+            background-color: transparent;
+        }
+        #slide-${slide.id} [class^='imghvr-'],
+        #slide-${slide.id} [class*=' imghvr-'],
+        #slide-${slide.id} [class*=' imghvr-']:after,
+        #slide-${slide.id} [class*=' imghvr-']:before {
+            background-color: transparent !important;
+        }
+    `;
+    let captionContainerClass = `z2 fill p-absolute p1 f fd-col`;
+
+    let bgImageUrl = slide.background?.data?.[0] ? getStrapiMedia(slide.background.data[0]).url
+    : undefined;
+    let focusStyle;
+    if (slide.focusBackground?.data?.[0]) {
+        focusStyle = {
+            backgroundImage: `url(${getStrapiMedia(slide.focusBackground?.data?.[0]).url})`
+        };
+    } else if (bgImageUrl) {
+        focusStyle = {
+            backgroundImage: `url(${bgImageUrl})`
+        };
+    } else {
+        focusStyle = {
+            backgroundColor: "transparent"
+        };
+    }
+
+    // The caption is only visible if the captionVisible property is set to true
+    // if not, it's visibile only on focus
+    let figureClass = `fill`;
+    let caption,
+        focusCaption;
+    if (slide.captionVisible) {
+       caption = <Caption className={captionContainerClass}
+            caption={slide.caption}
+            captionTitle={slide.captionTitle}
+            captionPositionY={slide.captionPositionY}
+            captionPositionX={slide.captionPositionX}
+            captionBgColor={slide.captionBgColor}
+            captionColor={slide.captionColor}
+            captionBgAlpha={slide.captionBgAlpha}
+            captionTextAlignment={slide.captionTextAlignment}
+            link={slide.link}
+            linkTarget={slide.linkTarget}
+            linkText={slide.linkText}
+        />
+    } else {
+        caption = <></>
+    }
+    
+    if (slide.focusBackground?.data?.[0]) {
+        // Show caption inside focus only if it's not visibile by default
+        focusCaption = <figcaption style={focusStyle}>
+            {!slide.captionVisible ? <Caption className={captionContainerClass}
+                caption={slide.caption}
+                captionTitle={slide.captionTitle}
+                captionPositionY={slide.captionPositionY}
+                captionPositionX={slide.captionPositionX}
+                captionBgColor={slide.captionBgColor}
+                captionColor={slide.captionColor}
+                captionBgAlpha={slide.captionBgAlpha}
+                captionTextAlignment={slide.captionTextAlignment}
+                link={slide.link}
+                linkTarget={slide.linkTarget}
+                linkText={slide.linkText} /> 
+            : <></>}
+        </figcaption>
+
+        switch ( slide.focusAnimation ) {
+            case 'shutter':
+                figureClass = `${figureClass} imghvr-shutter-in-out-diag-1`;
+            break;
+            case 'fade':
+                figureClass = `${figureClass} imghvr-fade`;
+            break;
+            case 'fold':
+                figureClass = `${figureClass} imghvr-fold-down`;
+            break;
+            case 'zoom-out':
+                figureClass = `${figureClass} imghvr-zoom-out-flip-horiz`;
+            break;
+        }
+    }
+    
+    return <div  key={slide.id} className="slider" id={`slide-${slide.id}`}>
+        <style>{ slideStyle }</style> 
+        <figure className={figureClass} style={{margin: 0}}>
+            <img className="fill" src={bgImageUrl} alt={""}/>
+            {caption}
+            {focusCaption}
+        </figure>
+    </div>
+}
+
+const Slideshow = ( props: SlideshowProps ) => {
+    const { id, slides, slideSpacing, 
+        slideWrapper =  defaultSlideWrapper,
+        slideSize
+    } = props;
+    console.log("Init slideshow", { id, slides, slideSpacing });
+
+    const renderInputCtrl = React.useCallback( ( i: number ) => {
         if ( i === 0 ) return <input key={i} type="radio" name={`slider-${id}`} className={`slide-radio${i}`}
         defaultChecked hidden id={`slider_${i}-${id}`}>
             </input>
         else return <input key={i} type="radio" name={`slider-${id}`} className={`slide-radio${i}`}
             hidden id={`slider_${i}-${id}`}>
             </input>
-    };
+    }, [id]);
 
-    const renderNavArrow = ( i: number, type: 'next' | 'previous') => {
+    let slideshowClass = 'slideshow';
+    switch (slideSize) {
+        case 'xl':
+            slideshowClass = `${slideshowClass} slides-sizeXl`;
+        break;
+        case 'l':
+            slideshowClass = `${slideshowClass} slides-sizeL`;
+        break;
+        case 'm':
+            slideshowClass = `${slideshowClass} slides-sizeM`;
+        break;
+        case 's':
+            slideshowClass = `${slideshowClass} slides-sizeS`;
+        break;
+        default:
+            slideshowClass = `${slideshowClass} slides-sizeXl`;
+    }
+
+    const renderNavArrow = React.useCallback( ( i: number, type: 'next' | 'previous') => {
         let arrowEl = type === 'next' ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path d="M298.3 256L131.1 81.9c-4.2-4.3-4.1-11.4.2-15.8l29.9-30.6c4.3-4.4 11.3-4.5 15.5-.2L380.9 248c2.2 2.2 3.2 5.2 3 8.1.1 3-.9 5.9-3 8.1L176.7 476.8c-4.2 4.3-11.2 4.2-15.5-.2L131.3 446c-4.3-4.4-4.4-11.5-.2-15.8L298.3 256z"></path>
         </svg> : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -30,9 +195,11 @@ const Slideshow = ( props: SlideshowProps ) => {
         return <label key={i} htmlFor={`slider_${i}-${id}`} className={`numb${i}`}> 
             { arrowEl }
         </label>
-    };
+    }, [id]);
 
-    const renderLabel = ( i: number ) => <label key={i} htmlFor={`slider_${i}-${id}`} className={`page${i}`}></label>;
+    const renderLabel = React.useCallback( ( i: number ) => 
+        <label key={i} htmlFor={`slider_${i}-${id}`} className={`page${i}`}></label>
+    , [id]);
 
     const renderElements = React.useCallback( () => {
 
@@ -47,53 +214,7 @@ const Slideshow = ( props: SlideshowProps ) => {
             navArrowsNext.push( renderNavArrow(i, 'next') );
             inputCtrls.push( renderInputCtrl(i) );
 
-            let slideStyle = `
-                #slide-${slide.id} [class^='imghvr-'] figcaption:before,
-                #slide-${slide.id} [class*=' imghvr-'] figcaption:before {
-                    background-color: rgba(0,0,0,0.2);
-                }
-                #slide-${slide.id} [class^='imghvr-'],
-                #slide-${slide.id} [class*=' imghvr-'],
-                #slide-${slide.id} [class*=' imghvr-']:after,
-                #slide-${slide.id} [class*=' imghvr-']:before {
-                    background-color: black !important;
-                }
-            `;
-            let figureClass = `fill`;
-            switch ( slide.focusAnimation ) {
-                case 'shutter':
-                    figureClass = `${figureClass} imghvr-shutter-in-out-diag-1`;
-                break;
-                case 'fade':
-                    figureClass = `${figureClass} imghvr-fade`;
-                break;
-                case 'fold':
-                    figureClass = `${figureClass} imghvr-fold-down`;
-                break;
-                case 'zoom-out':
-                    figureClass = `${figureClass} imghvr-zoom-out-flip-horiz`;
-                break;
-            }
-            let captionClass = `z2 fill p-absolute p1 f fd-col`;
-            let bgImageUrl = getStrapiMedia(slide.background.data[0]).url;
-            let focusBgImageUrl = slide.focusBackground?.data?.[0] ? 
-                getStrapiMedia(slide.focusBackground.data[0]) :
-                bgImageUrl;
-            return <div  key={i} className="slider" id={`slide-${slide.id}`}>
-                <style>{ slideStyle }</style> 
-                <figure className={figureClass}>
-                        <img className="fill" src={bgImageUrl}/>
-                        <figcaption style={{
-                            backgroundImage: `url(${focusBgImageUrl})`
-                        }}>
-                            <div className={captionClass} style={{
-                                alignContent: slide.captionPositionY
-                            }}>
-                                <p>{slide.caption}</p>
-                            </div>
-                        </figcaption>
-                    </figure>
-            </div>
+            return slideWrapper(slide);
         });
 
         return {
@@ -101,7 +222,7 @@ const Slideshow = ( props: SlideshowProps ) => {
             navArrowsNext, navArrowsPrevious,
             slideList
         }
-    }, [slides]);
+    }, [slideWrapper, renderInputCtrl, renderLabel, renderNavArrow, slides]);
 
     const { labels, inputCtrls, navArrowsNext, navArrowsPrevious, slideList } = renderElements()
 
@@ -111,9 +232,7 @@ const Slideshow = ( props: SlideshowProps ) => {
             grid-column-gap: ${slideSpacing}px;
             grid-template-rows: calc(100% - 2.5px);
         }
-        #slideshow-${id}.slides-sizeS {
-            height: 60%;
-        }
+        
         #slideshow-${id}.slides-sizeS .slideshow-wrapper {
             /* 3/4 = 0.75 */
             grid-auto-columns: calc(25% - ${ slideSpacing * 0.75 }px);
@@ -124,7 +243,7 @@ const Slideshow = ( props: SlideshowProps ) => {
         }
         #slideshow-${id}.slides-sizeL .slideshow-wrapper {
             /* 1/2 = 0.5 => times: 0.5 = divided_by: 2 */
-            grid-auto-columns: calc(50% - ${ slideSpacing * 2 }px);
+            grid-auto-columns: calc(50% - ${ slideSpacing * 0.5 }px);
         }
         #slideshow-${id}.slides-sizeXl .slideshow-wrapper {
             grid-auto-columns: 100%;
@@ -171,7 +290,7 @@ const Slideshow = ( props: SlideshowProps ) => {
         }).join('') }
         /* Slider Pager event */
         ${ [...Array(slides.length).keys()].map( i => {
-            if ( i != (slides.length-1) ) return `#slideshow-${id} .slide-radio${i}:checked ~ .slider-pagination .page${i},`
+            if ( i !== (slides.length-1) ) return `#slideshow-${id} .slide-radio${i}:checked ~ .slider-pagination .page${i},`
             else return `#slideshow-${id} .slide-radio${(slides.length-1)}:checked ~ .slider-pagination .page${(slides.length-1)} {
                 background: rgba(255,255,255,1);
             }`
@@ -184,7 +303,7 @@ const Slideshow = ( props: SlideshowProps ) => {
             } else if ( i === 1 ) {
                 transformRule = `transform: translateX(calc(${ i * -100 }% - ${slideSpacing}px));`
             } else {
-                transformRule = `transform: translateX(calc(${ i * -100 }% - ${slideSpacing / (i - 1) + slideSpacing}px));`
+                transformRule = `transform: translateX(calc(${ i * -100 }% - ${i * slideSpacing}px));`
             }
             return `#slideshow-${id} .slide-radio${i}:checked ~ .slideshow-wrapper .slider { 
                 ${transformRule}
@@ -202,10 +321,10 @@ const Slideshow = ( props: SlideshowProps ) => {
         }
     `
 
-    return <section className="container r-5-2 xlr-16-9 lgr-8-5 smr-4-5">
+    return <div style={{width: "100%"}}>
         <style>{slideshowStyle}</style>
-        {/* TODO: Add param for slideshow size */}
-        <div id={`slideshow-${id}`} className={`slideshow slides-sizeXl`}>
+        
+        <div id={`slideshow-${id}`} className={slideshowClass}>
             { inputCtrls }
             <div className="slider-pagination f jcc my05">
                 <div className="wrapper px1 py025">
@@ -222,7 +341,7 @@ const Slideshow = ( props: SlideshowProps ) => {
                 { slideList }
             </div>
         </div>
-    </section>
+    </div>
 }
 
 export default Slideshow;
