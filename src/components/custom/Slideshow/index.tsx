@@ -144,7 +144,6 @@ const Slideshow = ( props: SlideshowProps ) => {
         slideWrapper =  defaultSlideWrapper,
         slideSize
     } = props;
-    console.log("Init slideshow", { id, slides, slideSpacing });
 
     const renderInputCtrl = React.useCallback( ( i: number ) => {
         if ( i === 0 ) return <input key={i} type="radio" name={`slider-${id}`} className={`slide-radio${i}`}
