@@ -1,4 +1,4 @@
-if ( process.env.G_ANALYTICS_ENABLED != 'false' ) {
+if ( process.env.G_ANALYTICS_ENABLED !== 'false' ) {
     var script = document.createElement("script");
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.G_ANALYTICS_MEASUREMENT_ID}`;
@@ -6,7 +6,7 @@ if ( process.env.G_ANALYTICS_ENABLED != 'false' ) {
     document.head.prepend(script);
 
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag() { window.dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-LW1RHTVX9S');

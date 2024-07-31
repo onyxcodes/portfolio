@@ -3,6 +3,9 @@ import ui, { UIState, notify } from 'features/ui';
 import { NotificationType } from 'features/ui/types';
 import content, { ContentState, getPage, fetchMenu, getArticle, listArticles, sendContactInquiry } from 'features/content';
 
+
+export type AppDispatch = typeof store.dispatch;
+
 // Create the middleware instance and methods
 const failListenerMW = createListenerMiddleware();
 

@@ -7,10 +7,11 @@ import TextInput from 'components/commons/Form/TextInput';
 import Button from 'components/commons/Button';
 import TextArea from 'components/commons/Form/TextArea';
 import Form from 'components/commons/Form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'hooks/index';
 
 const FormBlock = ( props: FormBlockType ) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { 
         name, form,
         size = 'l', position = 'center'
