@@ -104,7 +104,7 @@ const TextBlock = ( props: TextBlockProps ) => {
                     },
                     h6({node, className, children, ...props}) {
                         return <Heading {...props} className='text-block-heading' level={6} children={children}/>
-                    },
+                    }
                 }}
             />
         </div>

@@ -15,8 +15,8 @@ if ( process.env.G_ANALYTICS_ENABLED !== 'false' ) {
 if (process.env.ADSENSE_ENABLED !== 'false') {
     var adsenseScript = document.createElement("script");
     adsenseScript.async = true;
-    adsenseScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-    adsenseScript.setAttribute('data-ad-client', process.env.ADSENSE_CLIENT_ID);
+    adsenseScript.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT_ID}`;
+    adsenseScript.setAttribute('crossorigin', 'anonymous');
 
     document.head.prepend(adsenseScript);
 }
