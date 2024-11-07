@@ -26,7 +26,7 @@ const FileBlock = ( props: FileBlockType ) => {
         return files.data.map( file => {
             let fileIcon;
             let { url, type, caption, alt } = getStrapiMedia(file)
-            if ( !url ) return new Error('Unable to resolve file url');
+            if ( !url ) throw new Error('Unable to resolve file url');
             switch ( type ) {
                 case type?.match(/^image/)?.input:
                     fileIcon = require('assets/file-icons/image_icon.svg')

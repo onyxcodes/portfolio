@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'hooks/index';
 import { useParams } from 'react-router-dom';
 import SubHeader from 'components/commons/SubHeader';
 import TextBlock from 'components/custom/TextBlock';
@@ -17,12 +18,12 @@ interface ArticleProps {
 
 }
 const Article = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { slug } = useParams();
 
     React.useEffect( () => {
         slug && dispatch(getArticle(slug))
-    }, [slug]);
+    }, [dispatch, slug]);
 
     const articleOp = useSelector<StoreState, ContentState['articleOp']>( s => s.content.articleOp );
 
@@ -55,7 +56,7 @@ const Article = () => {
             case 'display.media-text-block':
                 component = <MediaTextBlock {...el} />
             break;
-            default: null;
+            default: console.log('Unknown component', el.__component);
         }
         return <div key={i} className={cmpWrapperClass}>{component}</div>
     }), [content]);

@@ -5,7 +5,8 @@ import {
     useLocation,
     useNavigate
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'hooks/index';
 import useSidebar, { MenuLink } from 'components/custom/Sidebar';
 import { UIState, route, loadNotifications } from 'features/ui';
 import { StoreState } from 'store';
@@ -29,7 +30,7 @@ const Page = React.lazy(() => import('views/Page'));
 
 const App = () => {
 	const location = useLocation();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const path = useSelector<StoreState, UIState['path']>( s => s.ui.path );
 	const isRouted = useSelector<StoreState, UIState['isRouted']>( s => s.ui.isRouted );

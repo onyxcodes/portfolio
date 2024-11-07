@@ -1,9 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ExpandingBlocks from 'components/custom/ExpandingBlocks';
 import { loadHome, ContentState, ContentBlockType } from 'features/content';
 import { setTitle } from 'features/ui';
 import { StoreState } from 'store';
+import { useAppDispatch } from 'hooks/index';
 
 import './index.scss';
 
@@ -11,7 +12,7 @@ interface HomeProps {
     //
 }
 const Home = ( props: HomeProps ) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const loadHomeReq = useSelector<StoreState, ContentState['home']>( s => s.content.home );
     
     React.useEffect( () => {

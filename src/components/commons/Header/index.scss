@@ -40,3 +40,24 @@
         flex-wrap: wrap;
     }
 }
+
+.alenite-actionbar .actionbar-left,
+.alenite-actionbar .actionbar-right,
+.alenite-actionbar .actionbar-center {
+    min-width: inherit;
+}
+
+.alenite-actionbar .actionbar-left {
+    justify-content: end !important;
+    gap: 10px !important;
+}
+
+.alenite-actionbar .actionbar-right {
+    justify-content: start !important;
+    gap: 10px !important;
+}
+
+.header-title {
+    width: 100px;
+    height: 20px;
+}

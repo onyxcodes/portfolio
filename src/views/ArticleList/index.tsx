@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'hooks/index';
 import List from 'components/commons/List';
 import { ContentState, listArticles, resetArticles } from 'features/content';
 import { StoreState } from 'store';
@@ -15,7 +16,7 @@ interface ArticleListProps {
     //
 }
 const ArticleList = ( props: ArticleListProps ) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [ list, setList ] = React.useState<ArticleType[]>([]);
     const [ page, setPage ] = React.useState(1);
@@ -73,7 +74,7 @@ const ArticleList = ( props: ArticleListProps ) => {
      * have to be aligned to the ones expected from the List's 
      * 'listProcessor' property
      */
-    const processGridData = ( list: any[] ) => React.useMemo( () => {
+    const processGridData = React.useCallback( ( list: any[] ) => {
         return {
             /* Optional parameter 'processed', expected by List's 'listProcessor' property
              * is not needed because the 'processEnd' callback is not used 
@@ -91,7 +92,7 @@ const ArticleList = ( props: ArticleListProps ) => {
             })
         }
         
-    }, [list]);
+    }, []);
 
     const fetchNext = () => {
         if (hasNext) {

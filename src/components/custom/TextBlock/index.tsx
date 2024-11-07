@@ -1,6 +1,6 @@
 import { TextBlockType } from 'features/content';
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'react-markdown';
 import Code from 'components/commons/Code';
 // import {
 //     useLocation,
@@ -52,7 +52,7 @@ const TextBlock = ( props: TextBlockProps ) => {
 
     return(<div className={blockClass}>
         <div className={blockWrapperClass}>
-            <ReactMarkdown children={content}
+            <Markdown children={content}
                 /* Adds remark plugins to:
                  * allow github flavored markdown
                 */
@@ -84,13 +84,8 @@ const TextBlock = ( props: TextBlockProps ) => {
                  * h{n} -> heading with scroll behavior related to location' hash
                  */
                 components={{
-                    code({node, inline, className, children, ...props}) {
-                        if (!inline) {
-                            return <Code className={className} children={children}/>
-                        }
-                        return <code className={className} {...props}>
-                            {children}
-                        </code>
+                    code({node, className, children, ...props}) {
+                        return <Code {...props} className={className} children={children}/>
                     },
                     h1({node, className, children, ...props}) {
                         return <Heading {...props} className='text-block-heading' level={1} children={children}/>
@@ -109,7 +104,7 @@ const TextBlock = ( props: TextBlockProps ) => {
                     },
                     h6({node, className, children, ...props}) {
                         return <Heading {...props} className='text-block-heading' level={6} children={children}/>
-                    },
+                    }
                 }}
             />
         </div>

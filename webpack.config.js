@@ -34,20 +34,23 @@ const config = {
       API_TOKEN: JSON.stringify(process.env.API_TOKEN),
       G_ANALYTICS_MEASUREMENT_ID: JSON.stringify(process.env.G_ANALYTICS_MEASUREMENT_ID),
       G_ANALYTICS_ENABLED: JSON.stringify(process.env.G_ANALYTICS_ENABLED),
+      ADSENSE_ENABLED: JSON.stringify(process.env.ADSENSE_ENABLED),
+      ADSENSE_CLIENT_ID: JSON.stringify(process.env.ADSENSE_CLIENT_ID),
     }),
-    new WebpackFavicons({
-      src: 'src/assets/favicon.svg',
-      path: 'assets/',
-      background: '#000',
-      theme_color: '#000',
-      icons: {
-        favicons: true
-      },
-      appName: 'Portfolio',
-      developerName: 'Onyx Ganda',
-      developerUrl: 'https://onyxganda.com',
-      start_url: '/'
-  }),
+    // TODO: Substitute with a working lib or alternative solution
+  //   new WebpackFavicons({
+  //     src: 'src/assets/favicon.svg',
+  //     path: 'assets/',
+  //     background: '#000',
+  //     theme_color: '#000',
+  //     icons: {
+  //       favicons: true
+  //     },
+  //     appName: 'Portfolio',
+  //     developerName: 'Onyx Ganda',
+  //     developerUrl: 'https://onyxganda.com',
+  //     start_url: '/'
+  // }),
   ],
   module: {
     rules: [
@@ -132,7 +135,6 @@ const config = {
       '.css', ".tsx", ".ts"
     ],
     alias: {
-      'react-dom': '@hot-loader/react-dom',
       'styles': path.resolve(__dirname, "src/styles"),
       'components': path.resolve(__dirname, "src/components"),
       'hooks': path.resolve(__dirname, "src/hooks"),
